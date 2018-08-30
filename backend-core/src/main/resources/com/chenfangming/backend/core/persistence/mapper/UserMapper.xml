@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenfangming.backend.core.persistence.mapper.UserMapper">
+    <!-- 所有字段映射关系 -->
+    <resultMap id="BaseResultMap" type="com.chenfangming.backend.core.persistence.entity.User">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="remark" property="remark"/>
+        <result column="state" property="state"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_non_delete" property="isNonDelete"/>
+    </resultMap>
+
+    <!-- 所有字段 -->
+    <sql id="BaseColumnList">
+        id,`name`,`password`,salt,remark,state,create_user,create_time,update_user,update_time,is_non_delete
+    </sql>
+    <!-- 根据用户名查询用户,未删除的用户 -->
+    <select id="selectByName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM BACKEND_SYS_USER
+        WHERE `NAME` = #{name}
+        AND IS_NON_DELETE = 1
+    </select>
+</mapper>
