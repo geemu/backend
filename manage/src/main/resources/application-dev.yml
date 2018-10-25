@@ -7,10 +7,9 @@ spring:
   #  数据库配置
   datasource:
     name: 主库
-    url: jdbc:mysql://*.*.*.*:*/backend?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true
-    username: *
-    password: *
-
+    url: jdbc:mysql:///backend?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true
+    username:
+    password:
 
 #  MyBatis-Plus配置
 mybatis-plus:
