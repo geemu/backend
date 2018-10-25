@@ -1,0 +1,10 @@
+# 环境 开发dev|测试test|生产pro
+spring:
+  profiles:
+    active: dev
+  # 数据库配置
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+  jackson:
+    default-property-inclusion: non_null

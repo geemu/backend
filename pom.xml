@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <packaging>pom</packaging>
+
+    <groupId>com.chenfangming</groupId>
+    <artifactId>backend</artifactId>
+    <version>1.0.0.RELEASE</version>
+
+    <name>backend</name>
+    <description>后台管理</description>
+    <url>https://github.com/geemu/backend</url>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.6.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <modules>
+        <module>common</module>
+        <module>manage</module>
+    </modules>
+
+    <!-- 属性管理 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <mybatisplus-boot-starter.version>3.0.5</mybatisplus-boot-starter.version>
+    </properties>
+
+    <!-- 依赖 -->
+    <dependencies>
+        <!-- 编译辅助插件 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 依赖管理 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatisplus-boot-starter.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- issue管理 -->
+    <issueManagement>
+        <system>Github Issue</system>
+        <url>https://github.com/geemu/backend/issues</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <!-- 开发人员 -->
+    <developers>
+        <developer>
+            <id>1</id>
+            <name>fangming.chen</name>
+            <email>cfmmail@sina.com</email>
+            <timezone>GMT+8</timezone>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <!-- 软件配置管理 -->
+    <scm>
+        <connection>scm:git@github.com:geemu/backend.git</connection>
+        <developerConnection>scm:git@github.com:geemu/backend.git</developerConnection>
+        <url>git@github.com:geemu/backend.git</url>
+    </scm>
+
+</project>
