@@ -1,0 +1,19 @@
+#  Server容器配置
+server:
+  port: 80
+
+#  Spring配置
+spring:
+  #  数据库配置
+  datasource:
+    name: 主库
+    url: jdbc:mysql://*.*.*.*:*/backend?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true
+    username: *
+    password: *
+
+
+#  MyBatis-Plus配置
+mybatis-plus:
+  global-config:
+    banner: false
+    refresh: true
