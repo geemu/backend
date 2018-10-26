@@ -14,13 +14,7 @@
     <description>后台管理</description>
     <url>https://github.com/geemu/backend</url>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.6.RELEASE</version>
-        <relativePath/>
-    </parent>
-
+    <!-- 模块 -->
     <modules>
         <module>common</module>
         <module>manage</module>
@@ -34,6 +28,7 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <spring-boot-dependencies.version>2.0.6.RELEASE</spring-boot-dependencies.version>
         <mybatisplus-boot-starter.version>3.0.5</mybatisplus-boot-starter.version>
         <swagger.version>2.9.2</swagger.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
@@ -54,6 +49,14 @@
     <!-- 依赖管理 -->
     <dependencyManagement>
         <dependencies>
+            <!-- SpringBoot的依赖管理 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- MyBatis-Plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
