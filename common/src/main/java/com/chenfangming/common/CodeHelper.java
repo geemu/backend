@@ -10,7 +10,7 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
  * @since 2018-10-26 13:43
  */
 @Slf4j
-public class CodecUtil {
+public class CodeHelper {
     /** 加解密配置 **/
     private static SimpleStringPBEConfig config = new SimpleStringPBEConfig();
 
