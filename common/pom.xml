@@ -17,6 +17,26 @@
     <name>${project.artifactId}</name>
     <description>公共包</description>
 
+    <dependencies>
+        <!-- 加解密插件 -->
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- slf4j-api日志门面 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <!-- logback日志具体实现 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+    </dependencies>
+
     <!-- 构建 -->
     <build>
         <plugins>

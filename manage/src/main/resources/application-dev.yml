@@ -6,10 +6,19 @@ server:
 spring:
   #  数据库配置
   datasource:
-    name: 主库
-    url: jdbc:mysql:///backend?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true
-    username:
-    password:
+    url: ENC(YccvdM3ifnDfUQ7cd3s8s3LgrSw47j5ZuDa3cjPVe1WI4JDNyUTAmLoOQXZfWSaQQ18aZHcCMkPCuYLfg/5wmBXEyEIHYfwf6mjhYaWHZUjxXjYGOSQz2P7dNXfjrkNUo6RRvosIU0TXQHWLaCwww74/T5xI/WLxPULVhoQW/8dPmpGUeCDqB0TVwuqE7Xcp)
+    username: ENC(zmoxH916yXreU/MPmieDSA==)
+    password: ENC(4Rmcj22oVnyJAkQTfCurue86DixKlEeW)
+
+#  属性加密配置
+jasypt:
+  encryptor:
+    password: 这边请输入你自己的密钥
+    algorithm: PBEWithMD5AndDES
+    keyObtentionIterations: 1000
+    poolSize: 1
+    saltGeneratorClassname: org.jasypt.salt.RandomSaltGenerator
+    stringOutputType: base64
 
 #  MyBatis-Plus配置
 mybatis-plus:

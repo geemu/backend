@@ -4,6 +4,7 @@ spring:
     active: @env@
   # 数据库配置
   datasource:
+    name: 主库
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
   jackson:

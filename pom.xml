@@ -35,6 +35,11 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <mybatisplus-boot-starter.version>3.0.5</mybatisplus-boot-starter.version>
+        <swagger.version>2.9.2</swagger.version>
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
+        <jasypt.version>1.9.2</jasypt.version>
+        <jasypt-spring-boot-starter.version>2.1.0</jasypt-spring-boot-starter.version>
     </properties>
 
     <!-- 依赖 -->
@@ -43,17 +48,41 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <!-- 依赖管理 -->
     <dependencyManagement>
         <dependencies>
+            <!-- MyBatis-Plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatisplus-boot-starter.version}</version>
+            </dependency>
+            <!-- swagger2 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger2.version}</version>
+            </dependency>
+            <!-- swagger-ui -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox-swagger-ui.version}</version>
+            </dependency>
+            <!-- 普通工程密码加解密 -->
+            <dependency>
+                <groupId>org.jasypt</groupId>
+                <artifactId>jasypt</artifactId>
+                <version>${jasypt.version}</version>
+            </dependency>
+            <!-- SpringBoot密码加解密 -->
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt-spring-boot-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
