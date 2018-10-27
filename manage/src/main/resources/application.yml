@@ -2,10 +2,23 @@
 spring:
   profiles:
     active: @env@
-  # 数据库配置
   datasource:
     name: 主库
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
   jackson:
     default-property-inclusion: non_null
+
+#  属性加密配置
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    keyObtentionIterations: 1000
+    poolSize: 1
+    saltGeneratorClassname: org.jasypt.salt.RandomSaltGenerator
+    stringOutputType: base64
+
+mybatis-plus:
+  global-config:
+    banner: false
+    refresh: false
