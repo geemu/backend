@@ -4,8 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <packaging>pom</packaging>
-
     <groupId>com.chenfangming</groupId>
     <artifactId>backend</artifactId>
     <version>1.0.0.RELEASE</version>
@@ -13,14 +11,13 @@
     <name>backend</name>
     <description>后台管理</description>
     <url>https://github.com/geemu/backend</url>
+    <packaging>pom</packaging>
 
-    <!-- 模块 -->
     <modules>
         <module>common</module>
         <module>manage</module>
     </modules>
 
-    <!-- 属性管理 -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -37,7 +34,6 @@
         <jasypt-spring-boot-starter.version>2.1.0</jasypt-spring-boot-starter.version>
     </properties>
 
-    <!-- 依赖 -->
     <dependencies>
         <!-- 编译辅助插件 -->
         <dependency>
@@ -46,7 +42,6 @@
         </dependency>
     </dependencies>
 
-    <!-- 依赖管理 -->
     <dependencyManagement>
         <dependencies>
             <!-- SpringBoot的依赖管理 -->
@@ -90,7 +85,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <!-- issue管理 -->
     <issueManagement>
         <system>Github Issue</system>
         <url>https://github.com/geemu/backend/issues</url>
@@ -103,7 +97,6 @@
         </license>
     </licenses>
 
-    <!-- 开发人员 -->
     <developers>
         <developer>
             <id>1</id>
@@ -116,7 +109,6 @@
         </developer>
     </developers>
 
-    <!-- 软件配置管理 -->
     <scm>
         <connection>scm:git@github.com:geemu/backend.git</connection>
         <developerConnection>scm:git@github.com:geemu/backend.git</developerConnection>
