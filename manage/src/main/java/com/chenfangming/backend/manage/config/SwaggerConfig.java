@@ -2,13 +2,14 @@ package com.chenfangming.backend.manage.config;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -22,8 +23,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Slf4j
 @EnableSwagger2
 @Configuration
-@Profile("dev")
 public class SwaggerConfig {
+
+    /*** 是否开启swagger  默认false */
+    @Value("${swagger.enable:false}")
+    private boolean enable;
+    /*** 是否开启swagger  默认false */
+    @Value("${swagger.title:Api文档}")
+    private String title;
+    /*** 是否开启swagger  默认false */
+    @Value("${swagger.description:后台管理Api文档}")
+    private String description;
+
     /**
      * 创建Swagger文档
      * @return Docket Docket
@@ -32,10 +43,8 @@ public class SwaggerConfig {
     public Docket createApi() {
         log.info(">>>>>>>>>>>>>>>>>>>>Swagger初始化开始<<<<<<<<<<<<<<<<<<<<");
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(new ApiInfoBuilder()
-                        .title("Api文档")
-                        .description("后台管理Api文档")
-                        .build())
+                .enable(enable)
+                .apiInfo(createApiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
@@ -45,4 +54,14 @@ public class SwaggerConfig {
         return docket;
     }
 
+    /**
+     * 创建ApiInfo对象
+     * @return ApiInfo
+     */
+    private ApiInfo createApiInfo() {
+        return new ApiInfoBuilder()
+                .title(title)
+                .description(description)
+                .build();
+    }
 }

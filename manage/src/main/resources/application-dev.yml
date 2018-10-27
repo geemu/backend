@@ -13,12 +13,16 @@ spring:
 #  属性加密配置
 jasypt:
   encryptor:
-    password: 这边请输入你自己的密钥
+    password:
     algorithm: PBEWithMD5AndDES
     keyObtentionIterations: 1000
     poolSize: 1
     saltGeneratorClassname: org.jasypt.salt.RandomSaltGenerator
     stringOutputType: base64
+
+#  Swagger配置
+swagger:
+  enable: true
 
 #  MyBatis-Plus配置
 mybatis-plus:
