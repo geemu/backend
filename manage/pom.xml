@@ -16,6 +16,10 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>com.chenfangming</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
         <!--  Spring、SpringMVC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -68,6 +72,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-maven-plugin.version}</version>
                 <configuration>
                     <fork>true</fork>
                     <addResources>true</addResources>
