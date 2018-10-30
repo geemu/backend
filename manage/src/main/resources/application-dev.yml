@@ -9,20 +9,27 @@ spring:
     url: ENC(YccvdM3ifnDfUQ7cd3s8s3LgrSw47j5ZuDa3cjPVe1WI4JDNyUTAmLoOQXZfWSaQQ18aZHcCMkPCuYLfg/5wmBXEyEIHYfwf6mjhYaWHZUjxXjYGOSQz2P7dNXfjrkNUo6RRvosIU0TXQHWLaCwww74/T5xI/WLxPULVhoQW/8dPmpGUeCDqB0TVwuqE7Xcp)
     username: ENC(zmoxH916yXreU/MPmieDSA==)
     password: ENC(4Rmcj22oVnyJAkQTfCurue86DixKlEeW)
-  security:
-    user:
-      name: admin
-      password: admin
+#  security:
+#    user:
+#      name: admin
+#      password: admin
 
 
 #  属性加密配置
 jasypt:
   encryptor:
-    password:
+    password: rootPassword
 
 swagger:
   enable: true
 
 mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     refresh: true
+    db-config:
+      db-type: mysql
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+  mapper-locations: classpath:mapper/*Mapper.xml

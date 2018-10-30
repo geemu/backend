@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chenfangming.backend.manage.persistence.mapper.UserMapper">
+<mapper namespace="com.chenfangming.backend.manage.persistence.mapper.RoleMapper">
     <!-- 全字段映射关系 -->
-    <resultMap id="BaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.UserEntity">
+    <resultMap id="BaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
-        <result column="password" property="password"/>
-        <result column="salt" property="salt"/>
         <result column="is_enable" property="isEnable"/>
-        <result column="is_non_delete" property="isNonDelete"/>
         <result column="create_user" property="createUser"/>
         <result column="create_time" property="createTime"/>
         <result column="update_user" property="updateUser"/>
@@ -17,17 +14,27 @@
     </resultMap>
     <!-- 全字段 -->
     <sql id="BaseResultColumnList">
-      `id`,`name`,`password`,salt,
+      `id`,`name`,
       is_enable,is_non_delete,create_user,create_time,update_user,update_time,`version`
     </sql>
-    <!-- 根据用户名查询用户 -->
-    <select id="selectByName" resultMap="BaseResultMap">
+
+    <!-- 根据用户id和角色状态查询角色  未删除的 -->
+    <select id="selectByUserId" resultMap="BaseResultMap">
         SELECT
-        <include refid="BaseResultColumnList"/>
-        FROM backend_user
+        r.`id`, r.`name`,
+        r.is_enable,r.is_non_delete, r.create_user,r.create_time,r.update_user,r.update_time,r.`version`
+        FROM
+        backend_user_role ur
+        INNER JOIN backend_role r
+        ON ur.role_id = r.id
         WHERE
-        is_non_delete = 1
-        AND `name` = #{name}
+        ur.is_non_delete = 1
+        AND r.is_non_delete = 1
+        AND ur.user_id = #{userId}
+        <if test="null != #{isEnable}">
+            AND ur.is_enable = #{isEnable}
+            AND r.is_enable = #{isEnable}
+        </if>
     </select>
 
 </mapper>

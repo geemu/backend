@@ -1,6 +1,9 @@
 package com.chenfangming.backend.manage.persistence.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.chenfangming.backend.manage.persistence.entity.PermissionEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * 权限数据表操作
@@ -8,5 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2018-10-25 21:23
  */
 @Mapper
-public interface PermissionMapper {
+@Repository
+public interface PermissionMapper extends BaseMapper<PermissionEntity> {
 }
