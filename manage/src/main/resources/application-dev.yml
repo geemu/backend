@@ -11,9 +11,12 @@ spring:
     password: ENC(4Rmcj22oVnyJAkQTfCurue86DixKlEeW)
   redis:
     database: 0
-    host: 47.97.215.198
-    port: 6379
-    password: Chen1436863821.
+    host: ENC(vq6azF+GhNsOrRPPt0zw5XzJvqlV9vAu)
+    port: ENC(migrEDEfhj5FQsWAMCsG3g==)
+    password: ENC(12ymDZtum5LWXwkFzvGCLW2FYPqjjHmk)
+    lettuce:
+      pool:
+        min-idle: 1
 
 
 #  属性加密配置
