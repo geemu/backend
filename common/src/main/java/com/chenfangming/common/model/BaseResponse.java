@@ -1,4 +1,4 @@
-package model;
+package com.chenfangming.common.model;
 
 import lombok.Data;
 

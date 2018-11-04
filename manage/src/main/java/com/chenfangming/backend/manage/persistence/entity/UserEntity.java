@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Data
 @TableName(value = "backend_user")
 public class UserEntity implements Serializable {
+    private static final long serialVersionUID = -8563047132273562257L;
     /** 角色集合 **/
     @TableField(exist = false)
     Set<RoleEntity> roleEntitySet;
@@ -28,6 +30,7 @@ public class UserEntity implements Serializable {
     /** 用户名  忽略大小写 **/
     private String name;
     /** 密码  区分大小写 **/
+    @JsonIgnore
     private String password;
     /** 密码盐值  区分大小写 **/
     private String salt;

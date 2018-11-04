@@ -9,16 +9,17 @@ spring:
     url: ENC(YccvdM3ifnDfUQ7cd3s8s3LgrSw47j5ZuDa3cjPVe1WI4JDNyUTAmLoOQXZfWSaQQ18aZHcCMkPCuYLfg/5wmBXEyEIHYfwf6mjhYaWHZUjxXjYGOSQz2P7dNXfjrkNUo6RRvosIU0TXQHWLaCwww74/T5xI/WLxPULVhoQW/8dPmpGUeCDqB0TVwuqE7Xcp)
     username: ENC(zmoxH916yXreU/MPmieDSA==)
     password: ENC(4Rmcj22oVnyJAkQTfCurue86DixKlEeW)
-#  security:
-#    user:
-#      name: admin
-#      password: admin
+  redis:
+    database: 0
+    host: 47.97.215.198
+    port: 6379
+    password: Chen1436863821.
 
 
 #  属性加密配置
 jasypt:
   encryptor:
-    password: rootPassword
+    password: ${env_jasypt_encryptor_password}
 
 swagger:
   enable: true

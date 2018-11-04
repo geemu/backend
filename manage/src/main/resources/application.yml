@@ -8,6 +8,9 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   jackson:
     default-property-inclusion: non_null
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss.SSS
+    locale: zh_CN
 
 #  属性加密配置
 jasypt:

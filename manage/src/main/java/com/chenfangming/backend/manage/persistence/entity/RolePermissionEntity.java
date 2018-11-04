@@ -12,6 +12,7 @@ import java.util.Date;
  */
 @Data
 public class RolePermissionEntity implements Serializable {
+    private static final long serialVersionUID = 3114936414912831761L;
     /** 主键  id **/
     private Long id;
     /** 是否可用  0不可用  1可用 **/

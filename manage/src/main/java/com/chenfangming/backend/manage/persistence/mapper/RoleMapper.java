@@ -20,7 +20,7 @@ public interface RoleMapper extends BaseMapper<RoleEntity> {
     /**
      * 根据用户id和角色状态查询角色  未删除的
      * @param userId   用户id
-     * @param isEnable 角色状态
+     * @param isEnable 角色状态  true启用  false禁用  <code>null</code>启用或禁用
      * @return 角色列表
      */
     Set<RoleEntity> selectByUserId(@Param("userId") Long userId, @Param("isEnable") Boolean isEnable);

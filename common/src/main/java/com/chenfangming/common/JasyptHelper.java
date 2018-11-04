@@ -10,7 +10,7 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
  * @since 2018-10-26 13:43
  */
 @Slf4j
-public class CodeHelper {
+public class JasyptHelper {
     /** 加解密配置 **/
     private static SimpleStringPBEConfig config = new SimpleStringPBEConfig();
 
@@ -28,9 +28,9 @@ public class CodeHelper {
      */
     public static void main(String[] args) {
         //  需要加密的字符串
-        final String text = "这是需要加密的字符串";
+        final String text = "";
         //  密钥
-        final String password = "this is my password";
+        final String password = "";
         log.info("需要加密的字符串为:{},密钥为:{}", text, password);
         //  加密
         String encoded = encode(text, password);
