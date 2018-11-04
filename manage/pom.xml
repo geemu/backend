@@ -20,6 +20,11 @@
             <groupId>com.chenfangming</groupId>
             <artifactId>common</artifactId>
         </dependency>
+        <!-- jwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
         <!--  Spring、SpringMVC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

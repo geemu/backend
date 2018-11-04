@@ -35,6 +35,7 @@
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <spring-boot-maven-plugin.version>2.0.6.RELEASE</spring-boot-maven-plugin.version>
         <com.chenfangming.common.version>1.0.0.RELEASE</com.chenfangming.common.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
 
     <dependencies>
@@ -52,6 +53,12 @@
                 <groupId>com.chenfangming</groupId>
                 <artifactId>common</artifactId>
                 <version>${com.chenfangming.common.version}</version>
+            </dependency>
+            <!-- jwt -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
             <!-- SpringBoot的依赖管理 -->
             <dependency>
