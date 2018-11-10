@@ -54,7 +54,7 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-java.version}</version>
                 <optional>true</optional>
-                <scope>runtime</scope>
+                <!--<scope>runtime</scope>-->
             </dependency>
             <!-- common -->
             <dependency>

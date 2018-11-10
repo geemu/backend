@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class PublicServiceImpl implements PublicService {
     /** 自定义RedisTemplate **/
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
     /** 用户数据库操作 **/
     private UserMapper userMapper;
 
@@ -37,7 +37,7 @@ public class PublicServiceImpl implements PublicService {
      * @param userMapper    用户数据库操作
      */
     @Autowired
-    public PublicServiceImpl(RedisTemplate<String, Object> redisTemplate, UserMapper userMapper) {
+    public PublicServiceImpl(RedisTemplate<Object, Object> redisTemplate, UserMapper userMapper) {
         this.redisTemplate = redisTemplate;
         this.userMapper = userMapper;
     }
@@ -80,7 +80,7 @@ public class PublicServiceImpl implements PublicService {
             throw new ClientException(BaseResponseStatusEnums.UserEnum.PASSWORD_NOT_MATCH_ERROR);
         }
         String token = "loginUser:accessToken";
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        ValueOperations<Object, Object> operations = redisTemplate.opsForValue();
         try {
             operations.set(token, entity, 180, TimeUnit.SECONDS);
         } catch (Exception e) {

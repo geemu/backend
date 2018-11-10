@@ -35,13 +35,23 @@ public class RedisTemplateConfig {
     }
 
     /**
+     * HashOperations<String,String,Object>
+     * @return HashOperations
+     */
+    @Bean
+    public HashOperations<Object, Object, Object> hashOperations() {
+        log.info(">>>>>>>>>>>>>>>>>>>>初始化:HashOperations");
+        return redisTemplate().opsForHash();
+    }
+
+    /**
      * 自定义序列化模板
      * @return RedisTemplate
      */
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
+    public RedisTemplate<Object, Object> redisTemplate() {
         log.info(">>>>>>>>>>>>>>>>>>>>初始化:RedisTemplate");
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setDefaultSerializer(jackson2JsonRedisSerializer());
         redisTemplate.setEnableTransactionSupport(true);
@@ -53,16 +63,6 @@ public class RedisTemplateConfig {
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
-    }
-
-    /**
-     * HashOperations<String,String,Object>
-     * @return HashOperations
-     */
-    @Bean
-    public HashOperations<String, String, Object> hashOperations() {
-        log.info(">>>>>>>>>>>>>>>>>>>>初始化:HashOperations");
-        return redisTemplate().opsForHash();
     }
 
     /**

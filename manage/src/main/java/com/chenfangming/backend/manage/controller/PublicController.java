@@ -6,7 +6,6 @@ import com.chenfangming.backend.manage.service.PublicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +27,7 @@ public class PublicController {
     /** 公共操作 **/
     private PublicService publicService;
     /** RedisTemplate **/
-    private RedisTemplate<String, Object> redisTemplate;
-    @Autowired
-    private HashOperations<String, String, Object> hashOperations;
+    private RedisTemplate<Object, Object> redisTemplate;
 
     /**
      * 构造器注入
@@ -38,7 +35,7 @@ public class PublicController {
      * @param redisTemplate redisTemplate
      */
     @Autowired
-    public PublicController(PublicService publicService, RedisTemplate<String, Object> redisTemplate) {
+    public PublicController(PublicService publicService, RedisTemplate<Object, Object> redisTemplate) {
         this.publicService = publicService;
         this.redisTemplate = redisTemplate;
     }
@@ -63,7 +60,7 @@ public class PublicController {
     @ApiOperation("redis")
     @GetMapping("redis")
     public boolean redis() {
-        hashOperations.put("dasdsa", "dasdsa", 53252);
+        redisTemplate.opsForHash().put("dasdsa", "dasdsa", 53252);
         return true;
     }
 
