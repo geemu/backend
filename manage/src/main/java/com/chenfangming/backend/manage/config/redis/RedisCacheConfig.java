@@ -24,7 +24,7 @@ import java.time.Duration;
 @Slf4j
 @EnableCaching
 @Configuration
-public class CacheConfig extends CachingConfigurerSupport {
+public class RedisCacheConfig extends CachingConfigurerSupport {
     /** 连接工厂 **/
     private RedisConnectionFactory redisConnectionFactory;
     /** Redis模板配置 **/
@@ -36,7 +36,7 @@ public class CacheConfig extends CachingConfigurerSupport {
      * @param redisTemplateConfig    模板
      */
     @Autowired
-    public CacheConfig(LettuceConnectionFactory redisConnectionFactory, RedisTemplateConfig redisTemplateConfig) {
+    public RedisCacheConfig(LettuceConnectionFactory redisConnectionFactory, RedisTemplateConfig redisTemplateConfig) {
         this.redisConnectionFactory = redisConnectionFactory;
         this.redisTemplateConfig = redisTemplateConfig;
     }
