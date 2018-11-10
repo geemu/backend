@@ -36,28 +36,38 @@
         <spring-boot-maven-plugin.version>2.0.6.RELEASE</spring-boot-maven-plugin.version>
         <com.chenfangming.common.version>1.0.0.RELEASE</com.chenfangming.common.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <lombok.version>1.18.4</lombok.version>
+        <mysql-connector-java.version>8.0.13</mysql-connector-java.version>
     </properties>
-
-    <dependencies>
-        <!-- 编译辅助插件 -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+                <optional>true</optional>
+                <scope>runtime</scope>
+            </dependency>
             <!-- common -->
             <dependency>
                 <groupId>com.chenfangming</groupId>
                 <artifactId>common</artifactId>
+                <optional>true</optional>
                 <version>${com.chenfangming.common.version}</version>
             </dependency>
             <!-- jwt -->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
+                <optional>true</optional>
                 <version>${jjwt.version}</version>
             </dependency>
             <!-- SpringBoot的依赖管理 -->
@@ -72,24 +82,28 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
+                <optional>true</optional>
                 <version>${mybatisplus-boot-starter.version}</version>
             </dependency>
             <!-- swagger2 -->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
+                <optional>true</optional>
                 <version>${springfox-swagger2.version}</version>
             </dependency>
             <!-- swagger-ui -->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
+                <optional>true</optional>
                 <version>${springfox-swagger-ui.version}</version>
             </dependency>
             <!-- 普通工程密码加解密 -->
             <dependency>
                 <groupId>org.jasypt</groupId>
                 <artifactId>jasypt</artifactId>
+                <optional>true</optional>
                 <version>${jasypt.version}</version>
             </dependency>
             <!-- SpringBoot密码加解密 -->

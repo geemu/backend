@@ -26,20 +26,19 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class PublicServiceImpl implements PublicService {
-
-
     /** 自定义RedisTemplate **/
     private RedisTemplate<String, Object> redisTemplate;
     /** 用户数据库操作 **/
     private UserMapper userMapper;
 
+    /**
+     * 构造器注入
+     * @param redisTemplate 模板
+     * @param userMapper    用户数据库操作
+     */
     @Autowired
-    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+    public PublicServiceImpl(RedisTemplate<String, Object> redisTemplate, UserMapper userMapper) {
         this.redisTemplate = redisTemplate;
-    }
-
-    @Autowired
-    public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 

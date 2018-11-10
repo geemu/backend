@@ -2,26 +2,3 @@
 spring:
   profiles:
     active: @env@
-  datasource:
-    name: 主库
-    type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-  jackson:
-    default-property-inclusion: non_null
-    time-zone: GMT+8
-    date-format: yyyy-MM-dd HH:mm:ss.SSS
-    locale: zh_CN
-
-#  属性加密配置
-jasypt:
-  encryptor:
-    algorithm: PBEWithMD5AndDES
-    keyObtentionIterations: 1000
-    poolSize: 1
-    saltGeneratorClassname: org.jasypt.salt.RandomSaltGenerator
-    stringOutputType: base64
-
-mybatis-plus:
-  global-config:
-    banner: false
-    refresh: false

@@ -1,6 +1,7 @@
 package com.chenfangming.backend.manage.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-10-27 21:50
  */
+@Slf4j
 @Configuration
 public class MybatisPlusConfig {
 
@@ -18,6 +20,7 @@ public class MybatisPlusConfig {
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
+        log.info(">>>>>>>>>>>>>>>>>>>>初始化:PaginationInterceptor");
         return new PaginationInterceptor();
     }
 

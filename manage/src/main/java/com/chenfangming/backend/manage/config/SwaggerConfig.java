@@ -41,8 +41,8 @@ public class SwaggerConfig {
      */
     @Bean
     public Docket createApi() {
-        log.info(">>>>>>>>>>>>>>>>>>>>Swagger初始化开始<<<<<<<<<<<<<<<<<<<<");
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+        log.info(">>>>>>>>>>>>>>>>>>>>初始化:Docket");
+        return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enable)
                 .apiInfo(createApiInfo())
                 .select()
@@ -50,8 +50,6 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .ignoredParameterTypes(ApiIgnore.class);
-        log.info(">>>>>>>>>>>>>>>>>>>>Swagger初始化结束<<<<<<<<<<<<<<<<<<<<");
-        return docket;
     }
 
     /**
@@ -59,6 +57,7 @@ public class SwaggerConfig {
      * @return ApiInfo
      */
     private ApiInfo createApiInfo() {
+        log.info(">>>>>>>>>>>>>>>>>>>>创建:Docket");
         return new ApiInfoBuilder()
                 .title(title)
                 .description(description)

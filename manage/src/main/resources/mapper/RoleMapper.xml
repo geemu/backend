@@ -14,8 +14,8 @@
     </resultMap>
     <!-- 全字段 -->
     <sql id="BaseResultColumnList">
-      `id`,`name`,
-      is_enable,is_non_delete,create_user,create_time,update_user,update_time,`version`
+        `id`, `name`,
+        is_enable, is_non_delete, create_user, create_time, update_user, update_time, `version`
     </sql>
 
     <!-- 根据用户id和角色状态查询角色  未删除的 -->

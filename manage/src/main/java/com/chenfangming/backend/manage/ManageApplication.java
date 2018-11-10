@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-10-25 20:29
  */
-@SpringBootApplication
 @MapperScan("com.chenfangming.backend.manage.persistence.mapper")
+@SpringBootApplication
 public class ManageApplication {
     /**
      * 主函数

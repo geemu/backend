@@ -6,20 +6,34 @@ spring:
   application:
     name: backend-manage
   datasource:
+    name: 主库
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: ENC(YccvdM3ifnDfUQ7cd3s8s3LgrSw47j5ZuDa3cjPVe1WI4JDNyUTAmLoOQXZfWSaQQ18aZHcCMkPCuYLfg/5wmBXEyEIHYfwf6mjhYaWHZUjxXjYGOSQz2P7dNXfjrkNUo6RRvosIU0TXQHWLaCwww74/T5xI/WLxPULVhoQW/8dPmpGUeCDqB0TVwuqE7Xcp)
     username: ENC(zmoxH916yXreU/MPmieDSA==)
     password: ENC(4Rmcj22oVnyJAkQTfCurue86DixKlEeW)
+
   redis:
     database: 0
     host: ENC(vq6azF+GhNsOrRPPt0zw5XzJvqlV9vAu)
     port: 6379
     password: ENC(12ymDZtum5LWXwkFzvGCLW2FYPqjjHmk)
-
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss.SSS
+    locale: zh_CN
 
 #  属性加密配置
 jasypt:
   encryptor:
     password: ${env_jasypt_encryptor_password}
+    algorithm: PBEWithMD5AndDES
+    keyObtentionIterations: 1000
+    poolSize: 1
+    saltGeneratorClassname: org.jasypt.salt.RandomSaltGenerator
+    stringOutputType: base64
+
 
 swagger:
   enable: true
@@ -28,6 +42,7 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
+    banner: false
     refresh: true
     db-config:
       db-type: mysql

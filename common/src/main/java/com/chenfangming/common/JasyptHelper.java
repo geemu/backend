@@ -28,9 +28,9 @@ public class JasyptHelper {
      */
     public static void main(String[] args) {
         //  需要加密的字符串
-        final String text = "";
+        final String text = "dsada";
         //  密钥
-        final String password = "";
+        final String password = "dasda";
         log.info("需要加密的字符串为:{},密钥为:{}", text, password);
         //  加密
         String encoded = encode(text, password);

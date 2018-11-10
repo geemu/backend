@@ -6,6 +6,7 @@ import com.chenfangming.backend.manage.service.PublicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +26,18 @@ public class PublicController {
 
     /** 公共操作 **/
     private PublicService publicService;
+    /** RedisTemplate **/
+    private RedisTemplate redisTemplate;
 
+    /**
+     * 构造器注入
+     * @param publicService publicService
+     * @param redisTemplate redisTemplate
+     */
     @Autowired
-    private void setPublicService(PublicService publicService) {
+    private PublicController(PublicService publicService, RedisTemplate redisTemplate) {
         this.publicService = publicService;
+        this.redisTemplate = redisTemplate;
     }
 
     @ApiOperation(value = "获取验证码", response = VerificationCodeResponse.class)
@@ -46,7 +55,13 @@ public class PublicController {
     @ApiOperation("登出")
     @PostMapping("logout")
     public void logout(@RequestHeader String token) {
+    }
 
+    @ApiOperation("redis")
+    @GetMapping("redis")
+    public boolean redis() {
+        redisTemplate.opsForValue().set("key", "value");
+        return true;
     }
 
 }

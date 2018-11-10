@@ -25,6 +25,7 @@ public class ValidatorConfig {
      */
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor() {
+        log.info(">>>>>>>>>>>>>>>>>>>>初始化:MethodValidationPostProcessor");
         MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
         postProcessor.setValidator(validator());
         return postProcessor;
@@ -36,6 +37,7 @@ public class ValidatorConfig {
      */
     @Bean
     public Validator validator() {
+        log.info(">>>>>>>>>>>>>>>>>>>>初始化:Validator");
         ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
                 .configure()
                 .failFast(true)
