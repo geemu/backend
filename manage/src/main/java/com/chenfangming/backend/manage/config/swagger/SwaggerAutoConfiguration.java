@@ -1,8 +1,9 @@
-package com.chenfangming.backend.manage.config;
+package com.chenfangming.backend.manage.config.swagger;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.annotations.ApiIgnore;
@@ -23,17 +24,19 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Slf4j
 @EnableSwagger2
 @Configuration
-public class SwaggerConfig {
+@EnableConfigurationProperties(SwaggerProperties.class)
+public class SwaggerAutoConfiguration {
+    /** 配置参数 **/
+    private SwaggerProperties swaggerProperties;
 
-    /*** 是否开启swagger  默认false */
-    @Value("${swagger.enable:false}")
-    private boolean enable;
-    /*** 是否开启swagger  默认false */
-    @Value("${swagger.title:Api文档}")
-    private String title;
-    /*** 是否开启swagger  默认false */
-    @Value("${swagger.description:后台管理Api文档}")
-    private String description;
+    /**
+     * 构造器注入
+     * @param swaggerProperties swaggerProperties
+     */
+    @Autowired
+    public SwaggerAutoConfiguration(SwaggerProperties swaggerProperties) {
+        this.swaggerProperties = swaggerProperties;
+    }
 
     /**
      * 创建Swagger文档
@@ -43,7 +46,7 @@ public class SwaggerConfig {
     public Docket createApi() {
         log.info(">>>>>>>>>>>>>>>>>>>>初始化:Docket");
         return new Docket(DocumentationType.SWAGGER_2)
-                .enable(enable)
+                .enable(swaggerProperties.isEnable())
                 .apiInfo(createApiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
@@ -59,8 +62,6 @@ public class SwaggerConfig {
     private ApiInfo createApiInfo() {
         log.info(">>>>>>>>>>>>>>>>>>>>创建:Docket");
         return new ApiInfoBuilder()
-                .title(title)
-                .description(description)
                 .build();
     }
 }

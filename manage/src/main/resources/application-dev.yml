@@ -39,9 +39,6 @@ jasypt:
     stringOutputType: base64
 
 
-swagger:
-  enable: true
-
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
