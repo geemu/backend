@@ -25,7 +25,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <spring-boot-dependencies.version>2.0.6.RELEASE</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.1.0.RELEASE</spring-boot-dependencies.version>
         <mybatisplus-boot-starter.version>3.0.5</mybatisplus-boot-starter.version>
         <swagger.version>2.9.2</swagger.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
@@ -37,7 +37,6 @@
         <com.chenfangming.common.version>1.0.0.RELEASE</com.chenfangming.common.version>
         <jjwt.version>0.9.1</jjwt.version>
         <lombok.version>1.18.4</lombok.version>
-        <mysql-connector-java.version>8.0.13</mysql-connector-java.version>
     </properties>
 
     <dependencyManagement>
@@ -49,13 +48,7 @@
                 <optional>true</optional>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql-connector-java.version}</version>
-                <optional>true</optional>
-                <!--<scope>runtime</scope>-->
-            </dependency>
+
             <!-- common -->
             <dependency>
                 <groupId>com.chenfangming</groupId>

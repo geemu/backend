@@ -1,5 +1,6 @@
 package com.chenfangming.common.model;
 
+import com.chenfangming.common.model.response.ResponseStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ public class ClientException extends RuntimeException {
      * 构造
      * @param responseStatus 返回状态
      */
-    public ClientException(BaseResponseStatus responseStatus) {
+    public ClientException(ResponseStatus responseStatus) {
         super(responseStatus.getMessage());
         this.code = responseStatus.getCode();
     }

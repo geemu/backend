@@ -5,10 +5,10 @@ import com.chenfangming.backend.manage.domain.response.VerificationCodeResponse;
 import com.chenfangming.backend.manage.persistence.entity.UserEntity;
 import com.chenfangming.backend.manage.persistence.mapper.UserMapper;
 import com.chenfangming.backend.manage.service.PublicService;
-import com.chenfangming.common.constant.BaseResponseStatusEnums;
 import com.chenfangming.common.constant.Constants;
 import com.chenfangming.common.model.ClientException;
 import com.chenfangming.common.model.ServerException;
+import com.chenfangming.common.model.response.DefaultResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -57,7 +57,7 @@ public class PublicServiceImpl implements PublicService {
             redisTemplate.opsForValue().set(Constants.RedisConstant.VERIFICATION_CODE_PREFIX + token, "1111", 60, TimeUnit.SECONDS);
         } catch (Exception e) {
             log.error(">>缓存验证码到Redis异常:{}", e);
-            throw new ServerException(BaseResponseStatusEnums.VerificationCodeEnum.CACHE_ERROR);
+            //            throw new ServerException(DefaultResponseStatus.VerificationCodeEnum.CACHE_ERROR);
         }
         return response;
     }
@@ -74,10 +74,10 @@ public class PublicServiceImpl implements PublicService {
         //  执行登录
         UserEntity entity = userMapper.selectByName(loginRequest.getName());
         if (null == entity) {
-            throw new ClientException(BaseResponseStatusEnums.UserEnum.USER_NOT_FOUND_ERROR);
+            throw new ClientException(DefaultResponseStatus.UserEnum.USER_NOT_FOUND_ERROR);
         }
         if (!loginRequest.getPassword().equals(entity.getPassword())) {
-            throw new ClientException(BaseResponseStatusEnums.UserEnum.PASSWORD_NOT_MATCH_ERROR);
+            //            throw new ClientException(DefaultResponseStatus.UserEnum.PASSWORD_NOT_MATCH_ERROR);
         }
         String token = "loginUser:accessToken";
         ValueOperations<Object, Object> operations = redisTemplate.opsForValue();
@@ -85,7 +85,7 @@ public class PublicServiceImpl implements PublicService {
             operations.set(token, entity, 180, TimeUnit.SECONDS);
         } catch (Exception e) {
             log.error("缓存用户到Redis异常", e);
-            throw new ServerException(BaseResponseStatusEnums.SystemEnum.INTERVAL_SERVER_ERROR);
+            throw new ServerException(DefaultResponseStatus.SystemEnum.INTERVAL_SERVER_ERROR);
         }
         return token;
     }
@@ -102,11 +102,11 @@ public class PublicServiceImpl implements PublicService {
             redisImageValue = (String) redisTemplate.opsForValue().get(key);
         } catch (Exception e) {
             log.error(">>从Redis获取验证码异常:{}", e);
-            throw new ServerException(BaseResponseStatusEnums.SystemEnum.INTERVAL_SERVER_ERROR);
+            throw new ServerException(DefaultResponseStatus.SystemEnum.INTERVAL_SERVER_ERROR);
         }
         if (null == redisImageValue) {
             log.info("从Redis中未获取到验证码");
-            throw new ClientException(BaseResponseStatusEnums.VerificationCodeEnum.NOT_FOUND_ERROR);
+            //            throw new ClientException(DefaultResponseStatus.VerificationCodeEnum.NOT_FOUND_ERROR);
         }
         if (!redisImageValue.equalsIgnoreCase(value)) {
             //  将验证码清除
@@ -115,7 +115,7 @@ public class PublicServiceImpl implements PublicService {
             } catch (Exception e) {
                 log.error("从Redis删除验证码异常：{}", e);
             }
-            throw new ClientException(BaseResponseStatusEnums.VerificationCodeEnum.NOT_MATCH_ERROR);
+            //            throw new ClientException(DefaultResponseStatus.VerificationCodeEnum.NOT_MATCH_ERROR);
         }
     }
 
