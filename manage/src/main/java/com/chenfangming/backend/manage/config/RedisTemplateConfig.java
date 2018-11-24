@@ -1,4 +1,4 @@
-package com.chenfangming.backend.manage.config.redis;
+package com.chenfangming.backend.manage.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -70,7 +70,7 @@ public class RedisTemplateConfig {
      * @return Jackson2JsonRedisSerializer
      */
     @Bean
-    protected Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer() {
+    public Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer() {
         log.info(">>>>>>>>>>>>>>>>>>>>初始化:Jackson2JsonRedisSerializer");
         Jackson2JsonRedisSerializer<Object> response = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper objectMapper = new ObjectMapper();

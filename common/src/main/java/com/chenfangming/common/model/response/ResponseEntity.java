@@ -1,5 +1,6 @@
 package com.chenfangming.common.model.response;
 
+import com.chenfangming.common.model.response.DefaultResponseStatus.SystemEnum;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import lombok.EqualsAndHashCode;
@@ -31,6 +32,33 @@ public class ResponseEntity<T> {
         this.code = status.getCode();
         this.message = status.getMessage();
         this.data = data;
+    }
+
+    /**
+     * 没有返回数据的构造
+     * @param status 返回状态
+     */
+    public ResponseEntity(@NotNull ResponseStatus status) {
+        this.code = status.getCode();
+        this.message = status.getMessage();
+    }
+
+    /**
+     * 成功返回体
+     * @param data 返回数据
+     */
+    public ResponseEntity(@Nullable T data) {
+        this.code = SystemEnum.SUCCESS.getCode();
+        this.message = SystemEnum.SUCCESS.getMessage();
+        this.data = data;
+    }
+
+    /**
+     * 成功返回
+     */
+    public ResponseEntity() {
+        this.code = SystemEnum.SUCCESS.getCode();
+        this.message = SystemEnum.SUCCESS.getMessage();
     }
 
 }

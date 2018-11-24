@@ -17,12 +17,12 @@ public final class DefaultResponseStatus {
     @ToString
     @AllArgsConstructor
     public enum SystemEnum implements ResponseStatus {
+        /** 成功 **/
+        SUCCESS("SYS0000", "成功"),
         /** 系统异常 **/
         INTERVAL_SERVER_ERROR("SYS0001", "系统未知异常，请联系开发小哥"),
-        /** 成功 **/
-        SUCCESS("SYS0002", "成功"),
         /** 权限不足，未授权 **/
-        NO_PERMISSION_ERROR("SYS0003", "越权操作");
+        NO_PERMISSION_ERROR("SYS0002", "权限不足");
         /** 状态码 **/
         private String code;
         /** 提示信息 **/
@@ -34,14 +34,10 @@ public final class DefaultResponseStatus {
     @ToString
     @AllArgsConstructor
     public enum UserEnum implements ResponseStatus {
-        /** 账户不存在 **/
-        USER_NOT_FOUND_ERROR("USR0001", "用户名不存在"),
-        /** 密码错误 **/
-        PASSWORD_IN_CORRECT_ERROR("USR0002", "密码错误"),
         /** 用户名或密码错误 **/
-        USER_OR_PASSWORD_IN_CORRECT_ERROR("USR0003", "用户名或密码错误"),
+        USER_OR_PASSWORD_IN_CORRECT_ERROR("USR0001", "用户名或密码错误"),
         /** 用户被禁用 **/
-        USER_NOT_ENABLE_ERROR("USR0004", "账户被禁用");
+        USER_NOT_ENABLE_ERROR("USR0002", "账户被禁用");
         /** 状态码 **/
         private String code;
         /** 提示信息 **/

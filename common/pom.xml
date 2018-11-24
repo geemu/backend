@@ -16,16 +16,11 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
         <!-- 加解密插件 -->
         <dependency>
             <groupId>org.jasypt</groupId>
             <artifactId>jasypt</artifactId>
         </dependency>
-
         <!-- logback日志具体实现 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>

@@ -13,21 +13,18 @@
         <result column="create_time" property="createTime"/>
         <result column="update_user" property="updateUser"/>
         <result column="update_time" property="updateTime"/>
-        <result column="version" property="version"/>
     </resultMap>
-    <!-- 全字段 -->
-    <sql id="BaseResultColumnList">
-        `id`, `name`, `password`, salt,
-        is_enable, is_non_delete, create_user, create_time, update_user, update_time, `version`
-    </sql>
     <!-- 根据用户名查询用户 -->
     <select id="selectByName" resultMap="BaseResultMap">
         SELECT
-        <include refid="BaseResultColumnList"/>
+            id,
+            `name`,
+            `password`,
+            salt,
+            is_enable
         FROM backend_user
-        WHERE
-        is_non_delete = 1
-        AND `name` = #{name}
+        WHERE is_non_delete = 1
+          AND `name` = #{name}
     </select>
 
 </mapper>

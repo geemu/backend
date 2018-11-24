@@ -12,7 +12,6 @@ import java.util.Date;
  */
 @Data
 public class RolePermissionEntity implements Serializable {
-    private static final long serialVersionUID = 3114936414912831761L;
     /** 主键  id **/
     private Long id;
     /** 是否可用  0不可用  1可用 **/
@@ -20,11 +19,11 @@ public class RolePermissionEntity implements Serializable {
     /** 是否未删除  0已删除  1未删除 **/
     private Boolean isNoDelete;
     /** 创建人 **/
-    private String createUser;
+    private Long createUser;
     /** 创建时间 **/
     private Date createTime;
     /** 更新人 **/
-    private String updateUser;
+    private Long updateUser;
     /** 更新时间 **/
     private Date updateTime;
 }
