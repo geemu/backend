@@ -9,11 +9,14 @@ spring:
     name: backend-manage
   datasource:
     name: 主库
-    type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/backend?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true
     username: root
     password: Chen1436863821.
+  #    hikari:
+  #      maximum-pool-size: 1
+  #      minimum-idle: 1
   #  quartz:
   #    job-store-type: jdbc
   #    properties:
@@ -50,11 +53,11 @@ spring:
   #      org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread: true
 
 
-  redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
-    password: Chen1436863821.
+  #  redis:
+  #    database: 0
+  #    host: 127.0.0.1
+  #    port: 6379
+  #    password: Chen1436863821.
   jackson:
     default-property-inclusion: non_null
     time-zone: GMT+8
@@ -62,14 +65,17 @@ spring:
     locale: zh_CN
 
 #  属性加密配置
-jasypt:
-  encryptor:
-    password: ${env_jasypt_encryptor_password}
-    algorithm: PBEWithMD5AndDES
-    keyObtentionIterations: 1000
-    poolSize: 1
-    saltGeneratorClassname: org.jasypt.salt.RandomSaltGenerator
-    stringOutputType: base64
+#jasypt:
+#  encryptor:
+#    password: ${env_jasypt_encryptor_password}
+#    algorithm: PBEWithMD5AndDES
+#    keyObtentionIterations: 1000
+#    poolSize: 1
+#    saltGeneratorClassname: org.jasypt.salt.RandomSaltGenerator
+#    stringOutputType: base64
 
 swagger:
   enable: true
+logging:
+  level:
+    com.chenfangming.backend.manage.persistence.mapper: debug

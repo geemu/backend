@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenfangming.backend.manage.persistence.mapper.PermissionMapper">
+    <!-- 全字段映射关系 -->
+    <resultMap id="BaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.PermissionEntity">
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="note" property="note"/>
+        <result column="type" property="type"/>
+        <result column="path" property="path"/>
+        <result column="method" property="method"/>
+        <result column="icon" property="icon"/>
+        <result column="is_open" property="isOpen"/>
+        <result column="sort" property="sort"/>
+        <result column="is_enable" property="isEnable"/>
+        <result column="is_non_delete" property="isNonDelete"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <collection property="roleEntityList" ofType="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
+            <id column="role_id" property="id"/>
+            <result column="role_name" property="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="select" resultMap="BaseResultMap">
+        SELECT p.`id`,
+               p.`pid`,
+               p.`name`,
+               p.`note`,
+               p.`path`,
+               p.`method`,
+               r.`id`   AS role_id,
+               r.`name` AS role_name
+        FROM backend_permission p
+                 LEFT JOIN backend_role_permission rp ON p.`id` = rp.`permission_id`
+                 LEFT JOIN backend_role r ON r.`id` = rp.`role_id`
+        WHERE p.`is_non_delete` = TRUE
+          AND r.`is_non_delete` = TRUE
+          AND rp.`is_non_delete` = TRUE
+          AND p.`is_enable` = TRUE
+          AND rp.`is_enable` = TRUE
+          AND r.`is_enable` = TRUE
+        ORDER BY p.`note` ASC
+    </select>
+
+</mapper>

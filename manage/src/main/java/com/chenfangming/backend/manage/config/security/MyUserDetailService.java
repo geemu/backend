@@ -1,4 +1,4 @@
-package com.chenfangming.backend.manage.security;
+package com.chenfangming.backend.manage.config.security;
 
 import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
 import com.chenfangming.backend.manage.persistence.entity.UserEntity;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 自定义用户认证
@@ -46,9 +45,9 @@ public class MyUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException(UserEnum.USER_OR_PASSWORD_IN_CORRECT_ERROR.getMessage());
         }
         //  查询用户所拥有的角色  未删除且有效的
-        Set<RoleEntity> roleEntitySet = roleMapper.selectByUserId(userEntity.getId());
+        List<RoleEntity> roleEntityList = roleMapper.selectByUserId(userEntity.getId());
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (RoleEntity role : roleEntitySet) {
+        for (RoleEntity role : roleEntityList) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return new User(userEntity.getName(),

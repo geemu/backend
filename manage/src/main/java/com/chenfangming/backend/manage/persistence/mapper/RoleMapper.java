@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * 角色数据表操作
@@ -16,6 +16,10 @@ import java.util.Set;
 @Repository
 public interface RoleMapper {
 
-
-    Set<RoleEntity> selectByUserId(@Param("userId") Long userId);
+    /**
+     * 根据用户id查询角色 未删除有效的
+     * @param userId 用户id
+     * @return 角色集合
+     */
+    List<RoleEntity> selectByUserId(@Param("userId") Long userId);
 }

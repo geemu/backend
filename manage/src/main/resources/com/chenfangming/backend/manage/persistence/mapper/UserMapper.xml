@@ -13,6 +13,11 @@
         <result column="create_time" property="createTime"/>
         <result column="update_user" property="updateUser"/>
         <result column="update_time" property="updateTime"/>
+        <collection property="roleEntityList" ofType="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="is_enable" property="isEnable"/>
+        </collection>
     </resultMap>
     <!-- 根据用户名查询用户 -->
     <select id="selectByName" resultMap="BaseResultMap">
@@ -22,9 +27,9 @@
             `password`,
             salt,
             is_enable
-        FROM backend_user
-        WHERE is_non_delete = 1
-          AND `name` = #{name}
+        FROM backend_user u
+        WHERE u.`is_non_delete` = TRUE
+          AND u.`name` = #{name}
     </select>
 
 </mapper>

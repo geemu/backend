@@ -1,4 +1,4 @@
-package com.chenfangming.backend.manage.security;
+package com.chenfangming.backend.manage.config.security;
 
 import com.chenfangming.common.model.response.DefaultResponseStatus.SystemEnum;
 import com.chenfangming.common.model.response.DefaultResponseStatus.UserEnum;
@@ -6,6 +6,7 @@ import com.chenfangming.common.model.response.ResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
@@ -38,7 +39,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
      */
     @Override
     public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException exception) throws IOException, ServletException {
-        resp.setHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=utf-8");
+        resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         ResponseEntity<Void> response;
         //  用户名或密码错误
         if (exception instanceof UsernameNotFoundException || exception instanceof BadCredentialsException) {

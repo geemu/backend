@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户数据表实体
@@ -25,11 +26,13 @@ public class UserEntity implements Serializable {
     /** 是否未删除  0已删除  1未删除 **/
     private Boolean isNonDelete;
     /** 创建人 **/
-    private Long createUser;
+    private String createUser;
     /** 创建时间 **/
     private Date createTime;
     /** 更新人 **/
-    private Long updateUser;
+    private String updateUser;
     /** 更新时间 **/
     private Date updateTime;
+    /** 角色集合 **/
+    private List<RoleEntity> roleEntityList;
 }
