@@ -2,6 +2,7 @@ package com.chenfangming.backend.manage.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
@@ -19,6 +20,9 @@ import javax.validation.ValidatorFactory;
 @Configuration
 public class ValidatorConfig {
 
+    @Autowired
+    private Validator validator;
+
     /**
      * Spring validtor支持对方法的校验
      * @return MethodValidationPostProcessor
@@ -27,7 +31,7 @@ public class ValidatorConfig {
     public MethodValidationPostProcessor methodValidationPostProcessor() {
         log.info(">>>>>>>>>>>>>>>>>>>>初始化:MethodValidationPostProcessor");
         MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
-        postProcessor.setValidator(validator());
+        postProcessor.setValidator(validator);
         return postProcessor;
     }
 
