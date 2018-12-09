@@ -1,9 +1,9 @@
 package com.chenfangming.backend.manage.controller;
 
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,23 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2018-11-23 16:55
  */
 @Slf4j
+@Api(description = "测试控制器")
 @RestController
 public class TestController {
 
-    @GetMapping
-    public String test() {
-        return "这是一个未配置的资源路径";
-    }
-
-    @GetMapping("url/1")
-    public String url1() {
-        return "固定url";
-    }
-
-    @GetMapping("url/{id}")
-    public String urlPath1(@PathVariable int id) {
-        return "参数url";
-    }
 
     @PostMapping("user/add")
     public String userAdd() {

@@ -2,7 +2,6 @@ package com.chenfangming.backend.manage.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -54,10 +53,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                //  登录任何人都可以访问
-                .mvcMatchers(HttpMethod.POST, "/login").permitAll()
-                .anyRequest().authenticated()
+        http
+                .cors().disable()
+                .csrf().disable()
+                .httpBasic().disable()
+                .logout().clearAuthentication(true).logoutSuccessHandler(myLogoutSuccessHandler)
+                .and().exceptionHandling().accessDeniedHandler(myAccessDeniedHandler)
+                .authenticationEntryPoint(myAuthenticationEntryPoint)
+                .and().authorizeRequests().anyRequest().authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
@@ -66,32 +69,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         return o;
                     }
                 })
-                //  设置认证后越权和匿名越权处理流程
-                .and()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(myAuthenticationEntryPoint)
-                    .accessDeniedHandler(myAccessDeniedHandler)
-                .and()
-//                //  前后端分离不需要session
-//                    .sessionManagement()
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-                //  前后端分离关闭csrf
-                .csrf().disable()
-                //  自定义认证方式
-                .httpBasic()
-                    .disable()
-                .authorizeRequests()
-               .and()
-                .formLogin()
-                .permitAll()
-                .successHandler(myAuthenticationSuccessHandler)
-                .failureHandler(myAuthenticationFailureHandler)
-                .and()
-                //  注销行为任意访问
-                .logout()
-                .logoutSuccessHandler(myLogoutSuccessHandler)
-                .permitAll();
+                .and().exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).accessDeniedHandler(myAccessDeniedHandler)
+               // .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                .and().authorizeRequests()
+                .and().formLogin().permitAll()
+                .successHandler(myAuthenticationSuccessHandler).failureHandler(myAuthenticationFailureHandler)
+                .and().logout().logoutSuccessHandler(myLogoutSuccessHandler).permitAll();
 
     }
 

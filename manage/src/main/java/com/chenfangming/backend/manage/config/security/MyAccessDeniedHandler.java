@@ -3,10 +3,12 @@ package com.chenfangming.backend.manage.config.security;
 import com.chenfangming.common.model.response.DefaultResponseStatus.SystemEnum;
 import com.chenfangming.common.model.response.ResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,7 @@ import java.io.IOException;
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-23 16:48
  */
+@Slf4j
 @Component
 public class MyAccessDeniedHandler implements AccessDeniedHandler {
     @Autowired
@@ -35,6 +38,8 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
      */
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp, AccessDeniedException e) throws IOException, ServletException {
+      //  User user =(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("认证用户越权:{}", SecurityContextHolder.getContext().getAuthentication().getDetails());
         resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         ResponseEntity<Void> response = new ResponseEntity<>(SystemEnum.NO_PERMISSION_ERROR);
         resp.getWriter().print(objectMapper.writeValueAsString(response));

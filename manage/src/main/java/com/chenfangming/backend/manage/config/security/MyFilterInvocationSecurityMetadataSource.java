@@ -47,7 +47,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         String method = request.getMethod();
         log.debug("当前请求方法为:{},路径为:{}", method, requestURI);
         String path = method + ":" + requestURI;
-        //  权限及其可以访问的角色
+        //  所有权限及其可以访问的角色
         List<PermissionEntity> permissionEntityList = permissionMapper.select();
         for (PermissionEntity permission : permissionEntityList) {
             List<RoleEntity> roleEntityList = permission.getRoleEntityList();
