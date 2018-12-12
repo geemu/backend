@@ -10,8 +10,8 @@
 #### 技术栈
 ##### &nbsp;&nbsp;&nbsp;1.&nbsp;后端
 - SpringBoot
+- MyBatis
 - MySQL
-- MyBatis-Plus
 - Redis
 - Spring Security
 - Quartz

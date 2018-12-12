@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    @GetMapping
+    public String test() {
+        return "这是公共页面";
+    }
+
 
     @PostMapping("user/add")
     public String userAdd() {

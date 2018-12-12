@@ -4,7 +4,7 @@ import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
 import com.chenfangming.backend.manage.persistence.entity.UserEntity;
 import com.chenfangming.backend.manage.persistence.mapper.RoleMapper;
 import com.chenfangming.backend.manage.persistence.mapper.UserMapper;
-import com.chenfangming.common.model.response.DefaultResponseStatus.UserEnum;
+import com.chenfangming.common.model.response.DefaultResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,12 +37,12 @@ public class MyUserDetailService implements UserDetailsService {
      * @throws UsernameNotFoundException 用户名不存在
      */
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userName) {
         //  查询用户
         UserEntity userEntity = userMapper.selectByName(userName);
         if (null == userEntity) {
             //  抛出用户名或密码错误，如果抛出用户名错误，会导致撞库
-            throw new UsernameNotFoundException(UserEnum.USER_OR_PASSWORD_IN_CORRECT_ERROR.getMessage());
+            throw new UsernameNotFoundException(DefaultResponseStatus.ACCOUNT_OR_PASSWORD_IN_CORRECT_ERROR.getMessage());
         }
         //  查询用户所拥有的角色  未删除且有效的
         List<RoleEntity> roleEntityList = roleMapper.selectByUserId(userEntity.getId());

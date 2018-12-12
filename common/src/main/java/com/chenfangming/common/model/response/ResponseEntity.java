@@ -1,6 +1,6 @@
 package com.chenfangming.common.model.response;
 
-import com.chenfangming.common.model.response.DefaultResponseStatus.SystemEnum;
+import com.chenfangming.common.model.BusinessException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -21,42 +21,39 @@ public class ResponseEntity<T> {
     /** 返回数据 **/
     private T data;
 
-    /**
-     * 全参构造
-     * @param status 返回状态
-     * @param data   返回数据
-     */
+    public ResponseEntity(String code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+
     public ResponseEntity(ResponseStatus status, T data) {
-        this.code = status.getCode();
-        this.message = status.getMessage();
-        this.data = data;
+        this(status.getCode(), status.getMessage(), data);
     }
 
-    /**
-     * 没有返回数据的构造
-     * @param status 返回状态
-     */
     public ResponseEntity(ResponseStatus status) {
-        this.code = status.getCode();
-        this.message = status.getMessage();
+        this(status.getCode(), status.getMessage(), null);
     }
 
-    /**
-     * 成功返回体
-     * @param data 返回数据
-     */
     public ResponseEntity(T data) {
-        this.code = SystemEnum.SUCCESS.getCode();
-        this.message = SystemEnum.SUCCESS.getMessage();
-        this.data = data;
+        this(DefaultResponseStatus.SUCCESS, data);
     }
 
-    /**
-     * 成功返回
-     */
     public ResponseEntity() {
-        this.code = SystemEnum.SUCCESS.getCode();
-        this.message = SystemEnum.SUCCESS.getMessage();
+        this(DefaultResponseStatus.SUCCESS);
+    }
+
+
+    public ResponseEntity(ResponseStatus status, String message, T data) {
+        this(status.getCode(), message, data);
+    }
+
+    public ResponseEntity(ResponseStatus status, String message) {
+        this(status.getCode(), message, null);
+    }
+
+    public ResponseEntity(BusinessException e) {
+        this(e.getCode(), e.getMessage(), null);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.chenfangming.backend.manage.config.security;
 
-import com.chenfangming.common.model.response.DefaultResponseStatus.SystemEnum;
+import com.chenfangming.common.model.response.DefaultResponseStatus;
 import com.chenfangming.common.model.response.ResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -9,10 +9,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,15 +33,14 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
      * @param req  请求
      * @param resp 响应
      * @param e    异常
-     * @throws IOException      IO异常
-     * @throws ServletException Servlet异常
+     * @throws IOException IO异常
      */
     @Override
-    public void handle(HttpServletRequest req, HttpServletResponse resp, AccessDeniedException e) throws IOException, ServletException {
-      //  User user =(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.info("认证用户越权:{}", SecurityContextHolder.getContext().getAuthentication().getDetails());
+    public void handle(HttpServletRequest req, HttpServletResponse resp, AccessDeniedException e) throws IOException {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("认证用户[{}]访问受保护资源，返回未授权", user.getUsername());
         resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        ResponseEntity<Void> response = new ResponseEntity<>(SystemEnum.NO_PERMISSION_ERROR);
+        ResponseEntity<Void> response = new ResponseEntity<>(DefaultResponseStatus.NO_AUTHORIZATION_ERROR, e.getMessage());
         resp.getWriter().print(objectMapper.writeValueAsString(response));
         resp.getWriter().flush();
     }

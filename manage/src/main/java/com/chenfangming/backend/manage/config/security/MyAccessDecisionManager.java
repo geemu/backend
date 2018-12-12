@@ -1,9 +1,10 @@
 package com.chenfangming.backend.manage.config.security;
 
-import com.chenfangming.common.model.response.DefaultResponseStatus.SystemEnum;
+import com.chenfangming.common.model.response.DefaultResponseStatus;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,6 +35,9 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
         //  当前认证对象所拥有的角色列表
         Collection<? extends GrantedAuthority> currentRoleSet = authentication.getAuthorities();
         while (canAccessRoleSet.hasNext()) {
+            if (authentication instanceof AnonymousAuthenticationToken) {
+                throw new InsufficientAuthenticationException(DefaultResponseStatus.NO_AUTHENTICATION_ERROR.getMessage());
+            }
             //  可以访问的角色
             String canAccess = canAccessRoleSet.next().getAttribute();
             for (GrantedAuthority authority : currentRoleSet) {
@@ -42,7 +46,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
                 }
             }
         }
-        throw new AccessDeniedException(SystemEnum.NO_PERMISSION_ERROR.getMessage());
+        throw new AccessDeniedException(DefaultResponseStatus.NO_AUTHORIZATION_ERROR.getMessage());
     }
 
     @Override
