@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.
                 ignoring()
-                .antMatchers("/login.html", "/static/**", "/login_p");
+                .antMatchers("/static/**");
     }
 
     @Override
@@ -70,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
                 .and().exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).accessDeniedHandler(myAccessDeniedHandler)
-               // .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                // .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 .and().authorizeRequests()
                 .and().formLogin().permitAll()
                 .successHandler(myAuthenticationSuccessHandler).failureHandler(myAuthenticationFailureHandler)

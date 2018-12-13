@@ -14,8 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 自定义用户认证
@@ -46,9 +47,10 @@ public class MyUserDetailService implements UserDetailsService {
         }
         //  查询用户所拥有的角色  未删除且有效的
         List<RoleEntity> roleEntityList = roleMapper.selectByUserId(userEntity.getId());
-        List<GrantedAuthority> authorities = new ArrayList<>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
         for (RoleEntity role : roleEntityList) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            //  这边应该放角色id
+            authorities.add(new SimpleGrantedAuthority(role.getId().toString()));
         }
         return new User(userEntity.getName(),
                 userEntity.getPassword(),

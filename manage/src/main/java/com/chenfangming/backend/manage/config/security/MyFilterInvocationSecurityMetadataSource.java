@@ -2,7 +2,7 @@ package com.chenfangming.backend.manage.config.security;
 
 import com.chenfangming.backend.manage.persistence.entity.PermissionEntity;
 import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
-import com.chenfangming.backend.manage.persistence.mapper.PermissionMapper;
+import com.chenfangming.backend.manage.persistence.mapper.MenuMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -29,7 +29,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     /** 匹配URL **/
     private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
     @Autowired
-    private PermissionMapper permissionMapper;
+    private MenuMapper permissionMapper;
 
     /**
      * 判断用户请求的资源是否在权限配置数据表中，
@@ -47,8 +47,8 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         String method = request.getMethod();
         log.debug("当前请求方法为:{},路径为:{}", method, requestURI);
         String path = method + ":" + requestURI;
-        //  所有权限及其可以访问的角色
-        List<PermissionEntity> permissionEntityList = permissionMapper.select();
+        //  查询所有菜单及其可以访问的角色
+        List<PermissionEntity> permissionEntityList = permissionMapper.selectAllWithRole();
         for (PermissionEntity permission : permissionEntityList) {
             List<RoleEntity> roleEntityList = permission.getRoleEntityList();
             String pattern = permission.getMethod() + ":" + permission.getPath();
@@ -58,7 +58,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
                 int size = roleEntityList.size();
                 String[] values = new String[size];
                 for (int i = 0; i < size; i++) {
-                    values[i] = roleEntityList.get(i).getName();
+                    values[i] = roleEntityList.get(i).getId().toString();
                 }
                 return SecurityConfig.createList(values);
             }

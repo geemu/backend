@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @GetMapping
+    @GetMapping("public")
     public String test() {
         return "这是公共页面";
     }
