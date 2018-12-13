@@ -5,17 +5,17 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 开发环境编译和热部署
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 生产环境压缩编译
 ```
 npm run build
 ```
 
-### Run your tests
+### 运行测试
 ```
 npm run test
 ```
@@ -25,5 +25,5 @@ npm run test
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 自定义配置
+查看 [配置参考](https://cli.vuejs.org/config/).
