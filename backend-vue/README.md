@@ -1,29 +1,29 @@
 # backend-vue
 
-## Project setup
+## 项目设置
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 用于开发的编译和热重载
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 为生产而编译和缩小
 ```
 npm run build
 ```
 
-### Run your tests
+### 运行测试
 ```
 npm run test
 ```
 
-### Lints and fixes files
+### 链接和修复文件
 ```
 npm run lint
 ```
 
-### Customize configuration
+### 自定义配置
 See [Configuration Reference](https://cli.vuejs.org/config/).
