@@ -5,13 +5,13 @@
 </template>
 
 <script>
-  // @ 是 /src 的一个别名
-  import HelloWorld from '@/components/HelloWorld.vue'
+// @ 是 /src 的一个别名
+import HelloWorld from '@/components/HelloWorld.vue'
 
-  export default {
-    name: 'home',
-    components: {
-      HelloWorld
-    }
+export default {
+  name: 'home',
+  components: {
+    HelloWorld
   }
+}
 </script>
