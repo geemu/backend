@@ -5,7 +5,7 @@
  */
 module.exports = {
   // 基本路径
-  baseUrl: '/my-app',
+  baseUrl: '/backend-vue',
   // 输出文件目录
   outputDir: undefined,
   // eslint-loader 是否在保存的时候检查
