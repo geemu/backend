@@ -52,7 +52,6 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         for (PermissionEntity permission : permissionEntityList) {
             List<RoleEntity> roleEntityList = permission.getRoleEntityList();
             String pattern = permission.getMethod() + ":" + permission.getPath();
-            //  pattern和请求url比较
             boolean hasPermission = antPathMatcher.match(pattern, path) && !CollectionUtils.isEmpty(roleEntityList);
             if (hasPermission) {
                 int size = roleEntityList.size();
@@ -64,6 +63,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
             }
         }
         //  没有匹配上的资源返回null 后续就不需要再执行MyAccessDecisionManager了，而是直接访问
+        log.info("当前请求资源[{}]未配置，不需要鉴权(不需要执行MyAccessDecisionManager)，可直接访问", path);
         return null;
     }
 

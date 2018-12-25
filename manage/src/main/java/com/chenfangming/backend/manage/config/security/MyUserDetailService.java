@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 自定义用户认证
+ * 自定义加载用户
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-23 14:09
  */

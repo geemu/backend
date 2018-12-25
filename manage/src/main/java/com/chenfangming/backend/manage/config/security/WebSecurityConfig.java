@@ -1,6 +1,7 @@
 package com.chenfangming.backend.manage.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * com.chenfangming.backend.manage.config.security
@@ -51,9 +53,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/static/**");
     }
 
+    @Bean
+    protected MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter() throws Exception {
+        MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
+        filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
+        filter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
+        //  这句很关键，重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
+        filter.setAuthenticationManager(authenticationManagerBean());
+        return filter;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .cors().disable()
                 .csrf().disable()
                 .httpBasic().disable()
@@ -73,10 +85,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 .and().authorizeRequests()
                 .and().formLogin().permitAll()
-                .successHandler(myAuthenticationSuccessHandler).failureHandler(myAuthenticationFailureHandler)
                 .and().logout().logoutSuccessHandler(myLogoutSuccessHandler).permitAll();
-
     }
-
-
 }
