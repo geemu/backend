@@ -1,6 +1,6 @@
 package com.chenfangming.backend.manage.controller;
 
-import com.chenfangming.backend.manage.persistence.entity.PermissionEntity;
+import com.chenfangming.backend.manage.persistence.entity.MenuEntity;
 import com.chenfangming.backend.manage.service.MenuService;
 import com.chenfangming.common.model.response.ResponseEntity;
 import io.swagger.annotations.Api;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,7 +33,7 @@ public class MenuController {
 
     @ApiOperation(value = "获取用户菜单")
     @GetMapping
-    public ResponseEntity<Set<PermissionEntity>> permission() {
+    public ResponseEntity<List<MenuEntity>> permission() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Set<Long> ids = new HashSet<>();
         authentication.getAuthorities().forEach((v) ->

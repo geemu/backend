@@ -36,7 +36,7 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest req, HttpServletResponse resp, AuthenticationException exception) throws IOException {
         log.info("匿名用户访问受保护资源，返回未认证");
-        ResponseEntity<Void> response = new ResponseEntity<>(DefaultResponseStatus.NO_AUTHENTICATION_ERROR, exception.getMessage());
+        ResponseEntity<Void> response = new ResponseEntity<>(DefaultResponseStatus.NO_AUTHENTICATION_ERROR);
         resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         resp.getWriter().print(objectMapper.writeValueAsString(response));
         resp.getWriter().flush();

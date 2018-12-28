@@ -17,7 +17,7 @@ import java.util.List;
 public interface RoleMapper {
 
     /**
-     * 根据用户id查询角色 未删除有效的
+     * 根据用户id查询角色  有效的
      * @param userId 用户id
      * @return 角色集合
      */

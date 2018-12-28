@@ -1,7 +1,8 @@
 package com.chenfangming.backend.manage.service;
 
-import com.chenfangming.backend.manage.persistence.entity.PermissionEntity;
+import com.chenfangming.backend.manage.persistence.entity.MenuEntity;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,5 +16,5 @@ public interface MenuService {
      * @param ids 角色id集合
      * @return 菜单集合
      */
-    Set<PermissionEntity> selectUserMenu(Set<Long> ids);
+    List<MenuEntity> selectUserMenu(Set<Long> ids);
 }

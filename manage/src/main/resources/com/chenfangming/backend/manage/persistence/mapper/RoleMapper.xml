@@ -2,11 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chenfangming.backend.manage.persistence.mapper.RoleMapper">
     <!-- 全字段映射关系 -->
-    <resultMap id="BaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
+    <resultMap id="SingleBaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="is_enable" property="isEnable"/>
-        <result column="is_non_delete" property="isNonDelete"/>
         <result column="create_user" property="createUser"/>
         <result column="create_time" property="createTime"/>
         <result column="update_user" property="updateUser"/>
@@ -14,18 +13,13 @@
     </resultMap>
 
     <!-- 根据用户id查询角色-->
-    <select id="selectByUserId" resultMap="BaseResultMap">
-        SELECT
-            r.`id`,
-            r.`name`
-        FROM
-            backend_user_role ur
-                INNER JOIN backend_role r
-                           ON ur.role_id = r.id
-        WHERE
-            ur.is_non_delete = 1
-          AND r.is_non_delete = 1
-          AND ur.is_enable = 1
+    <select id="selectByUserId" resultMap="SingleBaseResultMap">
+        SELECT r.`id`,
+               r.`name`
+        FROM backend_user_role ur
+                 INNER JOIN backend_role r
+                            ON ur.role_id = r.id
+        WHERE ur.is_enable = 1
           AND r.is_enable = 1
           AND ur.user_id = #{userId}
     </select>

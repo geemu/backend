@@ -1,6 +1,6 @@
 package com.chenfangming.backend.manage.config.security;
 
-import com.chenfangming.backend.manage.persistence.entity.PermissionEntity;
+import com.chenfangming.backend.manage.persistence.entity.MenuEntity;
 import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
 import com.chenfangming.backend.manage.persistence.mapper.MenuMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -48,8 +48,8 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         log.debug("当前请求方法为:{},路径为:{}", method, requestURI);
         String path = method + ":" + requestURI;
         //  查询所有菜单及其可以访问的角色
-        List<PermissionEntity> permissionEntityList = permissionMapper.selectAllWithRole();
-        for (PermissionEntity permission : permissionEntityList) {
+        List<MenuEntity> permissionEntityList = permissionMapper.selectAllWithRole();
+        for (MenuEntity permission : permissionEntityList) {
             List<RoleEntity> roleEntityList = permission.getRoleEntityList();
             String pattern = permission.getMethod() + ":" + permission.getPath();
             boolean hasPermission = antPathMatcher.match(pattern, path) && !CollectionUtils.isEmpty(roleEntityList);

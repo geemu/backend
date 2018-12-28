@@ -2,20 +2,19 @@ package com.chenfangming.backend.manage.persistence.entity;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
- * 权限数据表实体
+ * 权限菜单数据表
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-10-25 20:36
  */
 @Data
-public class PermissionEntity implements Serializable {
-    /** 主键  id **/
+public class MenuEntity {
+    /** 主键  权限菜单id **/
     private Long id;
-    /** 上级权限id 0是顶级id **/
+    /** 上级权限菜单id 0是顶级id **/
     private Long pid;
     /** 权限名称 **/
     private String name;
@@ -35,8 +34,6 @@ public class PermissionEntity implements Serializable {
     private Long sort;
     /** 是否可用  0不可用  1可用 **/
     private Boolean isEnable;
-    /** 是否未删除  0已删除  1未删除 **/
-    private Boolean isNonDelete;
     /** 创建人 **/
     private String createUser;
     /** 创建时间 **/

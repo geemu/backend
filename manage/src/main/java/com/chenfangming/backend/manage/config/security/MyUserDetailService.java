@@ -45,7 +45,7 @@ public class MyUserDetailService implements UserDetailsService {
             //  抛出用户名或密码错误，如果抛出用户名错误，会导致撞库
             throw new UsernameNotFoundException(DefaultResponseStatus.ACCOUNT_OR_PASSWORD_IN_CORRECT_ERROR.getMessage());
         }
-        //  查询用户所拥有的角色  未删除且有效的
+        //  查询用户所拥有的角色  有效的
         List<RoleEntity> roleEntityList = roleMapper.selectByUserId(userEntity.getId());
         Set<GrantedAuthority> authorities = new HashSet<>();
         for (RoleEntity role : roleEntityList) {

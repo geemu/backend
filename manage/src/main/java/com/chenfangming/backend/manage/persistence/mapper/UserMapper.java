@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface UserMapper {
 
     /**
-     * 根据用户名查询用户 未删除的
+     * 根据用户名查询用户
      * @param name 用户名
      * @return 查询到的用户
      */

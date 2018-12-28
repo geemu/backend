@@ -1,6 +1,6 @@
 package com.chenfangming.backend.manage.persistence.mapper;
 
-import com.chenfangming.backend.manage.persistence.entity.PermissionEntity;
+import com.chenfangming.backend.manage.persistence.entity.MenuEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -21,13 +21,13 @@ public interface MenuMapper {
      * 查询所有菜单及其可以访问的角色
      * @return 菜单集合
      */
-    List<PermissionEntity> selectAllWithRole();
+    List<MenuEntity> selectAllWithRole();
 
     /**
      * 查询用户菜单
      * @param ids 角色id集合
      * @return 菜单集合
      */
-    Set<PermissionEntity> selectUserMenu(@Param("ids") Set<Long> ids);
+    List<MenuEntity> selectUserMenu(@Param("ids") Set<Long> ids);
 
 }
