@@ -1,6 +1,7 @@
 package com.chenfangming.backend.manage.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,8 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * com.chenfangming.backend.manage.config.security
@@ -51,15 +54,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/static/**");
     }
 
+    @Bean
+    protected MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter() throws Exception {
+        MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
+        filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
+        filter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
+        //  重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
+        filter.setAuthenticationManager(authenticationManagerBean());
+        return filter;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .cors().disable()
                 .csrf().disable()
                 .httpBasic().disable()
-                .logout().clearAuthentication(true).logoutSuccessHandler(myLogoutSuccessHandler)
-                .and().exceptionHandling().accessDeniedHandler(myAccessDeniedHandler)
-                .authenticationEntryPoint(myAuthenticationEntryPoint)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and().logout().clearAuthentication(true).logoutSuccessHandler(myLogoutSuccessHandler)
+                .and().exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).authenticationEntryPoint(myAuthenticationEntryPoint)
+                //  authenticated()的位置不能到最后，否则会控制不到权限
                 .and().authorizeRequests().anyRequest().authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -68,14 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         o.setAccessDecisionManager(myAccessDecisionManager);
                         return o;
                     }
-                })
-                .and().exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).accessDeniedHandler(myAccessDeniedHandler)
-                // .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
-                .and().authorizeRequests()
-                .and().formLogin().permitAll()
-                .successHandler(myAuthenticationSuccessHandler).failureHandler(myAuthenticationFailureHandler)
-                .and().logout().logoutSuccessHandler(myLogoutSuccessHandler).permitAll();
-
+                });
     }
 
 
