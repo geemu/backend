@@ -54,7 +54,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
   }
 
   @Override
-  public boolean supports(Class<?> aClass) {
+  public boolean supports(Class<?> clazz) {
     return true;
   }
 }
