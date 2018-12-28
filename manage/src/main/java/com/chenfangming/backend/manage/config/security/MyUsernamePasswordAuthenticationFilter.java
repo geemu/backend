@@ -35,5 +35,4 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
-
 }

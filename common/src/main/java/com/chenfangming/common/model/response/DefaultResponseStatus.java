@@ -22,13 +22,11 @@ public enum DefaultResponseStatus implements ResponseStatus {
     /** 未授权 **/
     NO_AUTHORIZATION_ERROR("SYS0002", "未授权"),
     /** 账号或密码错误 **/
-    ACCOUNT_IN_CORRECT_ERROR("USR0001", "账号错误"),
-    /** 密码错误 **/
-    PASSWORD_IN_CORRECT_ERROR("USR0001", "密码错误"),
-    /** 账号或密码错误 **/
     ACCOUNT_OR_PASSWORD_IN_CORRECT_ERROR("USR0001", "账号或密码错误"),
     /** 账号被禁用 **/
-    ACCOUNT_DISABLE_ERROR("USR0002", "账号被禁用");
+    ACCOUNT_DISABLE_ERROR("USR0002", "账号被禁用"),
+    /** 其它认证异常 **/
+    OTHER_AUTHENTICATION_ERROR("USR0003", "其它认证异常");
     /** 状态码 **/
     private String code;
     /** 提示信息 **/

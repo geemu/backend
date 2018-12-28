@@ -25,10 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailService myUserDetailService;
     @Autowired
-    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
-    @Autowired
-    private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
-    @Autowired
     private MyAccessDeniedHandler myAccessDeniedHandler;
     @Autowired
     private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
@@ -38,6 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
     @Autowired
     private MyAccessDecisionManager myAccessDecisionManager;
+    @Autowired
+    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+    @Autowired
+    private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,19 +55,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    protected MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter() throws Exception {
+    protected MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter222() throws Exception {
         MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
-        filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
+        filter.setPostOnly(true);
         filter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
+        filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
         //  重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
-        filter.setAuthenticationManager(authenticationManagerBean());
+        filter.setAuthenticationManager(authenticationManager());
         return filter;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(myUsernamePasswordAuthenticationFilter222(), UsernamePasswordAuthenticationFilter.class)
                 .cors().disable()
                 .csrf().disable()
                 .httpBasic().disable()

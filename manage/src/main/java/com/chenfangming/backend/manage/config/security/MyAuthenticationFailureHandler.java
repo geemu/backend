@@ -30,27 +30,25 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
     private ObjectMapper objectMapper;
 
     /**
-     * 认证失败后流程
-     * @param req       请求
-     * @param resp      响应
+     * 在身份验证尝试失败时调用
+     * @param req 请求
+     * @param resp 响应.
      * @param exception 异常
-     * @throws IOException IO异常
+     * request.
      */
     @Override
     public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException exception) throws IOException {
         resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         ResponseEntity<Void> response;
-        //  用户名或密码错误
         if (exception instanceof UsernameNotFoundException || exception instanceof BadCredentialsException) {
-            response = new ResponseEntity<>(DefaultResponseStatus.ACCOUNT_OR_PASSWORD_IN_CORRECT_ERROR, exception.getMessage());
-        }
-        //  账户被禁用
-        else if (exception instanceof DisabledException) {
-            response = new ResponseEntity<>(DefaultResponseStatus.ACCOUNT_DISABLE_ERROR, exception.getMessage());
-        }
-        //  其它未知异常
-        else {
-            response = new ResponseEntity<>(DefaultResponseStatus.INTERVAL_SERVER_ERROR);
+            //  用户名或密码错误
+            response = new ResponseEntity<>(DefaultResponseStatus.ACCOUNT_OR_PASSWORD_IN_CORRECT_ERROR);
+        } else if (exception instanceof DisabledException) {
+            //  账户被禁用
+            response = new ResponseEntity<>(DefaultResponseStatus.ACCOUNT_DISABLE_ERROR);
+        } else {
+            //  其它认证异常
+            response = new ResponseEntity<>(DefaultResponseStatus.OTHER_AUTHENTICATION_ERROR, exception.getMessage());
         }
         resp.getWriter().print(objectMapper.writeValueAsString(response));
         resp.getWriter().flush();
