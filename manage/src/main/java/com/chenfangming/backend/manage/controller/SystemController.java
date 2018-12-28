@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 系统控制器
+ * 系统控制器.
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-12-28 15:07
  */
@@ -19,16 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SystemController {
 
-    @ApiOperation("获取页面的配置参数")
-    @GetMapping("{page:[a-zA-Z]+}")
-    public String properties(@PathVariable("page") String page) {
-        return "这是" + page + "页面的配置参数";
-    }
+  @ApiOperation("获取页面的配置参数")
+  @GetMapping("{page:[a-zA-Z]+}")
+  public String properties(@PathVariable("page") String page) {
+    return "这是" + page + "页面的配置参数";
+  }
 
-    @ApiOperation("获取页面的配置参数")
-    @GetMapping("{page:[0-9]+}")
-    public String properties2(@PathVariable("page") Integer page) {
-        return "这是" + page + "页面的配置参数数字";
-    }
+  @ApiOperation("获取页面的配置参数")
+  @GetMapping("{page:[0-9]+}")
+  public String properties2(@PathVariable("page") Integer page) {
+    return "这是" + page + "页面的配置参数数字";
+  }
 
 }

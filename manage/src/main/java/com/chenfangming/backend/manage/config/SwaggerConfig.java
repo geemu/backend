@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 /**
- * Swagger配置，注有@Api的class生成文档，只在Dev环境生效
+ * Swagger配置，注有@Api的class生成文档，只在Dev环境生效.
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-10-25 20:29
  */
@@ -24,26 +24,26 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @Profile("dev")
 public class SwaggerConfig {
-    /**
-     * 创建Swagger文档
-     * @return Docket Docket
-     */
-    @Bean
-    public Docket createApi() {
-        log.info(">>>>>>>>>>>>>>>>>>>>Swagger初始化开始<<<<<<<<<<<<<<<<<<<<");
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(new ApiInfoBuilder()
-                        .title("Api文档")
-                        .description("后台管理Api文档")
-                        .build())
-                .select()
-                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+  /**
+   * 创建Swagger文档.
+   * @return Docket Docket
+   */
+  @Bean
+  public Docket createApi() {
+    log.info(">>>>>>>>>>>>>>>>>>>>Swagger初始化开始<<<<<<<<<<<<<<<<<<<<");
+    Docket docket = new Docket(DocumentationType.SWAGGER_2)
+            .apiInfo(new ApiInfoBuilder()
+                    .title("Api文档")
+                    .description("后台管理Api文档")
+                    .build())
+            .select()
+            .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
 
-                .paths(PathSelectors.any())
-                .build()
-                .ignoredParameterTypes(ApiIgnore.class);
-        log.info(">>>>>>>>>>>>>>>>>>>>Swagger初始化结束<<<<<<<<<<<<<<<<<<<<");
-        return docket;
-    }
+            .paths(PathSelectors.any())
+            .build()
+            .ignoredParameterTypes(ApiIgnore.class);
+    log.info(">>>>>>>>>>>>>>>>>>>>Swagger初始化结束<<<<<<<<<<<<<<<<<<<<");
+    return docket;
+  }
 
 }
