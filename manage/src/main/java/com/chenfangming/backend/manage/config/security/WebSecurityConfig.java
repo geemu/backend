@@ -84,32 +84,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-            .addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .requestCache().disable().headers().cacheControl().disable()
+            .and().addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             //  设置匿名用户为0
-            .anonymous()
-            .authorities("0")
+            .anonymous().authorities("0")
+            .and().cors().disable().csrf().disable().httpBasic().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            .and().logout().clearAuthentication(true).logoutSuccessHandler(myLogoutSuccessHandler)
             .and()
-            .cors()
-            .disable()
-            .csrf()
-            .disable()
-            .httpBasic()
-            .disable()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-            .and()
-            .logout()
-            .clearAuthentication(true)
-            .logoutSuccessHandler(myLogoutSuccessHandler)
-            .and()
-            .exceptionHandling()
-            .accessDeniedHandler(myAccessDeniedHandler)
-            .authenticationEntryPoint(myAuthenticationEntryPoint)
+            .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).authenticationEntryPoint(myAuthenticationEntryPoint)
             //  authenticated()的位置不能到最后，否则会控制不到权限
-            .and()
-            .authorizeRequests()
-            .anyRequest()
-            .authenticated()
+            .and().authorizeRequests().anyRequest().authenticated()
             .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
               @Override
               public <O extends FilterSecurityInterceptor> O postProcess(O o) {
