@@ -1,5 +1,7 @@
 package com.chenfangming.common;
 
+import java.util.UUID;
+
 /**
  * String工具类
  * @author 陈方明  cfmmail@sina.com
@@ -7,12 +9,20 @@ package com.chenfangming.common;
  */
 public class StringHelper {
 
-    /**
-     * 字符串是否为空，空的定义如下:1、为null  2、为""
-     * @param cs 被检测的字符串
-     * @return 是否为空
-     */
-    public static boolean isEmpty(CharSequence cs) {
-        return null == cs || 0 == cs.length();
-    }
+  /**
+   * 字符串是否为空，空的定义如下:1、为null  2、为""
+   * @param cs 被检测的字符串
+   * @return 是否为空
+   */
+  public static boolean isEmpty(CharSequence cs) {
+    return null == cs || 0 == cs.length();
+  }
+
+  /**
+   * 获取UUID.
+   * @return String
+   */
+  public static String uuid() {
+    return UUID.randomUUID().toString().replace("-", "").toUpperCase();
+  }
 }
