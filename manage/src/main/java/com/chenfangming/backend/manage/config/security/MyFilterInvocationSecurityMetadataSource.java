@@ -26,7 +26,7 @@ import org.springframework.util.CollectionUtils;
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
   /** 匹配URL. **/
-  private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
+  private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
   @Autowired
   private MenuMapper permissionMapper;
 
@@ -51,7 +51,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     for (MenuEntity permission : permissionEntityList) {
       List<RoleEntity> roleEntityList = permission.getRoleEntityList();
       String pattern = permission.getMethod() + ":" + permission.getPath();
-      boolean hasPermission = antPathMatcher.match(pattern, path) && !CollectionUtils.isEmpty(roleEntityList);
+      boolean hasPermission = ANT_PATH_MATCHER.match(pattern, path) && !CollectionUtils.isEmpty(roleEntityList);
       if (hasPermission) {
         int size = roleEntityList.size();
         String[] values = new String[size];

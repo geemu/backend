@@ -28,7 +28,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
       LoginRequest loginRequest = objectMapper.readValue(is, LoginRequest.class);
       authRequest = new UsernamePasswordAuthenticationToken(loginRequest.getName(), loginRequest.getPassword());
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("执行登录操作时，读取登录参数异常:{}", e);
       authRequest = new UsernamePasswordAuthenticationToken("", "");
     }
     return this.getAuthenticationManager().authenticate(authRequest);

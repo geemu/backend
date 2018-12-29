@@ -38,7 +38,6 @@ public class SwaggerConfig {
                     .build())
             .select()
             .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
-
             .paths(PathSelectors.any())
             .build()
             .ignoredParameterTypes(ApiIgnore.class);

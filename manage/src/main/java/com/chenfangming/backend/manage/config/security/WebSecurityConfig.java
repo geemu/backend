@@ -21,13 +21,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+  /** 自定义加载用户数据. **/
   private MyUserDetailService myUserDetailService;
+  /** 处理认证用户权限不足. **/
   private MyAccessDeniedHandler myAccessDeniedHandler;
+  /** 未认证即匿名用户权限不足. **/
   private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+  /** 处理注销成功. **/
   private MyLogoutSuccessHandler myLogoutSuccessHandler;
+  /** 从数据库获取受保护对象. **/
   private MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
+  /** 自定义鉴权逻辑. **/
   private MyAccessDecisionManager myAccessDecisionManager;
+  /** 认证成功. **/
   private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+  /** 认证失败. **/
   private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
 
   /**

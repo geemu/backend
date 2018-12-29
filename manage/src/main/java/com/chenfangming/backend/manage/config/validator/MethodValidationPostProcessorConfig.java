@@ -1,31 +1,32 @@
-package com.chenfangming.backend.manage.config;
+package com.chenfangming.backend.manage.config.validator;
 
-import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.HibernateValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 /**
- * Hibernate Validator配置.
+ * Spring扩展的 支持方法参数校验的配置.
  * @author 陈方明  cfmmail@sina.com
- * @since 2018-11-01 18:24
+ * @since 2018-12-29 11:33
  */
 @Slf4j
 @Configuration
-public class ValidatorConfig {
-
+public class MethodValidationPostProcessorConfig {
+  /** Validator. **/
   private Validator validator;
 
-  public ValidatorConfig(Validator validator) {
+  /**
+   * 构造器注入.
+   * @param validator validator
+   */
+  public MethodValidationPostProcessorConfig(Validator validator) {
     this.validator = validator;
   }
 
   /**
-   * Spring validtor支持对方法的校验.
+   * Spring validator支持对方法的校验.
    * @return MethodValidationPostProcessor
    */
   @Bean
@@ -34,19 +35,5 @@ public class ValidatorConfig {
     MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
     postProcessor.setValidator(validator);
     return postProcessor;
-  }
-
-  /**
-   * 配置快速失败.
-   * @return Validator
-   */
-  @Bean
-  public Validator validator() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:Validator");
-    ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
-            .configure()
-            .failFast(true)
-            .buildValidatorFactory();
-    return validatorFactory.getValidator();
   }
 }
