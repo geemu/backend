@@ -1,6 +1,7 @@
 package com.chenfangming.backend.manage.config.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,7 @@ public class RedisSerializerConfig {
     Jackson2JsonRedisSerializer<Object> response = new Jackson2JsonRedisSerializer<>(Object.class);
     //  所有字段都序列化
     objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+    objectMapper.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
     //  序列化类型  objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL)
     response.setObjectMapper(objectMapper);
     return response;

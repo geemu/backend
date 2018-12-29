@@ -33,7 +33,7 @@ public class RedisSessionConfig {
 //   * @return SessionRepository
 //   */
 //  @Bean
-//  public SessionRepository sessionRepository() {
+//  public RedisOperationsSessionRepository sessionRepository() {
 //    RedisOperationsSessionRepository sessionRepository = new RedisOperationsSessionRepository(redisTemplate);
 //    sessionRepository.setDefaultSerializer(jackson2JsonRedisSerializer);
 //    return sessionRepository;
