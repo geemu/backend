@@ -47,8 +47,7 @@ public class MyAuthenticationDeniedHandler implements AccessDeniedHandler {
     response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
     response.getWriter().print(objectMapper.writeValueAsString(
             new ResponseEntity<>(
-                    DefaultResponseStatus.ACCESS_DENIED_ERROR,
-                    e.getMessage())
+                    DefaultResponseStatus.ACCESS_DENIED_ERROR)
     ));
     response.getWriter().flush();
   }

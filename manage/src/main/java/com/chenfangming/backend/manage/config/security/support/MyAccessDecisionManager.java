@@ -1,5 +1,6 @@
 package com.chenfangming.backend.manage.config.security.support;
 
+import com.chenfangming.common.model.response.DefaultResponseStatus;
 import java.util.Collection;
 import java.util.Iterator;
 import org.springframework.security.access.AccessDecisionManager;
@@ -31,7 +32,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
                      Object object,
                      Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
     if (authentication instanceof AnonymousAuthenticationToken) {
-      throw new InsufficientAuthenticationException("请先登录系统，匿名用户无法访问受保护资源");
+      throw new InsufficientAuthenticationException(DefaultResponseStatus.NO_AUTHENTICATION_ERROR.getMessage());
     }
     //  当前资源所有访问的角色列表
     Iterator<ConfigAttribute> canAccessRoleSet = collection.iterator();
@@ -46,7 +47,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
         }
       }
     }
-    throw new AccessDeniedException("权限不足");
+    throw new AccessDeniedException(DefaultResponseStatus.ACCESS_DENIED_ERROR.getMessage());
   }
 
   @Override

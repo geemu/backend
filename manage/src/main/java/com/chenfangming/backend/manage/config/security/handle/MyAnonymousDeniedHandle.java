@@ -47,9 +47,8 @@ public class MyAnonymousDeniedHandle implements AuthenticationEntryPoint {
     response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
     response.getWriter().print(objectMapper.writeValueAsString(
             new ResponseEntity<>(
-                    DefaultResponseStatus.NO_AUTHENTICATION_ERROR,
-                    e.getMessage()))
-    );
+                    DefaultResponseStatus.NO_AUTHENTICATION_ERROR)
+    ));
     response.getWriter().flush();
   }
 }
