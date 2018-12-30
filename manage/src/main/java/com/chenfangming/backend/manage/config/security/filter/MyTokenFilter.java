@@ -1,12 +1,17 @@
 package com.chenfangming.backend.manage.config.security.filter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -47,7 +52,12 @@ public class MyTokenFilter extends OncePerRequestFilter {
       if (ObjectUtils.isEmpty(redisData)) {
         chain.doFilter(request, response);
       }
-      System.out.println(redisData);
+      Map map = (Map) redisData;
+      System.out.println(map);
+      List<SimpleGrantedAuthority> authorities = (List) map.get("authorities");
+      UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken(map, map, authorities);
+      data.setAuthenticated(true);
+      SecurityContextHolder.createEmptyContext().setAuthentication(data);
     }
     chain.doFilter(request, response);
   }
