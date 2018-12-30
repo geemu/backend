@@ -24,9 +24,9 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
   /** 限制只能POST. **/
   private boolean postOnly = true;
   /** 用户名参数. **/
-  public static final String NAME_KEY = "name";
+  private static final String NAME_KEY = "name";
   /** 密码参数. **/
-  public static final String PASSWORD_KEY = "password";
+  private static final String PASSWORD_KEY = "password";
 
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,
