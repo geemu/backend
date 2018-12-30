@@ -39,7 +39,7 @@ public class RedisTemplateConfig {
    */
   @Bean
   public RedisTemplate<Object, Object> redisTemplate() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:RedisTemplate");
+    log.info("初始化:RedisTemplate");
     RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory);
     redisTemplate.setDefaultSerializer(jackson2JsonRedisSerializer);

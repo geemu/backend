@@ -11,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.stereotype.Component;
 
 /**
  * 认证用户访问无权限资源处理流程.
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Component;
  * @since 2018-11-23 16:48
  */
 @Slf4j
-@Component
 public class MyAuthenticationDeniedHandler implements AccessDeniedHandler {
   /** ObjectMapper. **/
   private ObjectMapper objectMapper;
@@ -43,7 +41,7 @@ public class MyAuthenticationDeniedHandler implements AccessDeniedHandler {
   public void handle(HttpServletRequest request,
                      HttpServletResponse response,
                      AccessDeniedException e) throws IOException {
-    log.info(">>>>>>>>>>>>>>>>>>>>认证用户访问无权限资源:{}<<<<<<<<<<<<<<<<<<<<", e);
+    log.info("认证用户访问无权限资源:{}", e.getMessage());
     response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
     response.getWriter().print(objectMapper.writeValueAsString(
             new ResponseEntity<>(

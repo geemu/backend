@@ -33,7 +33,7 @@ public class OperationConfig {
    */
   @Bean
   public HashOperations<Object, Object, Object> hashOperations() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:HashOperations");
+    log.info("初始化:HashOperations");
     return redisTemplate.opsForHash();
   }
 

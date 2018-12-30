@@ -14,7 +14,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.stereotype.Component;
 
 /**
  * 认证失败处理流程.
@@ -22,11 +21,14 @@ import org.springframework.stereotype.Component;
  * @since 2018-11-23 16:20
  */
 @Slf4j
-@Component
 public class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
   /** ObjectMapper. **/
   private ObjectMapper objectMapper;
 
+  /**
+   * 构造器注入.
+   * @param objectMapper objectMapper
+   */
   public MyAuthenticationFailureHandler(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
   }
@@ -41,7 +43,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
   public void onAuthenticationFailure(HttpServletRequest request,
                                       HttpServletResponse response,
                                       AuthenticationException e) throws IOException {
-    log.info(">>>>>>>>>>>>>>>>>>>>用户认证失败:{}<<<<<<<<<<<<<<<<<<<<", e);
+    log.info("用户认证失败:{}", e.getMessage());
     response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
     ResponseEntity<Void> responseEntity;
     if (e instanceof UsernameNotFoundException

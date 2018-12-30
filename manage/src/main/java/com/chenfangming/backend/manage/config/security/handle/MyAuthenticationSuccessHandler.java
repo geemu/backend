@@ -11,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 
 /**
  * 认证成功处理流程.
@@ -19,11 +18,14 @@ import org.springframework.stereotype.Component;
  * @since 2018-11-23 16:02
  */
 @Slf4j
-@Component
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
   /** ObjectMapper. **/
   private ObjectMapper objectMapper;
 
+  /**
+   * 构造器注入.
+   * @param objectMapper objectMapper
+   */
   public MyAuthenticationSuccessHandler(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
   }
@@ -39,7 +41,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
   public void onAuthenticationSuccess(HttpServletRequest request,
                                       HttpServletResponse response,
                                       Authentication authentication) throws IOException {
-    log.info(">>>>>>>>>>>>>>>>>>>>用户认证成功:{}<<<<<<<<<<<<<<<<<<<<", authentication);
+    log.info("用户认证成功:{}", authentication);
     response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
     response.getWriter().print(objectMapper.writeValueAsString(
             new ResponseEntity<>(

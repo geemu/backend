@@ -20,7 +20,7 @@ public class MybatisPlusConfig {
    */
   @Bean
   public PaginationInterceptor paginationInterceptor() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:PaginationInterceptor");
+    log.info("初始化:PaginationInterceptor");
     return new PaginationInterceptor();
   }
 

@@ -23,7 +23,7 @@ public class ValidatorConfig {
    */
   @Bean
   public Validator validator() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:Validator");
+    log.info("初始化:Validator");
     ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
             .configure()
             .failFast(true)

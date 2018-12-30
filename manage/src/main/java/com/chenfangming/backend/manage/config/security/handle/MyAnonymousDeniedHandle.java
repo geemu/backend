@@ -11,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.stereotype.Component;
 
 /**
  * 匿名用户访问无权限资源处理流程.
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Component;
  * @since 2018-11-23 17:03
  */
 @Slf4j
-@Component
 public class MyAnonymousDeniedHandle implements AuthenticationEntryPoint {
   /** ObjectMapper. **/
   private ObjectMapper objectMapper;
@@ -43,7 +41,7 @@ public class MyAnonymousDeniedHandle implements AuthenticationEntryPoint {
   public void commence(HttpServletRequest request,
                        HttpServletResponse response,
                        AuthenticationException e) throws IOException {
-    log.info(">>>>>>>>>>>>>>>>>>>>匿名用户访问无权限资源:{}<<<<<<<<<<<<<<<<<<<<", e);
+    log.info("匿名用户访问无权限资源:{}", e.getMessage());
     response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
     response.getWriter().print(objectMapper.writeValueAsString(
             new ResponseEntity<>(

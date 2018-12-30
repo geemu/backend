@@ -35,7 +35,7 @@ public class RedisSerializerConfig {
    */
   @Bean
   public StringRedisSerializer stringRedisSerializer() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:StringRedisSerializer");
+    log.info("初始化:StringRedisSerializer");
     return new StringRedisSerializer();
   }
 
@@ -45,7 +45,7 @@ public class RedisSerializerConfig {
    */
   @Bean
   public Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:Jackson2JsonRedisSerializer");
+    log.info("初始化:Jackson2JsonRedisSerializer");
     Jackson2JsonRedisSerializer<Object> response = new Jackson2JsonRedisSerializer<>(Object.class);
     //  所有字段都序列化
     objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);

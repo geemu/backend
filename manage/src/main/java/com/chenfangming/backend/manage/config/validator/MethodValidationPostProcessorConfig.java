@@ -31,7 +31,7 @@ public class MethodValidationPostProcessorConfig {
    */
   @Bean
   public MethodValidationPostProcessor methodValidationPostProcessor() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:MethodValidationPostProcessor");
+    log.info("初始化:MethodValidationPostProcessor");
     MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
     postProcessor.setValidator(validator);
     return postProcessor;

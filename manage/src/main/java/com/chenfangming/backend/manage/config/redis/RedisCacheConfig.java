@@ -50,7 +50,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
   @Bean
   @Override
   public CacheManager cacheManager() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:CacheManager");
+    log.info("初始化:CacheManager");
     //  生成一个默认配置，通过config对象即可对缓存进行自定义配置
     RedisCacheConfiguration config = RedisCacheConfiguration
             .defaultCacheConfig()
@@ -78,7 +78,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
   @Bean
   @Override
   public KeyGenerator keyGenerator() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:KeyGenerator");
+    log.info("初始化:KeyGenerator");
     return (target, method, params) -> {
       StringBuilder sb = new StringBuilder();
       sb.append(target.getClass().getName());
