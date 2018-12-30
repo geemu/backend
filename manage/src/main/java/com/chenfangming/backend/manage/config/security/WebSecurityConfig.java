@@ -23,7 +23,7 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * com.chenfangming.backend.manage.config.security.
+ * WebSecurityConfig.
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-23 15:00
  */

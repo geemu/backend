@@ -6,6 +6,8 @@ import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationFa
 import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationSuccessHandler;
 import com.chenfangming.backend.manage.config.security.handle.MyLogoutSuccessHandler;
 import com.chenfangming.backend.manage.config.security.support.MyAccessDecisionManager;
+import com.chenfangming.backend.manage.config.security.support.MyFilterInvocationSecurityMetadataSource;
+import com.chenfangming.backend.manage.persistence.mapper.MenuMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -21,18 +23,21 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfig {
   /** ObjectMapper. **/
   private ObjectMapper objectMapper;
+  /** MenuMapper. **/
+  private MenuMapper menuMapper;
 
   /**
    * 构造器注入.
-   * @param objectMapper objectMapper
+   * @param objectMapper {@link org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration}
    */
-  public BeanConfig(ObjectMapper objectMapper) {
+  public BeanConfig(ObjectMapper objectMapper, MenuMapper menuMapper) {
     this.objectMapper = objectMapper;
+    this.menuMapper = menuMapper;
   }
 
   /**
    * 认证成功处理流程.
-   * @return MyAuthenticationFailureHandler
+   * @return {@link MyAuthenticationFailureHandler}
    */
   @Bean
   public MyAuthenticationSuccessHandler myAuthenticationSuccessHandler() {
@@ -42,7 +47,7 @@ public class BeanConfig {
 
   /**
    * 认证失败处理流程.
-   * @return MyAuthenticationFailureHandler
+   * @return {@link MyAuthenticationFailureHandler}
    */
   @Bean
   public MyAuthenticationFailureHandler myAuthenticationFailureHandler() {
@@ -51,8 +56,19 @@ public class BeanConfig {
   }
 
   /**
+   * 从数据库获取资源.
+   * @return {@link MyFilterInvocationSecurityMetadataSource}
+   */
+  @Bean
+  public MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource() {
+    log.info(">>>>>>>>>>>>>>>>>>>>初始化:MyFilterInvocationSecurityMetadataSource");
+    return new MyFilterInvocationSecurityMetadataSource(menuMapper);
+  }
+
+
+  /**
    * 判断用户是否有权限.
-   * @return MyAccessDecisionManager
+   * @return {@link MyAccessDecisionManager}
    */
   @Bean
   public MyAccessDecisionManager myAccessDecisionManager() {
@@ -62,7 +78,7 @@ public class BeanConfig {
 
   /**
    * 认证用户访问无权限资源处理流程.
-   * @return MyAuthenticationDeniedHandler
+   * @return {@link MyAuthenticationDeniedHandler}
    */
   @Bean
   public MyAuthenticationDeniedHandler myAuthenticationDeniedHandler() {
@@ -72,7 +88,7 @@ public class BeanConfig {
 
   /**
    * 匿名用户访问无权限资源处理流程.
-   * @return MyAnonymousDeniedHandle
+   * @return {@link MyAnonymousDeniedHandle}
    */
   @Bean
   public MyAnonymousDeniedHandle myAnonymousDeniedHandle() {
@@ -82,7 +98,7 @@ public class BeanConfig {
 
   /**
    * 注销成功处理流程.
-   * @return MyLogoutSuccessHandler
+   * @return {@link MyLogoutSuccessHandler}
    */
   @Bean
   public MyLogoutSuccessHandler myLogoutSuccessHandler() {

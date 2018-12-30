@@ -7,12 +7,10 @@ import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 
@@ -22,13 +20,20 @@ import org.springframework.util.CollectionUtils;
  * @since 2018-11-23 17:44
  */
 @Slf4j
-@Component
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
   /** 匹配URL. **/
   private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
-  @Autowired
-  private MenuMapper permissionMapper;
+  /** MenuMapper. **/
+  private MenuMapper menuMapper;
+
+  /**
+   * 构造器注入.
+   * @param menuMapper menuMapper
+   */
+  public MyFilterInvocationSecurityMetadataSource(MenuMapper menuMapper) {
+    this.menuMapper = menuMapper;
+  }
 
   /**
    * 判断用户请求的资源是否在权限配置数据表中.
@@ -47,7 +52,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     log.debug("当前请求方法为:{},路径为:{}", method, requestUrl);
     String path = method + ":" + requestUrl;
     //  查询所有菜单及其可以访问的角色
-    List<MenuEntity> permissionEntityList = permissionMapper.selectAllWithRole();
+    List<MenuEntity> permissionEntityList = menuMapper.selectAllWithRole();
     for (MenuEntity permission : permissionEntityList) {
       List<RoleEntity> roleEntityList = permission.getRoleEntityList();
       String pattern = permission.getMethod() + ":" + permission.getPath();
