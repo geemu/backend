@@ -106,14 +106,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and().authorizeRequests().anyRequest().authenticated()
             .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
               @Override
-              public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-                o.setSecurityMetadataSource(myFilterInvocationSecurityMetadataSource);
-                o.setAccessDecisionManager(myAccessDecisionManager);
-                return o;
+              public <T extends FilterSecurityInterceptor> T postProcess(T t) {
+                t.setSecurityMetadataSource(myFilterInvocationSecurityMetadataSource);
+                t.setAccessDecisionManager(myAccessDecisionManager);
+                return t;
               }
             });
   }
 
+  /**
+   * JSON登录
+   * @return MyUsernamePasswordAuthenticationFilter
+   * @throws Exception Exception
+   */
   @Bean
   protected MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter() throws Exception {
     MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
