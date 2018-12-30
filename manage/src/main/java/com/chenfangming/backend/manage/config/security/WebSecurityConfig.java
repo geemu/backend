@@ -1,5 +1,14 @@
 package com.chenfangming.backend.manage.config.security;
 
+import com.chenfangming.backend.manage.config.security.filter.MyUsernamePasswordAuthenticationFilter;
+import com.chenfangming.backend.manage.config.security.handle.MyAnonymousDeniedHandle;
+import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationDeniedHandler;
+import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationFailureHandler;
+import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationSuccessHandler;
+import com.chenfangming.backend.manage.config.security.handle.MyLogoutSuccessHandler;
+import com.chenfangming.backend.manage.config.security.support.MyAccessDecisionManager;
+import com.chenfangming.backend.manage.config.security.support.MyFilterInvocationSecurityMetadataSource;
+import com.chenfangming.backend.manage.config.security.support.MyUserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -24,9 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   /** 自定义加载用户数据. **/
   private MyUserDetailService myUserDetailService;
   /** 处理认证用户权限不足. **/
-  private MyAccessDeniedHandler myAccessDeniedHandler;
+  private MyAuthenticationDeniedHandler myAccessDeniedHandler;
   /** 未认证即匿名用户权限不足. **/
-  private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+  private MyAnonymousDeniedHandle myAuthenticationEntryPoint;
   /** 处理注销成功. **/
   private MyLogoutSuccessHandler myLogoutSuccessHandler;
   /** 从数据库获取受保护对象. **/
@@ -50,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    * @param myAuthenticationFailureHandler myAuthenticationFailureHandler
    */
   public WebSecurityConfig(MyUserDetailService myUserDetailService,
-                           MyAccessDeniedHandler myAccessDeniedHandler,
-                           MyAuthenticationEntryPoint myAuthenticationEntryPoint,
+                           MyAuthenticationDeniedHandler myAccessDeniedHandler,
+                           MyAnonymousDeniedHandle myAuthenticationEntryPoint,
                            MyLogoutSuccessHandler myLogoutSuccessHandler,
                            MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource,
                            MyAccessDecisionManager myAccessDecisionManager,

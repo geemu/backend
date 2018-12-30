@@ -1,4 +1,4 @@
-package com.chenfangming.backend.manage.config.security;
+package com.chenfangming.backend.manage.config.security.filter;
 
 import com.chenfangming.backend.manage.domain.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,12 +21,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
   @Override
-  public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+  public Authentication attemptAuthentication(HttpServletRequest request,
+                                              HttpServletResponse response) throws AuthenticationException {
     UsernamePasswordAuthenticationToken authRequest;
     ObjectMapper objectMapper = new ObjectMapper();
     try (InputStream is = request.getInputStream()) {
       LoginRequest loginRequest = objectMapper.readValue(is, LoginRequest.class);
-      authRequest = new UsernamePasswordAuthenticationToken(loginRequest.getName(), loginRequest.getPassword());
+      authRequest = new UsernamePasswordAuthenticationToken(
+              loginRequest.getName(),
+              loginRequest.getPassword());
     } catch (IOException e) {
       log.error("执行登录操作时，读取登录参数异常:{}", e);
       authRequest = new UsernamePasswordAuthenticationToken("", "");

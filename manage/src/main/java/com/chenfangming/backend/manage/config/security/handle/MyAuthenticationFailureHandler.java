@@ -1,4 +1,4 @@
-package com.chenfangming.backend.manage.config.security;
+package com.chenfangming.backend.manage.config.security.handle;
 
 import com.chenfangming.common.model.response.DefaultResponseStatus;
 import com.chenfangming.common.model.response.ResponseEntity;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
+  /** ObjectMapper. **/
   private ObjectMapper objectMapper;
 
   public MyAuthenticationFailureHandler(ObjectMapper objectMapper) {
@@ -32,25 +33,30 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
 
   /**
    * 在身份验证尝试失败时调用.
-   * @param req 请求
-   * @param resp 响应.
-   * @param exception 异常
+   * @param request 请求
+   * @param response 响应.
+   * @param e 异常
    */
   @Override
-  public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException exception) throws IOException {
-    resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-    ResponseEntity<Void> response;
-    if (exception instanceof UsernameNotFoundException || exception instanceof BadCredentialsException) {
+  public void onAuthenticationFailure(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      AuthenticationException e) throws IOException {
+    log.info(">>>>>>>>>>>>>>>>>>>>用户认证失败:{}<<<<<<<<<<<<<<<<<<<<", e);
+    response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+    ResponseEntity<Void> responseEntity;
+    if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
       //  用户名或密码错误
-      response = new ResponseEntity<>(DefaultResponseStatus.ACCOUNT_OR_PASSWORD_IN_CORRECT_ERROR);
-    } else if (exception instanceof DisabledException) {
+      responseEntity = new ResponseEntity<>(DefaultResponseStatus.AUTHENTICATION_ERROR, "用户名或密码错误");
+    } else if (e instanceof DisabledException) {
       //  账户被禁用
-      response = new ResponseEntity<>(DefaultResponseStatus.ACCOUNT_DISABLE_ERROR);
+      responseEntity = new ResponseEntity<>(DefaultResponseStatus.AUTHENTICATION_ERROR, "账户被禁用");
     } else {
       //  其它认证异常
-      response = new ResponseEntity<>(DefaultResponseStatus.OTHER_AUTHENTICATION_ERROR, exception.getMessage());
+      responseEntity = new ResponseEntity<>(
+              DefaultResponseStatus.AUTHENTICATION_ERROR,
+              e.getMessage());
     }
-    resp.getWriter().print(objectMapper.writeValueAsString(response));
-    resp.getWriter().flush();
+    response.getWriter().print(objectMapper.writeValueAsString(responseEntity));
+    response.getWriter().flush();
   }
 }

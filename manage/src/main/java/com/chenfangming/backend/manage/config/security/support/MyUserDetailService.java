@@ -1,10 +1,9 @@
-package com.chenfangming.backend.manage.config.security;
+package com.chenfangming.backend.manage.config.security.support;
 
 import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
 import com.chenfangming.backend.manage.persistence.entity.UserEntity;
 import com.chenfangming.backend.manage.persistence.mapper.RoleMapper;
 import com.chenfangming.backend.manage.persistence.mapper.UserMapper;
-import com.chenfangming.common.model.response.DefaultResponseStatus;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,8 +42,7 @@ public class MyUserDetailService implements UserDetailsService {
     //  查询用户
     UserEntity userEntity = userMapper.selectByName(userName);
     if (null == userEntity) {
-      //  抛出用户名或密码错误，如果抛出用户名错误，会导致撞库
-      throw new UsernameNotFoundException(DefaultResponseStatus.ACCOUNT_OR_PASSWORD_IN_CORRECT_ERROR.getMessage());
+      throw new UsernameNotFoundException("用户名不存在");
     }
     //  查询用户所拥有的角色  有效的
     List<RoleEntity> roleEntityList = roleMapper.selectByUserId(userEntity.getId());

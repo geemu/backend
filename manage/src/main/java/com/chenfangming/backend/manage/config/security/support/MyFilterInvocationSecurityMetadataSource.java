@@ -1,4 +1,4 @@
-package com.chenfangming.backend.manage.config.security;
+package com.chenfangming.backend.manage.config.security.support;
 
 import com.chenfangming.backend.manage.persistence.entity.MenuEntity;
 import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
