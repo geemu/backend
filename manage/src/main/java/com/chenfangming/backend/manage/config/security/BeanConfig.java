@@ -33,8 +33,8 @@ public class BeanConfig {
   /**
    * 构造器注入.
    * @param objectMapper {@link org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration}
-   * @param objectMapper {@link MenuMapper}
-   * @param objectMapper {@link com.chenfangming.backend.manage.config.redis.RedisTemplateConfig}
+   * @param menuMapper {@link MenuMapper}
+   * @param redisTemplate {@link com.chenfangming.backend.manage.config.redis.RedisTemplateConfig}
    */
   public BeanConfig(ObjectMapper objectMapper,
                     MenuMapper menuMapper,
@@ -51,7 +51,7 @@ public class BeanConfig {
   @Bean
   public MyAuthenticationSuccessHandler myAuthenticationSuccessHandler() {
     log.info("初始化:MyAuthenticationSuccessHandler");
-    return new MyAuthenticationSuccessHandler(objectMapper);
+    return new MyAuthenticationSuccessHandler(objectMapper, redisTemplate);
   }
 
   /**

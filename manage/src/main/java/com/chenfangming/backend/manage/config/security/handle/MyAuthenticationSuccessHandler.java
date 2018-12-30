@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -21,13 +22,18 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
   /** ObjectMapper. **/
   private ObjectMapper objectMapper;
+  /** RedisTemplate. **/
+  private RedisTemplate<Object, Object> redisTemplate;
 
   /**
    * 构造器注入.
    * @param objectMapper objectMapper
+   * @param redisTemplate redisTemplate
    */
-  public MyAuthenticationSuccessHandler(ObjectMapper objectMapper) {
+  public MyAuthenticationSuccessHandler(ObjectMapper objectMapper,
+                                        RedisTemplate<Object, Object> redisTemplate) {
     this.objectMapper = objectMapper;
+    this.redisTemplate = redisTemplate;
   }
 
   /**
