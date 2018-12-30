@@ -44,12 +44,17 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
     log.info(">>>>>>>>>>>>>>>>>>>>用户认证失败:{}<<<<<<<<<<<<<<<<<<<<", e);
     response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
     ResponseEntity<Void> responseEntity;
-    if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
+    if (e instanceof UsernameNotFoundException
+            || e instanceof BadCredentialsException) {
       //  用户名或密码错误
-      responseEntity = new ResponseEntity<>(DefaultResponseStatus.AUTHENTICATION_ERROR, "用户名或密码错误");
+      responseEntity = new ResponseEntity<>(
+              DefaultResponseStatus.AUTHENTICATION_ERROR,
+              "用户名或密码错误");
     } else if (e instanceof DisabledException) {
       //  账户被禁用
-      responseEntity = new ResponseEntity<>(DefaultResponseStatus.AUTHENTICATION_ERROR, "账户被禁用");
+      responseEntity = new ResponseEntity<>(
+              DefaultResponseStatus.AUTHENTICATION_ERROR,
+              "账户被禁用");
     } else {
       //  其它认证异常
       responseEntity = new ResponseEntity<>(
