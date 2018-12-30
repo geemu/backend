@@ -23,6 +23,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   /** 限制只能POST. **/
   private boolean postOnly = true;
+  /** 用户名参数. **/
+  public static final String NAME_KEY = "name";
+  /** 密码参数. **/
+  public static final String PASSWORD_KEY = "password";
 
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,
@@ -36,8 +40,8 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
     try (InputStream is = request.getInputStream()) {
       ObjectMapper objectMapper = new ObjectMapper();
       Map map = objectMapper.readValue(is, Map.class);
-      name = (String) map.get(super.getUsernameParameter());
-      password = (String) map.get(super.getPasswordParameter());
+      name = (String) map.get(NAME_KEY);
+      password = (String) map.get(PASSWORD_KEY);
     } catch (IOException e) {
       log.error("以JSON格式执行认证操作时，读取认证参数异常:{}", e);
     }
