@@ -1,5 +1,6 @@
 package com.chenfangming.backend.manage.config.security;
 
+import com.chenfangming.backend.manage.config.security.filter.MyTokenFilter;
 import com.chenfangming.backend.manage.config.security.filter.MyUsernamePasswordAuthenticationFilter;
 import com.chenfangming.backend.manage.config.security.handle.MyAnonymousDeniedHandle;
 import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationDeniedHandler;
@@ -46,6 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
   /** 认证失败. **/
   private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
+  /** Token解析认证实体. **/
+  private MyTokenFilter myTokenFilter;
 
   /**
    * 构造注入.
@@ -57,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    * @param myAccessDecisionManager myAccessDecisionManager
    * @param myAuthenticationSuccessHandler myAuthenticationSuccessHandler
    * @param myAuthenticationFailureHandler myAuthenticationFailureHandler
+   * @param myTokenFilter myTokenFilter
    */
   public WebSecurityConfig(MyUserDetailService myUserDetailService,
                            MyAuthenticationDeniedHandler myAccessDeniedHandler,
@@ -65,7 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                            MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource,
                            MyAccessDecisionManager myAccessDecisionManager,
                            MyAuthenticationSuccessHandler myAuthenticationSuccessHandler,
-                           MyAuthenticationFailureHandler myAuthenticationFailureHandler) {
+                           MyAuthenticationFailureHandler myAuthenticationFailureHandler,
+                           MyTokenFilter myTokenFilter) {
     this.myUserDetailService = myUserDetailService;
     this.myAccessDeniedHandler = myAccessDeniedHandler;
     this.myAuthenticationEntryPoint = myAuthenticationEntryPoint;
@@ -74,6 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     this.myAccessDecisionManager = myAccessDecisionManager;
     this.myAuthenticationSuccessHandler = myAuthenticationSuccessHandler;
     this.myAuthenticationFailureHandler = myAuthenticationFailureHandler;
+    this.myTokenFilter = myTokenFilter;
   }
 
   @Override
@@ -94,11 +100,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
             .requestCache().disable().headers().cacheControl().disable()
-            .and().addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .and().addFilterBefore(myTokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             //  设置匿名用户为0
             .anonymous().authorities("0")
             .and().cors().disable().csrf().disable().httpBasic().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().logout().clearAuthentication(true).logoutSuccessHandler(myLogoutSuccessHandler)
             .and()
             .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).authenticationEntryPoint(myAuthenticationEntryPoint)

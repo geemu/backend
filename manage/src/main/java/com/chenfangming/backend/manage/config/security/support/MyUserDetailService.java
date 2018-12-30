@@ -6,7 +6,6 @@ import com.chenfangming.backend.manage.persistence.mapper.RoleMapper;
 import com.chenfangming.backend.manage.persistence.mapper.UserMapper;
 import java.util.LinkedList;
 import java.util.List;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,7 +45,7 @@ public class MyUserDetailService implements UserDetailsService {
     }
     //  查询用户所拥有的角色  有效的
     List<RoleEntity> roleEntityList = roleMapper.selectByUserId(userEntity.getId());
-    List<GrantedAuthority> authorities = new LinkedList<>();
+    List<SimpleGrantedAuthority> authorities = new LinkedList<>();
     for (RoleEntity role : roleEntityList) {
       //  这边应该放角色id
       authorities.add(new SimpleGrantedAuthority(role.getId().toString()));

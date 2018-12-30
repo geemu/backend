@@ -43,7 +43,7 @@ public class OperationConfig {
    */
   @Bean
   public ValueOperations<Object, Object> valueOperations() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:ValueOperations");
+    log.info("初始化:ValueOperations");
     return redisTemplate.opsForValue();
   }
 

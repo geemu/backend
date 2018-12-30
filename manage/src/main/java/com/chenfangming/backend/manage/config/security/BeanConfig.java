@@ -1,5 +1,6 @@
 package com.chenfangming.backend.manage.config.security;
 
+import com.chenfangming.backend.manage.config.security.filter.MyTokenFilter;
 import com.chenfangming.backend.manage.config.security.handle.MyAnonymousDeniedHandle;
 import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationDeniedHandler;
 import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationFailureHandler;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * BeanConfig.
@@ -25,14 +27,21 @@ public class BeanConfig {
   private ObjectMapper objectMapper;
   /** MenuMapper. **/
   private MenuMapper menuMapper;
+  /** RedisTemplate. **/
+  private RedisTemplate<Object, Object> redisTemplate;
 
   /**
    * 构造器注入.
    * @param objectMapper {@link org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration}
+   * @param objectMapper {@link MenuMapper}
+   * @param objectMapper {@link com.chenfangming.backend.manage.config.redis.RedisTemplateConfig}
    */
-  public BeanConfig(ObjectMapper objectMapper, MenuMapper menuMapper) {
+  public BeanConfig(ObjectMapper objectMapper,
+                    MenuMapper menuMapper,
+                    RedisTemplate<Object, Object> redisTemplate) {
     this.objectMapper = objectMapper;
     this.menuMapper = menuMapper;
+    this.redisTemplate = redisTemplate;
   }
 
   /**
@@ -41,7 +50,7 @@ public class BeanConfig {
    */
   @Bean
   public MyAuthenticationSuccessHandler myAuthenticationSuccessHandler() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:MyAuthenticationSuccessHandler");
+    log.info("初始化:MyAuthenticationSuccessHandler");
     return new MyAuthenticationSuccessHandler(objectMapper);
   }
 
@@ -51,8 +60,18 @@ public class BeanConfig {
    */
   @Bean
   public MyAuthenticationFailureHandler myAuthenticationFailureHandler() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:MyAuthenticationFailureHandler");
+    log.info("初始化:MyAuthenticationFailureHandler");
     return new MyAuthenticationFailureHandler(objectMapper);
+  }
+
+  /**
+   * Token解析认证实体.
+   * @return {@link MyTokenFilter}
+   */
+  @Bean
+  public MyTokenFilter myTokenFilter() {
+    log.info("初始化:MyTokenFilter");
+    return new MyTokenFilter(redisTemplate);
   }
 
   /**
@@ -61,7 +80,7 @@ public class BeanConfig {
    */
   @Bean
   public MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:MyFilterInvocationSecurityMetadataSource");
+    log.info("初始化:MyFilterInvocationSecurityMetadataSource");
     return new MyFilterInvocationSecurityMetadataSource(menuMapper);
   }
 
@@ -72,7 +91,7 @@ public class BeanConfig {
    */
   @Bean
   public MyAccessDecisionManager myAccessDecisionManager() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:MyAccessDecisionManager");
+    log.info("初始化:MyAccessDecisionManager");
     return new MyAccessDecisionManager();
   }
 
@@ -82,7 +101,7 @@ public class BeanConfig {
    */
   @Bean
   public MyAuthenticationDeniedHandler myAuthenticationDeniedHandler() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:MyAuthenticationDeniedHandler");
+    log.info("初始化:MyAuthenticationDeniedHandler");
     return new MyAuthenticationDeniedHandler(objectMapper);
   }
 
@@ -92,7 +111,7 @@ public class BeanConfig {
    */
   @Bean
   public MyAnonymousDeniedHandle myAnonymousDeniedHandle() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:MyAnonymousDeniedHandle");
+    log.info("初始化:MyAnonymousDeniedHandle");
     return new MyAnonymousDeniedHandle(objectMapper);
   }
 
@@ -102,7 +121,7 @@ public class BeanConfig {
    */
   @Bean
   public MyLogoutSuccessHandler myLogoutSuccessHandler() {
-    log.info(">>>>>>>>>>>>>>>>>>>>初始化:MyLogoutSuccessHandler");
+    log.info("初始化:MyLogoutSuccessHandler");
     return new MyLogoutSuccessHandler(objectMapper);
   }
 }
