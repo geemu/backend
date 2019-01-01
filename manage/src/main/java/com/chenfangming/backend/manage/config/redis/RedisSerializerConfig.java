@@ -1,9 +1,13 @@
 package com.chenfangming.backend.manage.config.redis;
 
-import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
@@ -24,13 +28,23 @@ public class RedisSerializerConfig {
     return new StringRedisSerializer();
   }
 
+
   /**
-   * GenericFastJsonRedisSerializer.
-   * @return GenericFastJsonRedisSerializer
+   * Jackson2JsonRedisSerializer序列化.
+   * @return Jackson2JsonRedisSerializer
    */
   @Bean
-  public GenericFastJsonRedisSerializer genericFastJsonRedisSerializer() {
-    return new GenericFastJsonRedisSerializer();
+  public Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer() {
+    log.info("初始化:Jackson2JsonRedisSerializer");
+    Jackson2JsonRedisSerializer<Object> response = new Jackson2JsonRedisSerializer<>(Object.class);
+    //  所有字段都序列化
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+    objectMapper.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
+    //  序列化时带上参数类型
+    objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+    response.setObjectMapper(objectMapper);
+    return response;
   }
 
 }
