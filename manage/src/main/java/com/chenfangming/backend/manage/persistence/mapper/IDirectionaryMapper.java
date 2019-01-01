@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface DirectionaryMapper {
+public interface IDirectionaryMapper {
 }

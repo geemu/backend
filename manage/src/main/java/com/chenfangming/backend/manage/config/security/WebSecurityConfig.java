@@ -10,6 +10,7 @@ import com.chenfangming.backend.manage.config.security.handle.MyLogoutSuccessHan
 import com.chenfangming.backend.manage.config.security.support.MyAccessDecisionManager;
 import com.chenfangming.backend.manage.config.security.support.MyFilterInvocationSecurityMetadataSource;
 import com.chenfangming.backend.manage.config.security.support.MyUserDetailService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -49,9 +50,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
   /** Token解析认证实体. **/
   private MyTokenFilter myTokenFilter;
+  /** ObjectMapper. **/
+  private ObjectMapper objectMapper;
 
   /**
    * 构造注入.
+   * @param objectMapper objectMapper
    * @param myUserDetailService myUserDetailService
    * @param myAccessDeniedHandler myAccessDeniedHandler
    * @param myAuthenticationEntryPoint myAuthenticationEntryPoint
@@ -62,7 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    * @param myAuthenticationFailureHandler myAuthenticationFailureHandler
    * @param myTokenFilter myTokenFilter
    */
-  public WebSecurityConfig(MyUserDetailService myUserDetailService,
+  public WebSecurityConfig(ObjectMapper objectMapper,
+                           MyUserDetailService myUserDetailService,
                            MyAuthenticationDeniedHandler myAccessDeniedHandler,
                            MyAnonymousDeniedHandle myAuthenticationEntryPoint,
                            MyLogoutSuccessHandler myLogoutSuccessHandler,
@@ -80,6 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     this.myAuthenticationSuccessHandler = myAuthenticationSuccessHandler;
     this.myAuthenticationFailureHandler = myAuthenticationFailureHandler;
     this.myTokenFilter = myTokenFilter;
+    this.objectMapper = objectMapper;
   }
 
   @Override
@@ -122,13 +128,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   /**
-   * JSON登录
+   * JSON登录.
    * @return MyUsernamePasswordAuthenticationFilter
    * @throws Exception Exception
    */
   @Bean
   protected MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter() throws Exception {
-    MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
+    MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter(objectMapper);
     filter.setPostOnly(true);
     filter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
     filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);

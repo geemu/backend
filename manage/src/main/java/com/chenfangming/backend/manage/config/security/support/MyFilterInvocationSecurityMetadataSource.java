@@ -2,7 +2,7 @@ package com.chenfangming.backend.manage.config.security.support;
 
 import com.chenfangming.backend.manage.persistence.entity.MenuEntity;
 import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
-import com.chenfangming.backend.manage.persistence.mapper.MenuMapper;
+import com.chenfangming.backend.manage.persistence.mapper.IMenuMapper;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -25,13 +25,13 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
   /** 匹配URL. **/
   private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
   /** MenuMapper. **/
-  private MenuMapper menuMapper;
+  private IMenuMapper menuMapper;
 
   /**
    * 构造器注入.
    * @param menuMapper menuMapper
    */
-  public MyFilterInvocationSecurityMetadataSource(MenuMapper menuMapper) {
+  public MyFilterInvocationSecurityMetadataSource(IMenuMapper menuMapper) {
     this.menuMapper = menuMapper;
   }
 

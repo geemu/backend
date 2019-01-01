@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface UserMapper {
+public interface IUserMapper {
 
   /**
    * 根据用户名查询用户.

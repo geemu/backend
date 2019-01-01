@@ -50,17 +50,17 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
             || e instanceof BadCredentialsException) {
       //  用户名或密码错误
       responseEntity = new ResponseEntity<>(
-              DefaultResponseStatus.AUTHENTICATION_ERROR,
+              DefaultResponseStatus.AUTHENTICATION_FAIL,
               "用户名或密码错误");
     } else if (e instanceof DisabledException) {
       //  账户被禁用
       responseEntity = new ResponseEntity<>(
-              DefaultResponseStatus.AUTHENTICATION_ERROR,
+              DefaultResponseStatus.AUTHENTICATION_FAIL,
               "账户被禁用");
     } else {
       //  其它认证异常
       responseEntity = new ResponseEntity<>(
-              DefaultResponseStatus.AUTHENTICATION_ERROR,
+              DefaultResponseStatus.AUTHENTICATION_FAIL,
               e.getMessage());
     }
     response.getWriter().print(objectMapper.writeValueAsString(responseEntity));

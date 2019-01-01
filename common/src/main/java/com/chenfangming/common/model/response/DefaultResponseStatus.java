@@ -18,11 +18,12 @@ public enum DefaultResponseStatus implements ResponseStatus {
   /** 系统异常. **/
   INTERVAL_SERVER_ERROR("SYS0001", "系统异常"),
   /** 未认证. **/
-  NO_AUTHENTICATION_ERROR("SYS0002", "未认证"),
+  NO_AUTHENTICATION_FAIL("SYS0002", "未认证"),
   /** 未授权. **/
-  ACCESS_DENIED_ERROR("SYS0002", "未授权"),
-  /** 认证异常. **/
-  AUTHENTICATION_ERROR("USR0003", "认证异常");
+  ACCESS_DENIED_FAIL("SYS0002", "未授权"),
+  /** 认证失败. **/
+  AUTHENTICATION_FAIL("USR0003", "认证失败"),
+  ;
   /** 状态码. **/
   private String code;
   /** 提示信息. **/

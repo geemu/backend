@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface MenuMapper {
+public interface IMenuMapper {
 
   /**
    * 查询所有菜单及其可以访问的角色.

@@ -33,7 +33,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
                      Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
     if (authentication instanceof AnonymousAuthenticationToken) {
       log.info("匿名用户，拒绝访问受保护资源");
-      throw new InsufficientAuthenticationException(DefaultResponseStatus.NO_AUTHENTICATION_ERROR.getMessage());
+      throw new InsufficientAuthenticationException(DefaultResponseStatus.NO_AUTHENTICATION_FAIL.getMessage());
     }
     //  当前资源所有访问的角色列表
     Iterator<ConfigAttribute> canAccessRoleSet = collection.iterator();
@@ -50,7 +50,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
       }
     }
     log.info("鉴权不通过，当前认证用户无权访问受保护资源");
-    throw new AccessDeniedException(DefaultResponseStatus.ACCESS_DENIED_ERROR.getMessage());
+    throw new AccessDeniedException(DefaultResponseStatus.ACCESS_DENIED_FAIL.getMessage());
   }
 
   @Override

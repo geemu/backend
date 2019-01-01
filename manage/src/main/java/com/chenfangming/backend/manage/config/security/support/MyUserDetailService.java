@@ -1,14 +1,11 @@
 package com.chenfangming.backend.manage.config.security.support;
 
-import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
-import com.chenfangming.backend.manage.persistence.entity.UserEntity;
-import com.chenfangming.backend.manage.persistence.mapper.RoleMapper;
-import com.chenfangming.backend.manage.persistence.mapper.UserMapper;
-import java.util.LinkedList;
-import java.util.List;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.chenfangming.backend.manage.domain.response.FindByNameResponse;
+import com.chenfangming.backend.manage.persistence.mapper.IRoleMapper;
+import com.chenfangming.backend.manage.service.IRoleService;
+import com.chenfangming.backend.manage.service.IUserService;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -21,12 +18,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyUserDetailService implements UserDetailsService {
 
-  private UserMapper userMapper;
-  private RoleMapper roleMapper;
+  private IRoleMapper roleMapper;
+  private IUserService userService;
+  private IRoleService roleService;
 
-  public MyUserDetailService(UserMapper userMapper, RoleMapper roleMapper) {
-    this.userMapper = userMapper;
+  public MyUserDetailService(IRoleMapper roleMapper, IUserService userService, IRoleService roleService) {
     this.roleMapper = roleMapper;
+    this.userService = userService;
+    this.roleService = roleService;
   }
 
 
@@ -37,25 +36,24 @@ public class MyUserDetailService implements UserDetailsService {
    * @throws UsernameNotFoundException 用户名不存在
    */
   @Override
-  public UserDetails loadUserByUsername(String userName) {
+  public MyUserDetails loadUserByUsername(String userName) {
     //  查询用户
-    UserEntity userEntity = userMapper.selectByName(userName);
-    if (null == userEntity) {
+    FindByNameResponse findByNameResponse = userService.findByName(userName);
+    if (null == findByNameResponse) {
       throw new UsernameNotFoundException("用户名不存在");
     }
     //  查询用户所拥有的角色  有效的
-    List<RoleEntity> roleEntityList = roleMapper.selectByUserId(userEntity.getId());
-    List<SimpleGrantedAuthority> authorities = new LinkedList<>();
-    for (RoleEntity role : roleEntityList) {
-      //  这边应该放角色id
-      authorities.add(new SimpleGrantedAuthority(role.getId().toString()));
+    Set<Long> roleIdSet = roleService.findByUserId(findByNameResponse.getId());
+    HashSet<MySimpleGrantedAuthority> authorities = new HashSet<>();
+    for (Long id : roleIdSet) {
+      authorities.add(new MySimpleGrantedAuthority(id.toString()));
     }
-    return new User(userEntity.getName(),
-            userEntity.getPassword(),
-            userEntity.getIsEnable(),
-            true,
-            true,
-            true,
-            authorities);
+    MyUserDetails response = new MyUserDetails();
+    response.setId(findByNameResponse.getId());
+    response.setUsername(findByNameResponse.getName());
+    response.setPassword(findByNameResponse.getPassword());
+    response.setEnabled(findByNameResponse.getIsEnable());
+    response.setAuthorities(authorities);
+    return response;
   }
 }

@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,9 +28,11 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
   /** 密码参数. **/
   private static final String PASSWORD_KEY = "password";
   /** ObjectMapper. **/
-  @Autowired
   private ObjectMapper objectMapper;
 
+  public MyUsernamePasswordAuthenticationFilter(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
 
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,

@@ -8,7 +8,7 @@ import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationSu
 import com.chenfangming.backend.manage.config.security.handle.MyLogoutSuccessHandler;
 import com.chenfangming.backend.manage.config.security.support.MyAccessDecisionManager;
 import com.chenfangming.backend.manage.config.security.support.MyFilterInvocationSecurityMetadataSource;
-import com.chenfangming.backend.manage.persistence.mapper.MenuMapper;
+import com.chenfangming.backend.manage.persistence.mapper.IMenuMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -26,18 +26,18 @@ public class BeanConfig {
   /** ObjectMapper. **/
   private ObjectMapper objectMapper;
   /** MenuMapper. **/
-  private MenuMapper menuMapper;
+  private IMenuMapper menuMapper;
   /** RedisTemplate. **/
   private RedisTemplate<Object, Object> redisTemplate;
 
   /**
    * 构造器注入.
    * @param objectMapper {@link org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration}
-   * @param menuMapper {@link MenuMapper}
+   * @param menuMapper {@link IMenuMapper}
    * @param redisTemplate {@link com.chenfangming.backend.manage.config.redis.RedisTemplateConfig}
    */
   public BeanConfig(ObjectMapper objectMapper,
-                    MenuMapper menuMapper,
+                    IMenuMapper menuMapper,
                     RedisTemplate<Object, Object> redisTemplate) {
     this.objectMapper = objectMapper;
     this.menuMapper = menuMapper;

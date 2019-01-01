@@ -1,7 +1,6 @@
 package com.chenfangming.backend.manage.persistence.mapper;
 
-import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
-import java.util.List;
+import java.util.Set;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -13,12 +12,12 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface RoleMapper {
+public interface IRoleMapper {
 
   /**
    * 根据用户id查询角色  有效的.
    * @param userId 用户id
    * @return 角色集合
    */
-  List<RoleEntity> selectByUserId(@Param("userId") Long userId);
+  Set<Long> selectByUserId(@Param("userId") Long userId);
 }

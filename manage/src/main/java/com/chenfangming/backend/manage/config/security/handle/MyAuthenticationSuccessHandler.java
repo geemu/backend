@@ -1,5 +1,6 @@
 package com.chenfangming.backend.manage.config.security.handle;
 
+import com.chenfangming.backend.manage.config.security.support.MyUserDetails;
 import com.chenfangming.common.StringHelper;
 import com.chenfangming.common.model.response.DefaultResponseStatus;
 import com.chenfangming.common.model.response.ResponseEntity;
@@ -12,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -53,8 +53,8 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     log.info("用户认证成功:{}", authentication);
     String uuid = StringHelper.uuid();
     String accessToken = "loginUser:" + uuid;
-    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) authentication;
-    redisTemplate.opsForValue().set(accessToken, usernamePasswordAuthenticationToken, 20000L, TimeUnit.SECONDS);
+    MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+    redisTemplate.opsForValue().set(accessToken, myUserDetails, 2000L, TimeUnit.SECONDS);
     response.setHeader("X-Access-Token", uuid);
     response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
     response.getWriter().print(objectMapper.writeValueAsString(
