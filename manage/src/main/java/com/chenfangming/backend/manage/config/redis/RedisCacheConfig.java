@@ -1,5 +1,6 @@
 package com.chenfangming.backend.manage.config.redis;
 
+import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import java.time.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager.RedisCacheManagerBuilder;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -28,19 +28,19 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
   private RedisConnectionFactory redisConnectionFactory;
   /** StringRedisSerializer. **/
   private StringRedisSerializer stringRedisSerializer;
-  /** Jackson2JsonRedisSerializer. **/
-  private Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer;
+  /** GenericFastJsonRedisSerializer. **/
+  private GenericFastJsonRedisSerializer genericFastJsonRedisSerializer;
 
   /**
    * 构造器注入.
    * @param redisConnectionFactory 连接工厂
    * @param stringRedisSerializer stringRedisSerializer
-   * @param jackson2JsonRedisSerializer jackson2JsonRedisSerializer
+   * @param genericFastJsonRedisSerializer genericFastJsonRedisSerializer
    */
-  public RedisCacheConfig(RedisConnectionFactory redisConnectionFactory, StringRedisSerializer stringRedisSerializer, Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer) {
+  public RedisCacheConfig(RedisConnectionFactory redisConnectionFactory, StringRedisSerializer stringRedisSerializer, GenericFastJsonRedisSerializer genericFastJsonRedisSerializer) {
     this.redisConnectionFactory = redisConnectionFactory;
     this.stringRedisSerializer = stringRedisSerializer;
-    this.jackson2JsonRedisSerializer = jackson2JsonRedisSerializer;
+    this.genericFastJsonRedisSerializer = genericFastJsonRedisSerializer;
   }
 
   /**
@@ -64,7 +64,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
             //  key序列化
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
             // value序列化
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer));
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(genericFastJsonRedisSerializer));
     return RedisCacheManagerBuilder
             .fromConnectionFactory(redisConnectionFactory)
             .cacheDefaults(config)

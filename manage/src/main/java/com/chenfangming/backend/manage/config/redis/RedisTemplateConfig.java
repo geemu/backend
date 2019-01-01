@@ -1,11 +1,11 @@
 package com.chenfangming.backend.manage.config.redis;
 
+import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
@@ -20,17 +20,17 @@ public class RedisTemplateConfig {
   private RedisConnectionFactory redisConnectionFactory;
   /** StringRedisSerializer. **/
   private StringRedisSerializer stringRedisSerializer;
-  /** Jackson2JsonRedisSerializer. **/
-  private Jackson2JsonRedisSerializer jackson2JsonRedisSerializer;
+  /** GenericFastJsonRedisSerializer. **/
+  private GenericFastJsonRedisSerializer genericFastJsonRedisSerializer;
 
   /**
    * 构造器注入.
    * @param redisConnectionFactory 连接工厂
    */
-  public RedisTemplateConfig(RedisConnectionFactory redisConnectionFactory, StringRedisSerializer stringRedisSerializer, Jackson2JsonRedisSerializer jackson2JsonRedisSerializer) {
+  public RedisTemplateConfig(RedisConnectionFactory redisConnectionFactory, StringRedisSerializer stringRedisSerializer, GenericFastJsonRedisSerializer genericFastJsonRedisSerializer) {
     this.redisConnectionFactory = redisConnectionFactory;
     this.stringRedisSerializer = stringRedisSerializer;
-    this.jackson2JsonRedisSerializer = jackson2JsonRedisSerializer;
+    this.genericFastJsonRedisSerializer = genericFastJsonRedisSerializer;
   }
 
   /**
@@ -42,15 +42,10 @@ public class RedisTemplateConfig {
     log.info("初始化:RedisTemplate");
     RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory);
-    redisTemplate.setDefaultSerializer(jackson2JsonRedisSerializer);
-    redisTemplate.setEnableTransactionSupport(true);
-    redisTemplate.setEnableDefaultSerializer(true);
-    redisTemplate.setDefaultSerializer(jackson2JsonRedisSerializer);
     redisTemplate.setKeySerializer(stringRedisSerializer);
-    redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+    redisTemplate.setValueSerializer(genericFastJsonRedisSerializer);
     redisTemplate.setHashKeySerializer(stringRedisSerializer);
-    redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-    redisTemplate.afterPropertiesSet();
+    redisTemplate.setHashValueSerializer(genericFastJsonRedisSerializer);
     return redisTemplate;
   }
 }
