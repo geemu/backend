@@ -45,8 +45,15 @@ public class MyTokenFilter extends OncePerRequestFilter {
     String accessToken = request.getHeader("X-Access-Token");
     if (null != accessToken) {
       accessToken = "loginUser:" + accessToken;
-      MyUserDetails myUserDetails = (MyUserDetails) redisTemplate.opsForValue().get(accessToken);
-      System.out.println(myUserDetails);
+      MyUserDetails map = (MyUserDetails) redisTemplate.opsForValue().get(accessToken);
+//      ObjectMapper objectMapper = new ObjectMapper();
+//      long dadada = objectMapper.convertValue(map.get("id"), Long.class);
+//      String userName = objectMapper.convertValue(map.get("username"), String.class);
+//      List<MySimpleGrantedAuthority> authorities = objectMapper.convertValue(map.get("authorities"), new TypeReference<ArrayList<MySimpleGrantedAuthority>>() {
+//      });
+//      System.out.println(authorities);
+//      MyUserDetails myUserDetails = (MyUserDetails) redisTemplate.opsForValue().get(accessToken);
+//      System.out.println(myUserDetails);
 //      @SuppressWarnings("unchecked")
 //      Map<String, Object> map = (Map) redisTemplate.opsForValue().get(accessToken);
 //      if (null == map) {
@@ -63,7 +70,7 @@ public class MyTokenFilter extends OncePerRequestFilter {
 //            authorities.add(new MySimpleGrantedAuthority(roleId));
 //          }
 //        }
-      UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken(myUserDetails.getUsername(), myUserDetails.getUsername(), myUserDetails.getAuthorities());
+      UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken(map.getUsername(), map.getUsername(), map.getAuthorities());
       SecurityContextHolder.getContextHolderStrategy().getContext().setAuthentication(data);
 //      }
     }
