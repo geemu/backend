@@ -1,8 +1,10 @@
 //package com.chenfangming.backend.manage.config.redis;
 //
+//import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.data.redis.core.RedisTemplate;
 //import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+//import org.springframework.session.data.redis.RedisOperationsSessionRepository;
 //import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 //
 ///**
@@ -28,14 +30,14 @@
 //    this.jackson2JsonRedisSerializer = jackson2JsonRedisSerializer;
 //  }
 //
-////  /**
-////   * 设置Redis session的序列化方式.
-////   * @return SessionRepository
-////   */
-////  @Bean
-////  public RedisOperationsSessionRepository sessionRepository() {
-////    RedisOperationsSessionRepository sessionRepository = new RedisOperationsSessionRepository(redisTemplate);
-////    sessionRepository.setDefaultSerializer(jackson2JsonRedisSerializer);
-////    return sessionRepository;
-////  }
+//  /**
+//   * 设置Redis session的序列化方式.
+//   * @return SessionRepository
+//   */
+//  @Bean
+//  public RedisOperationsSessionRepository sessionRepository() {
+//    RedisOperationsSessionRepository sessionRepository = new RedisOperationsSessionRepository(redisTemplate);
+//    sessionRepository.setDefaultSerializer(jackson2JsonRedisSerializer);
+//    return sessionRepository;
+//  }
 //}

@@ -31,20 +31,18 @@ public class RedisSerializerConfig {
 
   /**
    * Jackson2JsonRedisSerializer序列化.
+   * 序列化时带上参数类型
    * @return Jackson2JsonRedisSerializer
    */
   @Bean
   public Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer() {
     log.info("初始化:Jackson2JsonRedisSerializer");
     Jackson2JsonRedisSerializer<Object> response = new Jackson2JsonRedisSerializer<>(Object.class);
-    //  所有字段都序列化
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
     objectMapper.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
-    //  序列化时带上参数类型
     objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
     response.setObjectMapper(objectMapper);
     return response;
   }
-
 }
