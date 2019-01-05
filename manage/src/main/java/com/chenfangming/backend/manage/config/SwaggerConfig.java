@@ -24,6 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @Profile("dev")
 public class SwaggerConfig {
+
   /**
    * 创建Swagger文档.
    * @return Docket Docket
@@ -31,16 +32,7 @@ public class SwaggerConfig {
   @Bean
   public Docket createApi() {
     log.info("初始化:Swagger2");
-    return new Docket(DocumentationType.SWAGGER_2)
-            .apiInfo(new ApiInfoBuilder()
-                    .title("Api文档")
-                    .description("后台管理Api文档")
-                    .build())
-            .select()
-            .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
-            .paths(PathSelectors.any())
-            .build()
-            .ignoredParameterTypes(ApiIgnore.class);
+    return new Docket(DocumentationType.SWAGGER_2).apiInfo(new ApiInfoBuilder().title("Api文档").description("后台管理Api文档").build()).select().apis(RequestHandlerSelectors.withClassAnnotation(Api.class)).paths(PathSelectors.any()).build().ignoredParameterTypes(ApiIgnore.class);
   }
 
 }

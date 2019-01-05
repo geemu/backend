@@ -1,9 +1,9 @@
 package com.chenfangming.backend.manage.config.security.handle;
 
 import com.chenfangming.backend.manage.config.security.support.MyUserDetails;
-import com.chenfangming.common.StringHelper;
 import com.chenfangming.common.model.response.DefaultResponseStatus;
 import com.chenfangming.common.model.response.ResponseEntity;
+import com.chenfangming.common.util.UuidUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -33,8 +33,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
    * @param objectMapper objectMapper
    * @param redisTemplate redisTemplate
    */
-  public MyAuthenticationSuccessHandler(ObjectMapper objectMapper,
-                                        RedisTemplate<Object, Object> redisTemplate) {
+  public MyAuthenticationSuccessHandler(ObjectMapper objectMapper, RedisTemplate<Object, Object> redisTemplate) {
     this.objectMapper = objectMapper;
     this.redisTemplate = redisTemplate;
   }
@@ -47,22 +46,15 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
    * @throws IOException IO异常
    */
   @Override
-  public void onAuthenticationSuccess(HttpServletRequest request,
-                                      HttpServletResponse response,
-                                      Authentication authentication) throws IOException {
+  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
     log.info("用户认证成功:{}", authentication);
-    String uuid = StringHelper.uuid();
+    String uuid = UuidUtils.uuid();
     String accessToken = "loginUser:" + uuid;
     MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
     redisTemplate.opsForValue().set(accessToken, myUserDetails, 2000L, TimeUnit.SECONDS);
     response.setHeader("X-Access-Token", uuid);
     response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-    response.getWriter().print(objectMapper.writeValueAsString(
-            new ResponseEntity<>(
-                    DefaultResponseStatus.SUCCESS,
-                    "认证成功",
-                    uuid)
-    ));
+    response.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(DefaultResponseStatus.SUCCESS, "认证成功", uuid)));
     response.getWriter().flush();
   }
 }

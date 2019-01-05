@@ -1,4 +1,4 @@
-package com.chenfangming.common;
+package com.chenfangming.common.annotation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
@@ -10,7 +10,7 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
  * @since 2018-10-26 13:43
  */
 @Slf4j
-public class JasyptHelper {
+public class JasyptUtils {
     /** 加解密配置 **/
     private static SimpleStringPBEConfig config = new SimpleStringPBEConfig();
 

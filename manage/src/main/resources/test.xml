@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Esb>
+    <Head>
+        <Head1>head1</Head1>
+        <Head2>head2</Head2>
+        <Head3>head3</Head3>
+        <Head4>head4</Head4>
+    </Head>
+    <Body>
+        <field name="Body1">body1</field>
+        <field name="Body2">body2</field>
+        <field name="Body3">body3</field>
+        <field name="Body4">body4</field>
+        <list name="list">
+            <struct name="strut">
+                <field name="Strut1">strut1</field>
+                <field name="Strut2">strut2</field>
+                <field name="Strut3">strut3</field>
+                <field name="Strut4">strut4</field>
+            </struct>
+        </list>
+    </Body>
+</Esb>

@@ -16,6 +16,10 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
         <!-- 加解密插件 -->
         <dependency>
             <groupId>org.jasypt</groupId>
