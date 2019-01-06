@@ -12,9 +12,6 @@ import lombok.Data;
 public class MyResponseBody {
   private String Body1;
   private String Body2;
-  private String Body3;
-  private String Body4;
-  private String Body5;
-  private List<MyResponseBodyItem> list;
+  private List<MyResponseBodyItem> myList;
 
 }

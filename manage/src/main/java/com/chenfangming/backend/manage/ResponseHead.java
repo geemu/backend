@@ -11,7 +11,4 @@ import lombok.Data;
 public class ResponseHead {
   private String Head1;
   private String Head2;
-  private String Head3;
-  private String Head4;
-  private String Head5;
 }

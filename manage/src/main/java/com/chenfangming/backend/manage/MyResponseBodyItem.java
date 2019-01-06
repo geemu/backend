@@ -9,9 +9,6 @@ import lombok.Data;
  */
 @Data
 public class MyResponseBodyItem {
-  private String Struct1;
-  private String Struct2;
-  private String Struct3;
-  private String Struct4;
-  private String Struct5;
+  private String Item1;
+  private String Item2;
 }
