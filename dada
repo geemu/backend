@@ -1,0 +1,59 @@
+package com.chenfangming.esb.util;
+
+/**
+ * 脱敏工具类
+ * @author 陈方明  cfmmail@sina.com
+ * @since 2019-01-09 21:34
+ */
+public class DesensitizationUtils {
+  /** 工具类隐藏构造 **/
+  private DesensitizationUtils() {}
+
+  public static void main(String[] args) {
+    System.out.println(replace("320981", 1, 2, '*'));
+  }
+
+  /**
+   * 替换字符串指定区间内字符为固定字符
+   * @param cs 字符序列
+   * @param startInclude 开始位置（包含）
+   * @param endExclude 结束位置（不包含）
+   * @param replacedChar 被替换的字符
+   * @return 替换后的字符串
+   * @since 3.2.1
+   */
+  public static String replace(CharSequence cs, int startInclude, int endExclude, char replacedChar) {
+    if (startInclude < 0) {
+      startInclude = 0;
+    }
+    if (endExclude < 0) {
+      endExclude = 0;
+    }
+    // cs为null或""返回""
+    if (null == cs || 0 == cs.length()) {
+      return null == cs ? "" : cs.toString();
+    }
+    final int csLength = cs.length();
+    // 开始索引大于字符序列长度，直接返回字符序列
+    if (startInclude > csLength) {
+      return cs.toString();
+    }
+    // 结束索引大于字符序列，那么结束索引就为字符长度
+    if (endExclude > csLength) {
+      endExclude = csLength;
+    }
+    // 如果开始索引大于结束索引，不替换
+    if (startInclude > endExclude) {
+      return cs.toString();
+    }
+    final char[] chars = new char[csLength];
+    for (int i = 0; i < csLength; i++) {
+      if (i >= startInclude && i < endExclude) {
+        chars[i] = replacedChar;
+      } else {
+        chars[i] = cs.charAt(i);
+      }
+    }
+    return new String(chars);
+  }
+}
