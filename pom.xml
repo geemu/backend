@@ -33,6 +33,7 @@
         <jasypt.version>1.9.2</jasypt.version>
         <jasypt-spring-boot-starter.version>2.1.0</jasypt-spring-boot-starter.version>
         <com.chenfangming.common.version>1.0.0.RELEASE</com.chenfangming.common.version>
+
     </properties>
 
     <dependencies>

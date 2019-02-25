@@ -12,14 +12,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.chenfangming.backend.manage.persistence.mapper")
 @SpringBootApplication
 public class ManageApplication {
-  /**
-   * 主函数.
-   * @param args 运行参数
-   */
-  public static void main(String[] args) {
-    SpringApplication app = new SpringApplication(ManageApplication.class);
-    // 关闭启动Banner
-    app.setBannerMode(org.springframework.boot.Banner.Mode.OFF);
-    app.run(args);
-  }
+    /**
+     * 主函数.
+     * @param args 运行参数
+     */
+    public static void main(String[] args) {
+        SpringApplication app = new SpringApplication(ManageApplication.class);
+        // 关闭启动Banner
+        app.setBannerMode(org.springframework.boot.Banner.Mode.OFF);
+        app.run(args);
+    }
 }

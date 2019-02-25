@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户角色关联数据表
+ * 角色权限关联数据表实体
  * @author 陈方明  cfmmail@sina.com
- * @since 2018-10-25 20:35
+ * @since 2018-10-25 20:36
  */
 @Getter
 @Setter
@@ -16,13 +16,13 @@ import java.util.Date;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRoleEntity implements Serializable {
+public class RoleMenuEntity implements Serializable {
     /** 主键  id **/
     private Long id;
-    /** 用户id **/
-    private Long userId;
     /** 角色id **/
     private Long roleId;
+    /** 菜单id **/
+    private Long menuId;
     /** 是否可用  0不可用  1可用 **/
     private Boolean enabled;
     /** 创建人 **/

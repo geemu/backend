@@ -1,10 +1,6 @@
 package com.chenfangming.backend.manage.config.security.support;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -18,6 +14,6 @@ import org.springframework.security.core.GrantedAuthority;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MySimpleGrantedAuthority implements GrantedAuthority {
-  /** 角色id. **/
-  private String authority;
+    /** 角色id. **/
+    private String authority;
 }

@@ -5,25 +5,24 @@
         <id column="id" property="id"/>
         <result column="pid" property="pid"/>
         <result column="name" property="name"/>
-        <result column="note" property="note"/>
         <result column="type" property="type"/>
-        <result column="path" property="path"/>
         <result column="method" property="method"/>
-        <result column="icon" property="icon"/>
-        <result column="is_open" property="isOpen"/>
+        <result column="path" property="path"/>
+        <result column="pattern" property="pattern"/>
         <result column="sort" property="sort"/>
-        <result column="is_enable" property="isEnable"/>
+        <result column="enabled" property="enabled"/>
         <result column="create_user" property="createUser"/>
         <result column="create_time" property="createTime"/>
         <result column="update_user" property="updateUser"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <resultMap id="BaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.MenuEntity" extends="SingleBaseResultMap">
+    <resultMap id="BaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.MenuEntity"
+               extends="SingleBaseResultMap">
         <collection property="roleEntityList" ofType="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
             <id column="role_id" property="id"/>
             <result column="role_name" property="name"/>
-            <result column="role_is_enable" property="isEnable"/>
+            <result column="role_is_enable" property="enabled"/>
             <result column="role_create_user" property="createUser"/>
             <result column="role_create_time" property="createTime"/>
             <result column="role_update_user" property="updateUser"/>
@@ -35,17 +34,19 @@
         SELECT m.id,
                m.pid,
                m.name,
-               m.note,
-               m.path,
+               m.type,
                m.method,
+               m.path,
+               m.pattern,
+               m.sort,
                r.id   AS role_id,
                r.name AS role_name
         FROM backend_menu m
                  INNER JOIN backend_role_menu rm ON m.id = rm.menu_id
                  INNER JOIN backend_role r ON r.id = rm.role_id
-        WHERE m.is_enable = TRUE
-          AND r.is_enable = TRUE
-          AND rm.is_enable = TRUE
+        WHERE m.enabled = true
+          AND r.enabled = true
+          AND rm.enabled = true
         ORDER BY m.sort ASC
     </select>
 
@@ -53,16 +54,15 @@
         SELECT m.id,
         m.pid,
         m.name,
-        m.note,
-        m.path,
-        m.method,
         m.type,
-        m.icon,
+        m.method,
+        m.path,
+        m.pattern,
         m.sort
         FROM backend_menu m
         INNER JOIN backend_role_menu rm ON m.id = rm.menu_id
-        WHERE m.is_enable = TRUE
-        AND rm.is_enable=TRUE
+        WHERE m.enabled = TRUE
+        AND rm.enabled=TRUE
         AND rm.role_id IN
         <foreach collection="ids" index="index" open="(" separator="," close=")" item="item">
             #{item}

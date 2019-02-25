@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chenfangming.backend.manage.persistence.mapper.IRoleMapper">
-    <!-- 全字段映射关系 -->
     <resultMap id="SingleBaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
-        <result column="is_enable" property="isEnable"/>
+        <result column="enabled" property="enabled"/>
         <result column="create_user" property="createUser"/>
         <result column="create_time" property="createTime"/>
         <result column="update_user" property="updateUser"/>
@@ -18,8 +17,8 @@
         FROM backend_user_role ur
                  INNER JOIN backend_role r
                             ON ur.role_id = r.id
-        WHERE ur.is_enable = 1
-          AND r.is_enable = 1
+        WHERE ur.enabled = true
+          AND r.enabled = true
           AND ur.user_id = #{userId}
     </select>
 

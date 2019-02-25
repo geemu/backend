@@ -9,11 +9,11 @@ import com.chenfangming.backend.manage.domain.response.FindByNameResponse;
  */
 public interface IUserService {
 
-  /**
-   * 根据用户名查询用户.
-   * @param userName 用户名
-   * @return 用户信息
-   */
-  FindByNameResponse findByName(String userName);
+    /**
+     * 根据用户名查询用户.
+     * @param userName 用户名
+     * @return 用户信息
+     */
+    FindByNameResponse findByName(String userName);
 
 }

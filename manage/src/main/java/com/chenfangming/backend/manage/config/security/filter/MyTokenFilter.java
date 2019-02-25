@@ -1,16 +1,17 @@
 package com.chenfangming.backend.manage.config.security.filter;
 
 import com.chenfangming.backend.manage.config.security.support.MyUserDetails;
-import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Token解析认证实体.
@@ -19,39 +20,37 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 @Slf4j
 public class MyTokenFilter extends OncePerRequestFilter {
-  /** RedisTemplate. **/
-  private RedisTemplate<Object, Object> redisTemplate;
+    /** RedisTemplate. **/
+    private RedisTemplate<String, Object> redisTemplate;
 
-  /**
-   * 构造器注入.
-   * @param redisTemplate redisTemplate
-   */
-  public MyTokenFilter(RedisTemplate<Object, Object> redisTemplate) {
-    this.redisTemplate = redisTemplate;
-  }
-
-  /**
-   * 执行过滤器.
-   * @param request request
-   * @param response response
-   * @param chain chain
-   * @throws ServletException ServletException
-   * @throws IOException IOException
-   */
-  @Override
-  protected void doFilterInternal(HttpServletRequest request,
-                                  HttpServletResponse response,
-                                  FilterChain chain) throws ServletException, IOException {
-    String accessToken = request.getHeader("X-Access-Token");
-    if (null != accessToken) {
-      accessToken = "loginUser:" + accessToken;
-      MyUserDetails myUserDetails = (MyUserDetails) redisTemplate.opsForValue().get(accessToken);
-      UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken(
-              myUserDetails.getUsername(),
-              myUserDetails.getUsername(),
-              myUserDetails.getAuthorities());
-      SecurityContextHolder.getContextHolderStrategy().getContext().setAuthentication(data);
+    /**
+     * 构造器注入.
+     * @param redisTemplate redisTemplate
+     */
+    public MyTokenFilter(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
     }
-    chain.doFilter(request, response);
-  }
+
+    /**
+     * 执行过滤器.
+     * @param request request
+     * @param response response
+     * @param chain chain
+     * @throws ServletException ServletException
+     * @throws IOException IOException
+     */
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        String accessToken = request.getHeader("X-Access-Token");
+        if (null != accessToken) {
+            accessToken = "loginUser:" + accessToken;
+            MyUserDetails myUserDetails = (MyUserDetails) redisTemplate.opsForValue().get(accessToken);
+            UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken(
+                    myUserDetails.getUsername(),
+                    myUserDetails.getUsername(),
+                    myUserDetails.getAuthorities());
+            SecurityContextHolder.getContextHolderStrategy().getContext().setAuthentication(data);
+        }
+        chain.doFilter(request, response);
+    }
 }

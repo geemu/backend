@@ -9,49 +9,50 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * Redis序列化模板配置.
+ * Redis序列化模板配置
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-10 10:45
  */
 @Slf4j
 @Configuration
 public class RedisTemplateConfig {
-  /** 连接工厂. **/
-  private RedisConnectionFactory redisConnectionFactory;
-  /** StringRedisSerializer. **/
-  private StringRedisSerializer stringRedisSerializer;
-  /** Jackson2JsonRedisSerializer. **/
-  private Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer;
+    /** 连接工厂 **/
+    private RedisConnectionFactory connectionFactory;
+    /** StringRedisSerializer **/
+    private StringRedisSerializer stringSerializer;
+    /** Jackson2JsonRedisSerializer **/
+    private Jackson2JsonRedisSerializer<Object> jackson2JsonSerializer;
 
-  /**
-   * 构造器注入.
-   * @param redisConnectionFactory 连接工厂
-   * @param stringRedisSerializer stringRedisSerializer
-   * @param jackson2JsonRedisSerializer jackson2JsonRedisSerializer
-   */
-  public RedisTemplateConfig(RedisConnectionFactory redisConnectionFactory,
-                             StringRedisSerializer stringRedisSerializer,
-                             Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer) {
-    this.redisConnectionFactory = redisConnectionFactory;
-    this.stringRedisSerializer = stringRedisSerializer;
-    this.jackson2JsonRedisSerializer = jackson2JsonRedisSerializer;
-  }
+    /**
+     * 构造器注入
+     * @param connectionFactory 连接工厂
+     * @param stringSerializer stringSerializer
+     * @param jackson2JsonSerializer jackson2JsonSerializer
+     */
+    public RedisTemplateConfig(RedisConnectionFactory connectionFactory,
+                               StringRedisSerializer stringSerializer,
+                               Jackson2JsonRedisSerializer<Object> jackson2JsonSerializer) {
+        this.connectionFactory = connectionFactory;
+        this.stringSerializer = stringSerializer;
+        this.jackson2JsonSerializer = jackson2JsonSerializer;
+    }
 
 
-  /**
-   * 自定义序列化模板.
-   * 序列化时带上参数类型
-   * @return RedisTemplate
-   */
-  @Bean
-  public RedisTemplate<Object, Object> redisTemplate() {
-    log.info("初始化:RedisTemplate");
-    RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
-    redisTemplate.setKeySerializer(stringRedisSerializer);
-    redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-    redisTemplate.setHashKeySerializer(stringRedisSerializer);
-    redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-    redisTemplate.setConnectionFactory(redisConnectionFactory);
-    return redisTemplate;
-  }
+    /**
+     * 自定义序列化模板
+     * 序列化时带上参数类型
+     * @return RedisTemplate
+     */
+    @Bean("redisTemplate")
+    public RedisTemplate<String, Object> redisTemplate() {
+        log.info("初始化:RedisTemplate");
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(connectionFactory);
+        redisTemplate.setDefaultSerializer(jackson2JsonSerializer);
+        redisTemplate.setKeySerializer(stringSerializer);
+        redisTemplate.setValueSerializer(jackson2JsonSerializer);
+        redisTemplate.setHashKeySerializer(stringSerializer);
+        redisTemplate.setHashValueSerializer(jackson2JsonSerializer);
+        return redisTemplate;
+    }
 }

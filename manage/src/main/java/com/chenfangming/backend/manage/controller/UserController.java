@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-  @Autowired
-  private IUserService userService;
+    @Autowired
+    private IUserService userService;
 
-  @GetMapping("FindByNameResponse")
-  public Object test(String userName) {
-    return userService.findByName(userName);
-  }
+    @GetMapping("FindByNameResponse")
+    public Object test(String userName) {
+        return userService.findByName(userName);
+    }
 }

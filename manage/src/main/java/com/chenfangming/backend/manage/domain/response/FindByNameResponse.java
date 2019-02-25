@@ -9,14 +9,12 @@ import lombok.Data;
  */
 @Data
 public class FindByNameResponse {
-  /** 主键  用户id. **/
-  private Long id;
-  /** 用户名  忽略大小写. **/
-  private String name;
-  /** 密码  区分大小写. **/
-  private String password;
-  /** 密码盐值  区分大小写. **/
-  private String salt;
-  /** 是否可用  0不可用  1可用. **/
-  private Boolean isEnable;
+    /** 主键  用户id. **/
+    private Long id;
+    /** 用户名  忽略大小写. **/
+    private String name;
+    /** 密码  区分大小写. **/
+    private String password;
+    /** 是否可用  0不可用  1可用. **/
+    private Boolean enabled;
 }

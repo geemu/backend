@@ -3,18 +3,18 @@ package com.chenfangming.backend.manage.config.security.handle;
 import com.chenfangming.backend.manage.config.security.support.MyUserDetails;
 import com.chenfangming.common.model.response.DefaultResponseStatus;
 import com.chenfangming.common.model.response.ResponseEntity;
-import com.chenfangming.common.util.UuidUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 认证成功处理流程.
@@ -23,38 +23,38 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  */
 @Slf4j
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-  /** ObjectMapper. **/
-  private ObjectMapper objectMapper;
-  /** RedisTemplate. **/
-  private RedisTemplate<Object, Object> redisTemplate;
+    /** ObjectMapper. **/
+    private ObjectMapper objectMapper;
+    /** RedisTemplate. **/
+    private RedisTemplate<String, Object> redisTemplate;
 
-  /**
-   * 构造器注入.
-   * @param objectMapper objectMapper
-   * @param redisTemplate redisTemplate
-   */
-  public MyAuthenticationSuccessHandler(ObjectMapper objectMapper, RedisTemplate<Object, Object> redisTemplate) {
-    this.objectMapper = objectMapper;
-    this.redisTemplate = redisTemplate;
-  }
+    /**
+     * 构造器注入.
+     * @param objectMapper objectMapper
+     * @param redisTemplate redisTemplate
+     */
+    public MyAuthenticationSuccessHandler(ObjectMapper objectMapper, RedisTemplate<String, Object> redisTemplate) {
+        this.objectMapper = objectMapper;
+        this.redisTemplate = redisTemplate;
+    }
 
-  /**
-   * 认证成功后流程.
-   * @param request 请求
-   * @param response 响应
-   * @param authentication 认证
-   * @throws IOException IO异常
-   */
-  @Override
-  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-    log.info("用户认证成功:{}", authentication);
-    String uuid = UuidUtils.uuid();
-    String accessToken = "loginUser:" + uuid;
-    MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
-    redisTemplate.opsForValue().set(accessToken, myUserDetails, 2000L, TimeUnit.SECONDS);
-    response.setHeader("X-Access-Token", uuid);
-    response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-    response.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(DefaultResponseStatus.SUCCESS, "认证成功", uuid)));
-    response.getWriter().flush();
-  }
+    /**
+     * 认证成功后流程.
+     * @param request 请求
+     * @param response 响应
+     * @param authentication 认证
+     * @throws IOException IO异常
+     */
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        log.info("用户认证成功:{}", authentication);
+        String uuid = "uuid";
+        String accessToken = "loginUser:" + uuid;
+        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+        redisTemplate.opsForValue().set(accessToken, myUserDetails, 2000L, TimeUnit.SECONDS);
+        response.setHeader("X-Access-Token", uuid);
+        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+        response.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(DefaultResponseStatus.SUCCESS, "认证成功", uuid)));
+        response.getWriter().flush();
+    }
 }

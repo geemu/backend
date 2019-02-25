@@ -9,11 +9,11 @@ import java.util.Set;
  */
 public interface IRoleService {
 
-  /**
-   * 根据用户id查询用户所拥有的角色id集合.
-   * 有效且未删除的
-   * @param userId 用户id
-   * @return 角色id集合
-   */
-  Set<Long> findByUserId(Long userId);
+    /**
+     * 根据用户id查询用户所拥有的角色id集合.
+     * 有效且未删除的
+     * @param userId 用户id
+     * @return 角色id集合
+     */
+    Set<Long> findByUserId(Long userId);
 }

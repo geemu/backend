@@ -17,31 +17,31 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements IUserService {
 
-  private IUserMapper userMapper;
-  private Mapper mapper;
+    private IUserMapper userMapper;
+    private Mapper mapper;
 
-  /**
-   * 构造器注入.
-   * @param userMapper userMapper
-   * @param mapper mapper
-   */
-  public UserServiceImpl(IUserMapper userMapper, Mapper mapper) {
-    this.userMapper = userMapper;
-    this.mapper = mapper;
-  }
-
-  /**
-   * 根据用户名查询用户.
-   * @param userName 用户名
-   * @return 用户信息
-   */
-  @Override
-  public FindByNameResponse findByName(String userName) {
-    UserEntity userEntity = userMapper.selectByName(userName);
-    if (null == userEntity) {
-      log.info("数据库未查询到当前认证用户:[{}],返回null", userName);
-      return null;
+    /**
+     * 构造器注入.
+     * @param userMapper userMapper
+     * @param mapper mapper
+     */
+    public UserServiceImpl(IUserMapper userMapper, Mapper mapper) {
+        this.userMapper = userMapper;
+        this.mapper = mapper;
     }
-    return mapper.map(userEntity, FindByNameResponse.class);
-  }
+
+    /**
+     * 根据用户名查询用户.
+     * @param userName 用户名
+     * @return 用户信息
+     */
+    @Override
+    public FindByNameResponse findByName(String userName) {
+        UserEntity userEntity = userMapper.selectByName(userName);
+        if (null == userEntity) {
+            log.info("数据库未查询到当前认证用户:[{}],返回null", userName);
+            return null;
+        }
+        return mapper.map(userEntity, FindByNameResponse.class);
+    }
 }

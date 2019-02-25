@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * DozerConfig.
+ * DozerConfig
  * @author 陈方明  cfmmail@sina.com
  * @since 2019-01-01 13:33
  */
@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DozerConfig {
 
-  @Bean
-  public DozerBeanMapper dozer() {
-    return new DozerBeanMapper();
-  }
+    @Bean
+    public DozerBeanMapper dozer() {
+        return new DozerBeanMapper();
+    }
 }

@@ -1,6 +1,5 @@
 package com.chenfangming.backend.manage.config.redis;
 
-import java.time.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -15,6 +14,8 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.time.Duration;
+
 /**
  * Redis缓存配置.
  * @author 陈方明  cfmmail@sina.com
@@ -24,70 +25,76 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableCaching
 @Configuration
 public class RedisCacheConfig extends CachingConfigurerSupport {
-  /** 连接工厂. **/
-  private RedisConnectionFactory redisConnectionFactory;
-  /** StringRedisSerializer. **/
-  private StringRedisSerializer stringRedisSerializer;
-  /** Jackson2JsonRedisSerializer. **/
-  private Jackson2JsonRedisSerializer jackson2JsonRedisSerializer;
+    /** 连接工厂. **/
+    private RedisConnectionFactory redisConnectionFactory;
+    /** StringRedisSerializer. **/
+    private StringRedisSerializer stringSerializer;
+    /** Jackson2JsonRedisSerializer. **/
+    private Jackson2JsonRedisSerializer jackson2JsonSerializer;
 
-  /**
-   * 构造器注入.
-   * @param redisConnectionFactory 连接工厂
-   * @param stringRedisSerializer stringRedisSerializer
-   * @param jackson2JsonRedisSerializer jackson2JsonRedisSerializer
-   */
-  public RedisCacheConfig(RedisConnectionFactory redisConnectionFactory,
-                          StringRedisSerializer stringRedisSerializer,
-                          Jackson2JsonRedisSerializer jackson2JsonRedisSerializer) {
-    this.redisConnectionFactory = redisConnectionFactory;
-    this.stringRedisSerializer = stringRedisSerializer;
-    this.jackson2JsonRedisSerializer = jackson2JsonRedisSerializer;
-  }
+    /**
+     * 构造器注入.
+     * @param redisConnectionFactory 连接工厂
+     * @param stringSerializer stringSerializer
+     * @param jackson2JsonSerializer jackson2JsonSerializer
+     */
+    public RedisCacheConfig(RedisConnectionFactory redisConnectionFactory,
+                            StringRedisSerializer stringSerializer,
+                            Jackson2JsonRedisSerializer jackson2JsonSerializer) {
+        this.redisConnectionFactory = redisConnectionFactory;
+        this.stringSerializer = stringSerializer;
+        this.jackson2JsonSerializer = jackson2JsonSerializer;
+    }
 
-  /**
-   * 缓存管理器.
-   * @return 缓存管理器
-   */
-  @Bean
-  @Override
-  public CacheManager cacheManager() {
-    log.info("初始化:CacheManager");
-    //  生成一个默认配置，通过config对象即可对缓存进行自定义配置
-    RedisCacheConfiguration config = RedisCacheConfiguration
-            .defaultCacheConfig()
-            //  设置缓存的默认过期时间，也是使用Duration设置
-            .entryTtl(Duration.ofSeconds(60))
-            //  不缓存空值
-            .disableCachingNullValues()
-            //  禁用前缀
-            .disableKeyPrefix()
-            .disableCachingNullValues()
-            //  key序列化
-            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
-            // value序列化
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer));
-    return RedisCacheManagerBuilder
-            .fromConnectionFactory(redisConnectionFactory)
-            .cacheDefaults(config)
-            .build();
-  }
+    /**
+     * 缓存管理器
+     * @return 缓存管理器
+     */
+    @Bean
+    @Override
+    public CacheManager cacheManager() {
+        log.info("初始化:CacheManager");
+        //  生成一个默认配置，通过config对象即可对缓存进行自定义配置
+        RedisCacheConfiguration config = RedisCacheConfiguration
+                .defaultCacheConfig()
+                //  设置缓存的默认过期时间，也是使用Duration设置
+                .entryTtl(Duration.ofSeconds(60))
+                //  不缓存空值
+                .disableCachingNullValues()
+                //  禁用前缀
+                .disableKeyPrefix()
+                .disableCachingNullValues()
+                //  key序列化
+                .serializeKeysWith(
+                        RedisSerializationContext
+                                .SerializationPair
+                                .fromSerializer(stringSerializer))
+                // value序列化
+                .serializeValuesWith(
+                        RedisSerializationContext
+                                .SerializationPair
+                                .fromSerializer(jackson2JsonSerializer));
+        return RedisCacheManagerBuilder
+                .fromConnectionFactory(redisConnectionFactory)
+                .cacheDefaults(config)
+                .build();
+    }
 
-  /**
-   * 为方法和参数生成key.
-   * @return 密钥生成器
-   */
-  @Bean
-  @Override
-  public KeyGenerator keyGenerator() {
-    log.info("初始化:KeyGenerator");
-    return (target, method, params) -> {
-      StringBuilder sb = new StringBuilder();
-      sb.append(target.getClass().getName());
-      for (Object param : params) {
-        sb.append(null == param ? "" : param.toString());
-      }
-      return sb.toString();
-    };
-  }
+    /**
+     * 为方法和参数生成key
+     * @return 密钥生成器
+     */
+    @Bean
+    @Override
+    public KeyGenerator keyGenerator() {
+        log.info("初始化:KeyGenerator");
+        return (target, method, params) -> {
+            StringBuilder sb = new StringBuilder();
+            sb.append(target.getClass().getName());
+            for (Object param : params) {
+                sb.append(null == param ? "" : param.toString());
+            }
+            return sb.toString();
+        };
+    }
 }
