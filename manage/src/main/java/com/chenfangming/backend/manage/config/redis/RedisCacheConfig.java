@@ -17,7 +17,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.time.Duration;
 
 /**
- * Redis缓存配置.
+ * Redis缓存配置
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-10 10:42
  */
@@ -25,15 +25,15 @@ import java.time.Duration;
 @EnableCaching
 @Configuration
 public class RedisCacheConfig extends CachingConfigurerSupport {
-    /** 连接工厂. **/
+    /** 连接工厂 **/
     private RedisConnectionFactory redisConnectionFactory;
-    /** StringRedisSerializer. **/
+    /** StringRedisSerializer **/
     private StringRedisSerializer stringSerializer;
-    /** Jackson2JsonRedisSerializer. **/
+    /** Jackson2JsonRedisSerializer **/
     private Jackson2JsonRedisSerializer jackson2JsonSerializer;
 
     /**
-     * 构造器注入.
+     * 构造器注入
      * @param redisConnectionFactory 连接工厂
      * @param stringSerializer stringSerializer
      * @param jackson2JsonSerializer jackson2JsonSerializer

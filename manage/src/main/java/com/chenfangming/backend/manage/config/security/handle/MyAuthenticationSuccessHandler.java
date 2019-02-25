@@ -3,6 +3,7 @@ package com.chenfangming.backend.manage.config.security.handle;
 import com.chenfangming.backend.manage.config.security.support.MyUserDetails;
 import com.chenfangming.common.model.response.DefaultResponseStatus;
 import com.chenfangming.common.model.response.ResponseEntity;
+import com.chenfangming.common.util.UuidUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -48,7 +49,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         log.info("用户认证成功:{}", authentication);
-        String uuid = "uuid";
+        String uuid = UuidUtils.uuid();
         String accessToken = "loginUser:" + uuid;
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
         redisTemplate.opsForValue().set(accessToken, myUserDetails, 2000L, TimeUnit.SECONDS);
