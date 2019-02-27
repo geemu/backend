@@ -1,9 +1,7 @@
 package com.chenfangming.backend.manage.config.security.handle;
 
 import com.chenfangming.backend.manage.config.security.support.MyUserDetails;
-import com.chenfangming.common.model.response.DefaultResponseStatus;
 import com.chenfangming.common.model.response.ResponseEntity;
-import com.chenfangming.common.util.UuidUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,19 +16,20 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 认证成功处理流程.
+ * 认证成功处理流程
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-23 16:02
  */
 @Slf4j
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    /** ObjectMapper. **/
     private ObjectMapper objectMapper;
-    /** RedisTemplate. **/
     private RedisTemplate<String, Object> redisTemplate;
+    public static final String X_ACCESS_TOKEN = "X-Access-Token";
+    public static final String LOGIN_USER = "loginUser:";
+    private static final long DEFAULT_MAX_INACTIVE_INTERVAL_SECONDS = 1800L;
 
     /**
-     * 构造器注入.
+     * 构造器注入
      * @param objectMapper objectMapper
      * @param redisTemplate redisTemplate
      */
@@ -40,7 +39,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     }
 
     /**
-     * 认证成功后流程.
+     * 认证成功后流程
      * @param request 请求
      * @param response 响应
      * @param authentication 认证
@@ -49,13 +48,14 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         log.info("用户认证成功:{}", authentication);
-        String uuid = UuidUtils.uuid();
-        String accessToken = "loginUser:" + uuid;
+        String token = request.getSession().getId();
+        String key = LOGIN_USER + token;
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
-        redisTemplate.opsForValue().set(accessToken, myUserDetails, 2000L, TimeUnit.SECONDS);
-        response.setHeader("X-Access-Token", uuid);
+        redisTemplate.opsForValue().set(key, myUserDetails, DEFAULT_MAX_INACTIVE_INTERVAL_SECONDS, TimeUnit.SECONDS);
+        response.setHeader(X_ACCESS_TOKEN, token);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        response.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(DefaultResponseStatus.SUCCESS, "认证成功", uuid)));
+        response.setHeader(X_ACCESS_TOKEN, token);
+        response.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(token)));
         response.getWriter().flush();
     }
 }

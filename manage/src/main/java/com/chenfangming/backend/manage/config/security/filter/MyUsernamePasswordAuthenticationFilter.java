@@ -2,8 +2,6 @@ package com.chenfangming.backend.manage.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -38,9 +36,6 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-        if (postOnly && !HttpMethod.POST.name().equals(request.getMethod())) {
-            throw new AuthenticationServiceException("不支持的身份验证方法: " + request.getMethod());
-        }
         String name = null;
         String password = null;
         //  JSON格式认证

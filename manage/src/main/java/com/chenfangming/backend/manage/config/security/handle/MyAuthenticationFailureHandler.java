@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,17 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 认证失败处理流程.
+ * 认证失败处理流程
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-23 16:20
  */
 @Slf4j
 public class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
-    /** ObjectMapper. **/
     private ObjectMapper objectMapper;
 
     /**
-     * 构造器注入.
+     * 构造器注入
      * @param objectMapper objectMapper
      */
     public MyAuthenticationFailureHandler(ObjectMapper objectMapper) {
@@ -35,9 +33,9 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
     }
 
     /**
-     * 在身份验证尝试失败时调用.
+     * 在身份验证尝试失败时调用
      * @param request 请求
-     * @param response 响应.
+     * @param response 响应
      * @param e 异常
      */
     @Override
@@ -46,24 +44,17 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
                                         AuthenticationException e) throws IOException {
         log.info("用户认证失败:{}", e.getMessage());
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        ResponseEntity<Void> responseEntity;
-        if (e instanceof UsernameNotFoundException
-                || e instanceof BadCredentialsException) {
-            //  用户名或密码错误
-            responseEntity = new ResponseEntity<>(
-                    DefaultResponseStatus.AUTHENTICATION_FAIL,
-                    "用户名或密码错误");
-        } else if (e instanceof DisabledException) {
-            //  账户被禁用
-            responseEntity = new ResponseEntity<>(
-                    DefaultResponseStatus.AUTHENTICATION_FAIL,
-                    "账户被禁用");
+        String message;
+        if (e instanceof DisabledException) {
+            message = "账户被禁用";
+        } else if (e instanceof BadCredentialsException) {
+            message = "用户名或密码错误";
         } else {
-            //  其它认证异常
-            responseEntity = new ResponseEntity<>(
-                    DefaultResponseStatus.AUTHENTICATION_FAIL,
-                    e.getMessage());
+            message = e.getMessage();
         }
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(
+                DefaultResponseStatus.AUTHENTICATION_EXCEPTION, message
+        );
         response.getWriter().print(objectMapper.writeValueAsString(responseEntity));
         response.getWriter().flush();
     }

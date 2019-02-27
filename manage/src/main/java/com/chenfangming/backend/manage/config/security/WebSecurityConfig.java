@@ -5,7 +5,7 @@ import com.chenfangming.backend.manage.config.security.filter.MyUsernamePassword
 import com.chenfangming.backend.manage.config.security.handle.*;
 import com.chenfangming.backend.manage.config.security.support.MyAccessDecisionManager;
 import com.chenfangming.backend.manage.config.security.support.MyFilterInvocationSecurityMetadataSource;
-import com.chenfangming.backend.manage.config.security.support.MyUserDetailService;
+import com.chenfangming.backend.manage.config.security.support.MyUserDetailServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   /** 自定义加载用户数据. **/
-  private MyUserDetailService myUserDetailService;
+  private MyUserDetailServiceImpl myUserDetailService;
   /** 处理认证用户权限不足. **/
   private MyAuthenticationDeniedHandler myAccessDeniedHandler;
   /** 未认证即匿名用户权限不足. **/
@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    * @param myTokenFilter myTokenFilter
    */
   public WebSecurityConfig(ObjectMapper objectMapper,
-                           MyUserDetailService myUserDetailService,
+                           MyUserDetailServiceImpl myUserDetailService,
                            MyAuthenticationDeniedHandler myAccessDeniedHandler,
                            MyAnonymousDeniedHandle myAuthenticationEntryPoint,
                            MyLogoutSuccessHandler myLogoutSuccessHandler,
@@ -102,7 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
             .requestCache().disable().headers().cacheControl().disable()
-            .and().addFilterBefore(myTokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .and().addFilterAfter(myTokenFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             //  设置匿名用户为0
             .anonymous().authorities("0")

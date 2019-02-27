@@ -1,4 +1,4 @@
-package com.chenfangming.common.model;
+package com.chenfangming.common.exception;
 
 import com.chenfangming.common.model.response.ResponseStatus;
 import lombok.Data;
@@ -10,12 +10,9 @@ import lombok.Data;
  */
 @Data
 public class BusinessException extends RuntimeException {
-    /** 状态码 **/
-    private String code;
 
     public BusinessException(ResponseStatus responseStatus, String message, Throwable cause) {
         super(message, cause);
-        this.code = responseStatus.getCode();
     }
 
     public BusinessException(ResponseStatus responseStatus, Throwable cause) {

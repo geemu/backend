@@ -14,17 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 匿名用户访问无权限资源处理流程.
+ * 匿名用户访问无权限资源处理流程
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-23 17:03
  */
 @Slf4j
 public class MyAnonymousDeniedHandle implements AuthenticationEntryPoint {
-    /** ObjectMapper. **/
     private ObjectMapper objectMapper;
 
     /**
-     * 构造器注入.
+     * 构造器注入
      * @param objectMapper objectMapper
      */
     public MyAnonymousDeniedHandle(ObjectMapper objectMapper) {
@@ -32,7 +31,7 @@ public class MyAnonymousDeniedHandle implements AuthenticationEntryPoint {
     }
 
     /**
-     * 匿名用户访问无权限资源处理流程.
+     * 匿名用户访问无权限资源处理流程
      * @param request 请求
      * @param response 响应
      * @param e 异常
@@ -46,7 +45,7 @@ public class MyAnonymousDeniedHandle implements AuthenticationEntryPoint {
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.getWriter().print(objectMapper.writeValueAsString(
                 new ResponseEntity<>(
-                        DefaultResponseStatus.NO_AUTHENTICATION_FAIL)
+                        DefaultResponseStatus.AUTHORIZATION_EXCEPTION, e.getMessage())
         ));
         response.getWriter().flush();
     }

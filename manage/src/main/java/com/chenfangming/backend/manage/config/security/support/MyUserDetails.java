@@ -6,22 +6,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Set;
 
 /**
- * MyUserDetails.
+ * MyUserDetails
  * @author 陈方明  cfmmail@sina.com
  * @since 2019-01-01 14:58
  */
 public class MyUserDetails implements UserDetails {
-    /** 用户id. **/
+    /** 用户id **/
     private long id;
-    /** 用户名  忽略大小写. **/
+    /** 用户名  忽略大小写 **/
     private String username;
-    /** 密码  区分大小写. **/
+    /** 密码  区分大小写 **/
     @JsonIgnore
     private String password;
-    /** 是否可用  0不可用  1可用. **/
+    /** 是否可用  0不可用  1可用 **/
     @JsonIgnore
     private boolean enabled;
-    /** 角色id集合. **/
+    /** 角色id集合 **/
     private Set<MySimpleGrantedAuthority> authorities;
 
     public MyUserDetails() {

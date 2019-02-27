@@ -13,19 +13,20 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public enum DefaultResponseStatus implements ResponseStatus {
-  /** 成功. **/
-  SUCCESS("SYS0000", "成功"),
-  /** 系统异常. **/
-  INTERVAL_SERVER_ERROR("SYS0001", "系统异常"),
-  /** 未认证. **/
-  NO_AUTHENTICATION_FAIL("SYS0002", "未认证"),
-  /** 未授权. **/
-  ACCESS_DENIED_FAIL("SYS0002", "未授权"),
-  /** 认证失败. **/
-  AUTHENTICATION_FAIL("USR0003", "认证失败"),
-  ;
-  /** 状态码. **/
-  private String code;
-  /** 提示信息. **/
-  private String message;
+    /** 成功  通用成功 **/
+    SUCCESS(0, "成功"),
+    /** 系统异常  后台未知异常，程序BUG **/
+    INTERVAL_SERVER_EXCEPTION(1, "系统异常"),
+    /** 认证异常  登录失败 **/
+    AUTHENTICATION_EXCEPTION(2, "认证异常"),
+    /** 授权异常  权限不足 **/
+    AUTHORIZATION_EXCEPTION(3, "授权异常"),
+    /** 请求异常  请求参数不符合要求、请求路径错误 **/
+    REQUEST_PARAM_EXCEPTION(4, "请求参数校验不通过"),
+    /** 业务异常  请求经过后台其它逻辑校验后不符合下一步操作 **/
+    BUSINESS_EXCEPTION(5, "失败");
+    /** 状态码. **/
+    private int code;
+    /** 提示信息. **/
+    private String message;
 }

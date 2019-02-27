@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class MySimpleGrantedAuthority implements GrantedAuthority {
+class MySimpleGrantedAuthority implements GrantedAuthority {
     /** 角色id. **/
     private String authority;
 }

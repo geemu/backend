@@ -1,8 +1,14 @@
 package com.chenfangming.backend.manage.config.security.filter;
 
+import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationSuccessHandler;
 import com.chenfangming.backend.manage.config.security.support.MyUserDetails;
+import com.chenfangming.common.model.response.DefaultResponseStatus;
+import com.chenfangming.common.model.response.ResponseEntity;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -14,25 +20,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Token解析认证实体.
+ * Token解析认证实体
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-12-30 16:17
  */
 @Slf4j
 public class MyTokenFilter extends OncePerRequestFilter {
-    /** RedisTemplate. **/
     private RedisTemplate<String, Object> redisTemplate;
+    private ObjectMapper objectMapper;
 
-    /**
-     * 构造器注入.
-     * @param redisTemplate redisTemplate
-     */
-    public MyTokenFilter(RedisTemplate<String, Object> redisTemplate) {
+    public MyTokenFilter(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper) {
         this.redisTemplate = redisTemplate;
+        this.objectMapper = objectMapper;
     }
 
     /**
-     * 执行过滤器.
+     * 执行过滤器
      * @param request request
      * @param response response
      * @param chain chain
@@ -41,10 +44,18 @@ public class MyTokenFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        String accessToken = request.getHeader("X-Access-Token");
-        if (null != accessToken) {
-            accessToken = "loginUser:" + accessToken;
+        String token = request.getHeader(MyAuthenticationSuccessHandler.X_ACCESS_TOKEN);
+        if (null != token) {
+            String accessToken = MyAuthenticationSuccessHandler.LOGIN_USER + token;
             MyUserDetails myUserDetails = (MyUserDetails) redisTemplate.opsForValue().get(accessToken);
+            if (null == myUserDetails) {
+                response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+                response.getWriter().print(objectMapper.writeValueAsString(
+                        new ResponseEntity<>(
+                                DefaultResponseStatus.AUTHORIZATION_EXCEPTION)
+                ));
+                return;
+            }
             UsernamePasswordAuthenticationToken data = new UsernamePasswordAuthenticationToken(
                     myUserDetails.getUsername(),
                     myUserDetails.getUsername(),

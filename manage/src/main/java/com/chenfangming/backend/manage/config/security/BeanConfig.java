@@ -64,7 +64,7 @@ public class BeanConfig {
     @Bean
     public MyTokenFilter myTokenFilter() {
         log.info("初始化:MyTokenFilter");
-        return new MyTokenFilter(redisTemplate);
+        return new MyTokenFilter(redisTemplate, objectMapper);
     }
 
     /**
@@ -115,6 +115,6 @@ public class BeanConfig {
     @Bean
     public MyLogoutSuccessHandler myLogoutSuccessHandler() {
         log.info("初始化:MyLogoutSuccessHandler");
-        return new MyLogoutSuccessHandler(objectMapper);
+        return new MyLogoutSuccessHandler(objectMapper, redisTemplate);
     }
 }

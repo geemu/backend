@@ -14,17 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 认证用户访问无权限资源处理流程.
+ * 认证用户访问无权限资源处理流程
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-23 16:48
  */
 @Slf4j
 public class MyAuthenticationDeniedHandler implements AccessDeniedHandler {
-    /** ObjectMapper. **/
     private ObjectMapper objectMapper;
 
     /**
-     * 构造器注入.
+     * 构造器注入
      * @param objectMapper objectMapper
      */
     public MyAuthenticationDeniedHandler(ObjectMapper objectMapper) {
@@ -32,7 +31,7 @@ public class MyAuthenticationDeniedHandler implements AccessDeniedHandler {
     }
 
     /**
-     * 认证用户访问无权限资源处理流程.
+     * 认证用户访问无权限资源处理流程
      * @param request 请求
      * @param response 响应
      * @param e 异常
@@ -46,7 +45,7 @@ public class MyAuthenticationDeniedHandler implements AccessDeniedHandler {
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.getWriter().print(objectMapper.writeValueAsString(
                 new ResponseEntity<>(
-                        DefaultResponseStatus.ACCESS_DENIED_FAIL)
+                        DefaultResponseStatus.AUTHORIZATION_EXCEPTION, e.getMessage())
         ));
         response.getWriter().flush();
     }

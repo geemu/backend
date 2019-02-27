@@ -14,14 +14,14 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * 判断用户是否有权限.
+ * 判断用户是否有权限
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-12-01 18:55
  */
 @Slf4j
 public class MyAccessDecisionManager implements AccessDecisionManager {
     /**
-     * 判断用户是否有权限访问资源.
+     * 判断用户是否有权限访问资源
      * @param authentication 认证对象
      * @param object 被保护的对象
      * @param collection 当前资源所能访问的角色列表
@@ -34,7 +34,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
                        Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
         if (authentication instanceof AnonymousAuthenticationToken) {
             log.info("匿名用户，拒绝访问受保护资源");
-            throw new InsufficientAuthenticationException(DefaultResponseStatus.NO_AUTHENTICATION_FAIL.getMessage());
+            throw new InsufficientAuthenticationException(DefaultResponseStatus.AUTHORIZATION_EXCEPTION.getMessage());
         }
         //  当前资源所有访问的角色列表
         Iterator<ConfigAttribute> canAccessRoleSet = collection.iterator();
@@ -51,7 +51,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
             }
         }
         log.info("鉴权不通过，当前认证用户无权访问受保护资源");
-        throw new AccessDeniedException(DefaultResponseStatus.ACCESS_DENIED_FAIL.getMessage());
+        throw new AccessDeniedException(DefaultResponseStatus.AUTHORIZATION_EXCEPTION.getMessage());
     }
 
     @Override

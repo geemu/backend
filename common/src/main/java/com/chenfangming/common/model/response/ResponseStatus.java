@@ -10,7 +10,7 @@ public interface ResponseStatus {
      * 获取状态码
      * @return 状态码
      */
-    String getCode();
+    int getCode();
 
     /**
      * 获取状态提示信息

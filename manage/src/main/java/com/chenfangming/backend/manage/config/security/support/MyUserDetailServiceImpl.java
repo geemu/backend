@@ -17,13 +17,13 @@ import java.util.Set;
  * @since 2018-11-23 14:09
  */
 @Component
-public class MyUserDetailService implements UserDetailsService {
+public class MyUserDetailServiceImpl implements UserDetailsService {
 
     private IRoleMapper roleMapper;
     private IUserService userService;
     private IRoleService roleService;
 
-    public MyUserDetailService(IRoleMapper roleMapper, IUserService userService, IRoleService roleService) {
+    public MyUserDetailServiceImpl(IRoleMapper roleMapper, IUserService userService, IRoleService roleService) {
         this.roleMapper = roleMapper;
         this.userService = userService;
         this.roleService = roleService;
