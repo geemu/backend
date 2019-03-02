@@ -35,22 +35,22 @@ public class MyTokenFilter extends OncePerRequestFilter {
     }
 
     /**
-     * 执行过滤器
-     * @param request request
-     * @param response response
+     * 除登录外所有的请求都拦截
+     * @param req req
+     * @param resp resp
      * @param chain chain
      * @throws ServletException ServletException
      * @throws IOException IOException
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        String token = request.getHeader(MyAuthenticationSuccessHandler.X_ACCESS_TOKEN);
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        String token = req.getHeader(MyAuthenticationSuccessHandler.X_ACCESS_TOKEN);
         if (null != token) {
             String accessToken = MyAuthenticationSuccessHandler.LOGIN_USER + token;
             MyUserDetails myUserDetails = (MyUserDetails) redisTemplate.opsForValue().get(accessToken);
             if (null == myUserDetails) {
-                response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-                response.getWriter().print(objectMapper.writeValueAsString(
+                resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+                resp.getWriter().print(objectMapper.writeValueAsString(
                         new ResponseEntity<>(
                                 DefaultResponseStatus.AUTHORIZATION_EXCEPTION)
                 ));
@@ -61,7 +61,9 @@ public class MyTokenFilter extends OncePerRequestFilter {
                     myUserDetails.getUsername(),
                     myUserDetails.getAuthorities());
             SecurityContextHolder.getContextHolderStrategy().getContext().setAuthentication(data);
+        } else {
+            log.warn("当前请求未携带Token：[url:{},method:{}]", req.getRequestURI(), req.getMethod());
         }
-        chain.doFilter(request, response);
+        chain.doFilter(req, resp);
     }
 }

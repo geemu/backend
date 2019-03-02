@@ -12,7 +12,6 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     }
 
     /**
-     * 判断用户请求的资源是否在权限配置数据表中.
+     * 判断用户请求的资源是否在权限配置数据表中
      * 如果不在权限数据表中则直接放行，
      * 如果在权限数据表中，则返回当前url所能访问的角色集合，
      * 并返回给 decide 方法 {@link MyAccessDecisionManager}
@@ -46,14 +45,15 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         HttpServletRequest request = ((FilterInvocation) object).getRequest();
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
-        log.debug("当前请求方法为:{},路径为:{}", method, requestUrl);
         String path = method + ":" + requestUrl;
         //  查询所有菜单及其可以访问的角色
         List<MenuEntity> permissionEntityList = menuMapper.selectAllWithRole();
+        log.info("当前请求为:{}", path);
         for (MenuEntity permission : permissionEntityList) {
-            List<RoleEntity> roleEntityList = new ArrayList<>();
+            List<RoleEntity> roleEntityList = permission.getRoleEntityList();
             String pattern = permission.getMethod() + ":" + permission.getPath();
             boolean hasPermission = ANT_PATH_MATCHER.match(pattern, path) && !CollectionUtils.isEmpty(roleEntityList);
+            log.info("[path:{}],[pattern:{}],[hasPermission:{}]", path, pattern, hasPermission);
             if (hasPermission) {
                 int size = roleEntityList.size();
                 String[] values = new String[size];

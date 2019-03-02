@@ -41,6 +41,4 @@ public class ResponseEntity<T> {
     public ResponseEntity(ResponseStatus responseStatus, T data) {
         this(responseStatus.getCode(), responseStatus.getMessage(), data);
     }
-
-
 }

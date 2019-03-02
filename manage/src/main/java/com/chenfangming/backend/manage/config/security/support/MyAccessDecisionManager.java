@@ -20,26 +20,28 @@ import java.util.Iterator;
  */
 @Slf4j
 public class MyAccessDecisionManager implements AccessDecisionManager {
+
+    /** 超级管理员用户的用户名 **/
+    private static final String ADMIN_USER_NAME = "admin";
+
     /**
      * 判断用户是否有权限访问资源
-     * @param authentication 认证对象
-     * @param object 被保护的对象
-     * @param collection 当前资源所能访问的角色列表
+     * @param auth 认证对象
+     * @param obj 被保护的对象
+     * @param col 当前资源所能访问的角色列表
      * @throws AccessDeniedException AccessDeniedException
      * @throws InsufficientAuthenticationException InsufficientAuthenticationException
      */
     @Override
-    public void decide(Authentication authentication,
-                       Object object,
-                       Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
-        if (authentication instanceof AnonymousAuthenticationToken) {
+    public void decide(Authentication auth, Object obj, Collection<ConfigAttribute> col) throws AccessDeniedException, InsufficientAuthenticationException {
+        if (auth instanceof AnonymousAuthenticationToken) {
             log.info("匿名用户，拒绝访问受保护资源");
             throw new InsufficientAuthenticationException(DefaultResponseStatus.AUTHORIZATION_EXCEPTION.getMessage());
         }
         //  当前资源所有访问的角色列表
-        Iterator<ConfigAttribute> canAccessRoleSet = collection.iterator();
+        Iterator<ConfigAttribute> canAccessRoleSet = col.iterator();
         //  当前认证对象所拥有的角色列表
-        Collection<? extends GrantedAuthority> currentRoleSet = authentication.getAuthorities();
+        Collection<? extends GrantedAuthority> currentRoleSet = auth.getAuthorities();
         while (canAccessRoleSet.hasNext()) {
             //  可以访问的角色
             String canAccess = canAccessRoleSet.next().getAttribute();

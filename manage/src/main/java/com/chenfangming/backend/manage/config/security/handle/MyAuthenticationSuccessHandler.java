@@ -22,11 +22,11 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    private ObjectMapper objectMapper;
-    private RedisTemplate<String, Object> redisTemplate;
     public static final String X_ACCESS_TOKEN = "X-Access-Token";
     public static final String LOGIN_USER = "loginUser:";
     private static final long DEFAULT_MAX_INACTIVE_INTERVAL_SECONDS = 1800L;
+    private ObjectMapper objectMapper;
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 构造器注入
