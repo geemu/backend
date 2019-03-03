@@ -12,6 +12,18 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+    <insert id="insertByEntity">
+
+    </insert>
+
+    <delete id="deleteById">
+
+    </delete>
+
+    <update id="updateById">
+
+    </update>
+
     <!-- 根据用户名查询用户 -->
     <select id="selectByName" parameterType="string" resultMap="BaseResultMap">
         SELECT id,

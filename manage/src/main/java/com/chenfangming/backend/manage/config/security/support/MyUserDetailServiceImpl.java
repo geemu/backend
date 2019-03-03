@@ -1,9 +1,8 @@
 package com.chenfangming.backend.manage.config.security.support;
 
 import com.chenfangming.backend.manage.domain.response.FindByNameResponse;
-import com.chenfangming.backend.manage.persistence.mapper.IRoleMapper;
-import com.chenfangming.backend.manage.service.IRoleService;
-import com.chenfangming.backend.manage.service.IUserService;
+import com.chenfangming.backend.manage.service.RoleService;
+import com.chenfangming.backend.manage.service.UserService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -19,12 +18,10 @@ import java.util.Set;
 @Component
 public class MyUserDetailServiceImpl implements UserDetailsService {
 
-    private IRoleMapper roleMapper;
-    private IUserService userService;
-    private IRoleService roleService;
+    private UserService userService;
+    private RoleService roleService;
 
-    public MyUserDetailServiceImpl(IRoleMapper roleMapper, IUserService userService, IRoleService roleService) {
-        this.roleMapper = roleMapper;
+    public MyUserDetailServiceImpl(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }

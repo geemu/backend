@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chenfangming.backend.manage.persistence.mapper.IRoleMapper">
-    <resultMap id="SingleBaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
+    <resultMap id="BaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="enabled" property="enabled"/>
@@ -10,6 +10,29 @@
         <result column="update_user" property="updateUser"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
+
+
+    <insert id="insertByEntity">
+
+    </insert>
+
+    <delete id="deleteById">
+
+    </delete>
+
+    <update id="updateById">
+
+    </update>
+
+    <!-- 根据角色名查询 -->
+    <select id="selectByName" parameterType="string" resultMap="BaseResultMap">
+        SELECT `id`,
+               `name`,
+               `password`,
+               enabled
+        FROM backend_role r
+        where r.`name` = #{name}
+    </select>
 
     <!-- 根据用户id查询角色-->
     <select id="selectByUserId" resultType="long">

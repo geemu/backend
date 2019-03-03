@@ -15,7 +15,28 @@ import org.springframework.stereotype.Repository;
 public interface IUserMapper {
 
     /**
-     * 根据用户名查询用户
+     * 新增
+     * @param entity 用户实体
+     * @return 新增结果
+     */
+    boolean insertByEntity(UserEntity entity);
+
+    /**
+     * 根据主键删除
+     * @param id 主键
+     * @return 删除结果
+     */
+    boolean deleteById(Long id);
+
+    /**
+     * 根据主键修改
+     * @param entity 实体
+     * @return 修改结果
+     */
+    boolean updateById(UserEntity entity);
+
+    /**
+     * 根据用户名查询
      * @param name 用户名
      * @return 查询到的用户
      */

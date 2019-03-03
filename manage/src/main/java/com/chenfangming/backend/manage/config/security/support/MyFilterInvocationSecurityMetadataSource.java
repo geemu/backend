@@ -47,14 +47,14 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         String method = request.getMethod();
         String path = method + ":" + requestUrl;
         //  查询所有菜单及其可以访问的角色
-        List<MenuEntity> permissionEntityList = menuMapper.selectAllWithRole();
-        log.info("当前请求为:{}", path);
-        for (MenuEntity permission : permissionEntityList) {
-            List<RoleEntity> roleEntityList = permission.getRoleEntityList();
-            String pattern = permission.getMethod() + ":" + permission.getPath();
-            boolean hasPermission = ANT_PATH_MATCHER.match(pattern, path) && !CollectionUtils.isEmpty(roleEntityList);
-            log.info("[path:{}],[pattern:{}],[hasPermission:{}]", path, pattern, hasPermission);
-            if (hasPermission) {
+        List<MenuEntity> menuWithRoleList = menuMapper.selectAllWithRole();
+        log.info("当前请求为->{}", path);
+        for (MenuEntity item : menuWithRoleList) {
+            List<RoleEntity> roleEntityList = item.getRoleEntityList();
+            String pattern = item.getMethod() + ":" + item.getPath();
+            boolean match = ANT_PATH_MATCHER.match(pattern, path) && !CollectionUtils.isEmpty(roleEntityList);
+            log.info("[path->{}],[pattern->{}],[match->{}]", path, pattern, match);
+            if (match) {
                 int size = roleEntityList.size();
                 String[] values = new String[size];
                 for (int i = 0; i < size; i++) {

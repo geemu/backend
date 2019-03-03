@@ -1,6 +1,9 @@
 package com.chenfangming.backend.manage.service;
 
 import com.chenfangming.backend.manage.persistence.entity.MenuEntity;
+import com.chenfangming.backend.manage.persistence.mapper.IMenuMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
@@ -10,11 +13,21 @@ import java.util.Set;
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-12-12 23:14
  */
-public interface MenuService {
+@Slf4j
+@Service
+public class MenuService {
+    private IMenuMapper menuMapper;
+
+    public MenuService(IMenuMapper menuMapper) {
+        this.menuMapper = menuMapper;
+    }
+
     /**
      * 查询用户菜单.
      * @param ids 角色id集合
      * @return 菜单集合
      */
-    List<MenuEntity> selectUserMenu(Set<Long> ids);
+    public List<MenuEntity> selectUserMenu(Set<Long> ids) {
+        return menuMapper.selectUserMenu(ids);
+    }
 }
