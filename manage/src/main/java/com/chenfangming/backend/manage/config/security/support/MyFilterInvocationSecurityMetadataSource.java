@@ -1,7 +1,7 @@
 package com.chenfangming.backend.manage.config.security.support;
 
-import com.chenfangming.backend.manage.persistence.entity.MenuEntity;
 import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
+import com.chenfangming.backend.manage.persistence.entity.view.MenuRoleView;
 import com.chenfangming.backend.manage.persistence.mapper.IMenuMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.ConfigAttribute;
@@ -47,10 +47,10 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         String method = request.getMethod();
         String path = method + ":" + requestUrl;
         //  查询所有菜单及其可以访问的角色
-        List<MenuEntity> menuWithRoleList = menuMapper.selectAllWithRole();
+        List<MenuRoleView> menuWithRoleList = menuMapper.selectAllWithRole();
         log.info("当前请求为->{}", path);
-        for (MenuEntity item : menuWithRoleList) {
-            List<RoleEntity> roleEntityList = item.getRoleEntityList();
+        for (MenuRoleView item : menuWithRoleList) {
+            List<RoleEntity> roleEntityList = item.getRoleList();
             String pattern = item.getMethod() + ":" + item.getPath();
             boolean match = ANT_PATH_MATCHER.match(pattern, path) && !CollectionUtils.isEmpty(roleEntityList);
             log.info("[path->{}],[pattern->{}],[match->{}]", path, pattern, match);

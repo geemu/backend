@@ -1,10 +1,14 @@
 package com.chenfangming.backend.manage.persistence.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -45,6 +49,4 @@ public class MenuEntity implements Serializable {
     private String updateUser;
     /** 更新时间 **/
     private Date updateTime;
-    /** 角色集合. **/
-    private List<RoleEntity> roleEntityList;
 }

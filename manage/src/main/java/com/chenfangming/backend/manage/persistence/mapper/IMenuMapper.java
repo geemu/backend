@@ -1,6 +1,7 @@
 package com.chenfangming.backend.manage.persistence.mapper;
 
 import com.chenfangming.backend.manage.persistence.entity.MenuEntity;
+import com.chenfangming.backend.manage.persistence.entity.view.MenuRoleView;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,7 @@ public interface IMenuMapper {
      * 查询所有菜单及其可以访问的角色
      * @return 菜单集合
      */
-    List<MenuEntity> selectAllWithRole();
+    List<MenuRoleView> selectAllWithRole();
 
     /**
      * 查询用户菜单

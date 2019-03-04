@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chenfangming.backend.manage.persistence.mapper.IMenuMapper">
-    <resultMap id="SingleBaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.MenuEntity">
+    <resultMap id="BaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.MenuEntity">
         <id column="id" property="id"/>
         <result column="pid" property="pid"/>
         <result column="name" property="name"/>
@@ -17,12 +17,13 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <resultMap id="BaseResultMap" type="com.chenfangming.backend.manage.persistence.entity.MenuEntity"
-               extends="SingleBaseResultMap">
-        <collection property="roleEntityList" ofType="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
+    <resultMap id="BaseResultMapWithRole"
+               type="com.chenfangming.backend.manage.persistence.entity.view.MenuRoleView"
+               extends="BaseResultMap">
+        <collection property="roleList" ofType="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
             <id column="role_id" property="id"/>
             <result column="role_name" property="name"/>
-            <result column="role_is_enable" property="enabled"/>
+            <result column="role_enabled" property="enabled"/>
             <result column="role_create_user" property="createUser"/>
             <result column="role_create_time" property="createTime"/>
             <result column="role_update_user" property="updateUser"/>
@@ -30,7 +31,7 @@
         </collection>
     </resultMap>
 
-    <select id="selectAllWithRole" resultMap="BaseResultMap">
+    <select id="selectAllWithRole" resultMap="BaseResultMapWithRole">
         SELECT m.id,
                m.pid,
                m.name,
@@ -46,7 +47,7 @@
                  LEFT JOIN (SELECT * FROM backend_role WHERE enabled = TRUE) r ON rm.role_id = r.id
     </select>
 
-    <select id="selectUserMenu" resultMap="SingleBaseResultMap" parameterType="java.util.List">
+    <select id="selectUserMenu" resultMap="BaseResultMap" parameterType="java.util.List">
         SELECT m.id,
         m.pid,
         m.name,
