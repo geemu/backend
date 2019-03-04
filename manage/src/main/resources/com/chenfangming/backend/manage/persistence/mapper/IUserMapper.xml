@@ -12,6 +12,20 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+    <resultMap id="BaseResultMapWithRole"
+               type="com.chenfangming.backend.manage.persistence.entity.view.UserRoleView"
+               extends="BaseResultMap">
+        <collection property="roleList" ofType="com.chenfangming.backend.manage.persistence.entity.RoleEntity">
+            <id column="role_id" property="id"/>
+            <result column="role_name" property="name"/>
+            <result column="role_enabled" property="enabled"/>
+            <result column="role_create_user" property="createUser"/>
+            <result column="role_create_time" property="createTime"/>
+            <result column="role_update_user" property="updateUser"/>
+            <result column="role_update_time" property="updateTime"/>
+        </collection>
+    </resultMap>
+
     <insert id="insertByEntity">
 
     </insert>

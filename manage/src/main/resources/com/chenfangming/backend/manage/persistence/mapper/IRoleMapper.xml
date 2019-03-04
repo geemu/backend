@@ -11,6 +11,26 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+    <resultMap id="BaseResultMapWithMenu"
+               type="com.chenfangming.backend.manage.persistence.entity.view.RoleMenuView"
+               extends="BaseResultMap">
+        <collection property="menuList" ofType="com.chenfangming.backend.manage.persistence.entity.MenuEntity">
+            <id column="meu_id" property="id"/>
+            <result column="meu_pid" property="pid"/>
+            <result column="meu_name" property="name"/>
+            <result column="meu_type" property="type"/>
+            <result column="meu_method" property="method"/>
+            <result column="meu_path" property="path"/>
+            <result column="meu_pattern" property="pattern"/>
+            <result column="meu_sort" property="sort"/>
+            <result column="meu_enabled" property="enabled"/>
+            <result column="meu_create_user" property="createUser"/>
+            <result column="meu_create_time" property="createTime"/>
+            <result column="meu_update_user" property="updateUser"/>
+            <result column="meu_update_time" property="updateTime"/>
+        </collection>
+    </resultMap>
+
 
     <insert id="insertByEntity">
 
