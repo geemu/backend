@@ -1,9 +1,13 @@
 package com.chenfangming.backend.manage.config.security.handle;
 
+import com.chenfangming.backend.manage.config.security.support.MySimpleGrantedAuthority;
 import com.chenfangming.backend.manage.config.security.support.MyUserDetails;
+import com.chenfangming.backend.manage.persistence.entity.RoleEntity;
+import com.chenfangming.backend.manage.persistence.entity.view.UserRoleView;
 import com.chenfangming.common.model.response.ResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,6 +17,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,10 +57,19 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         String token = request.getSession().getId();
         String key = LOGIN_USER + token;
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+        UserRoleView userRoleView = new UserRoleView();
+        userRoleView.setId(myUserDetails.getId());
+        userRoleView.setName(myUserDetails.getUsername());
+        List<RoleEntity> roleList = new ArrayList<>();
+        for (MySimpleGrantedAuthority item : myUserDetails.getAuthorities()) {
+            RoleEntity entity = new RoleEntity();
+            entity.setId(NumberUtils.toLong(item.getAuthority()));
+            roleList.add(entity);
+        }
+        userRoleView.setRoleList(roleList);
         redisTemplate.opsForValue().set(key, myUserDetails, DEFAULT_MAX_INACTIVE_INTERVAL_SECONDS, TimeUnit.SECONDS);
         response.setHeader(X_ACCESS_TOKEN, token);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        response.setHeader(X_ACCESS_TOKEN, token);
         response.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(token)));
         response.getWriter().flush();
     }

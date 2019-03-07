@@ -5,6 +5,8 @@ import com.chenfangming.backend.manage.persistence.entity.UserEntity;
 import com.chenfangming.backend.manage.persistence.mapper.IUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,12 +18,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+    @Autowired
     private IUserMapper userMapper;
+    @Autowired
     private Mapper mapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public UserService(IUserMapper userMapper, Mapper mapper) {
-        this.userMapper = userMapper;
-        this.mapper = mapper;
+
+    public boolean add(UserEntity entity) {
+        return true;
     }
 
     /**
@@ -29,7 +35,7 @@ public class UserService {
      * @param name 用户名
      * @return 用户信息
      */
-    public FindByNameResponse findByName(String name) {
+    public FindByNameResponse selectByName(String name) {
         UserEntity userEntity = userMapper.selectByName(name);
         if (null == userEntity) {
             log.info("查询到当前认证用户:[{}]", name);

@@ -24,6 +24,6 @@ public class UserController {
 
     @GetMapping("FindByNameResponse")
     public Object test(String userName) {
-        return userService.findByName(userName);
+        return userService.selectByName(userName);
     }
 }

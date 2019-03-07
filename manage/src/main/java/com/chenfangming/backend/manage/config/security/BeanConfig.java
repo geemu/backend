@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * BeanConfig.
@@ -90,6 +91,11 @@ public class BeanConfig {
     public MyAccessDecisionManager myAccessDecisionManager() {
         log.info("初始化:MyAccessDecisionManager");
         return new MyAccessDecisionManager();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     /**

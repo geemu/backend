@@ -3,7 +3,7 @@ package com.chenfangming.backend.manage.config.security.support;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * MyUserDetails
@@ -22,12 +22,12 @@ public class MyUserDetails implements UserDetails {
     @JsonIgnore
     private boolean enabled;
     /** 角色id集合 **/
-    private Set<MySimpleGrantedAuthority> authorities;
+    private List<MySimpleGrantedAuthority> authorities;
 
     public MyUserDetails() {
     }
 
-    public MyUserDetails(long id, String username, String password, boolean enabled, Set<MySimpleGrantedAuthority> authorities) {
+    public MyUserDetails(long id, String username, String password, boolean enabled, List<MySimpleGrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -44,7 +44,7 @@ public class MyUserDetails implements UserDetails {
     }
 
     @Override
-    public Set<MySimpleGrantedAuthority> getAuthorities() {
+    public List<MySimpleGrantedAuthority> getAuthorities() {
         return authorities;
     }
 
@@ -93,7 +93,7 @@ public class MyUserDetails implements UserDetails {
         this.enabled = enabled;
     }
 
-    public void setAuthorities(Set<MySimpleGrantedAuthority> authorities) {
+    public void setAuthorities(List<MySimpleGrantedAuthority> authorities) {
         this.authorities = authorities;
     }
 }

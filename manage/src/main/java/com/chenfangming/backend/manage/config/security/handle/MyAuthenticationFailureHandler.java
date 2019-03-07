@@ -24,10 +24,6 @@ import java.io.IOException;
 public class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
     private ObjectMapper objectMapper;
 
-    /**
-     * 构造器注入
-     * @param objectMapper objectMapper
-     */
     public MyAuthenticationFailureHandler(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
@@ -42,20 +38,25 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
                                         AuthenticationException e) throws IOException {
-        log.info("用户认证失败:{}", e.getMessage());
+        log.warn("用户认证失败:{}", e.getMessage());
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        String message;
+        ResponseEntity<String> responseEntity;
         if (e instanceof DisabledException) {
-            message = "账户被禁用";
+            responseEntity = new ResponseEntity<>(
+                    DefaultResponseStatus.ACCOUNT_FORBIDDEN_EXCEPTION
+            );
+            response.getWriter().print(objectMapper.writeValueAsString(responseEntity));
         } else if (e instanceof BadCredentialsException) {
-            message = "用户名或密码错误";
+            responseEntity = new ResponseEntity<>(
+                    DefaultResponseStatus.AUTHENTICATION_EXCEPTION
+            );
+            response.getWriter().print(objectMapper.writeValueAsString(responseEntity));
         } else {
-            message = e.getMessage();
+            responseEntity = new ResponseEntity<>(
+                    DefaultResponseStatus.INTERVAL_SERVER_EXCEPTION
+            );
+            response.getWriter().print(objectMapper.writeValueAsString(responseEntity));
         }
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(
-                DefaultResponseStatus.AUTHENTICATION_EXCEPTION, message
-        );
-        response.getWriter().print(objectMapper.writeValueAsString(responseEntity));
         response.getWriter().flush();
     }
 }

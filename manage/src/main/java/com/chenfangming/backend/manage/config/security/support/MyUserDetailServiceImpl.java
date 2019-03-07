@@ -7,7 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,13 +37,13 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
     @Override
     public MyUserDetails loadUserByUsername(String userName) {
         //  查询用户
-        FindByNameResponse findByNameResponse = userService.findByName(userName);
+        FindByNameResponse findByNameResponse = userService.selectByName(userName);
         if (null == findByNameResponse) {
             throw new UsernameNotFoundException("用户名不存在");
         }
         //  查询用户所拥有的角色  有效的
         Set<Long> roleIdSet = roleService.findByUserId(findByNameResponse.getId());
-        HashSet<MySimpleGrantedAuthority> authorities = new HashSet<>();
+        List<MySimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Long id : roleIdSet) {
             authorities.add(new MySimpleGrantedAuthority(id.toString()));
         }

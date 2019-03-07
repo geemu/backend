@@ -18,7 +18,9 @@ public enum DefaultResponseStatus implements ResponseStatus {
     /** 系统异常  后台未知异常，程序BUG **/
     INTERVAL_SERVER_EXCEPTION(1, "系统异常"),
     /** 认证异常  登录失败 **/
-    AUTHENTICATION_EXCEPTION(2, "用户名或密码错误"),
+    AUTHENTICATION_EXCEPTION(2, "认证失败"),
+    /** 账号被禁用 **/
+    ACCOUNT_FORBIDDEN_EXCEPTION(3, "账号被禁用"),
     /** 授权异常  权限不足 **/
     AUTHORIZATION_EXCEPTION(3, "权限不足"),
     /** 请求异常  请求参数不符合要求、请求路径错误 **/

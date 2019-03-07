@@ -31,19 +31,6 @@
         </collection>
     </resultMap>
 
-
-    <insert id="insertByEntity">
-
-    </insert>
-
-    <delete id="deleteById">
-
-    </delete>
-
-    <update id="updateById">
-
-    </update>
-
     <!-- 根据角色名查询 -->
     <select id="selectByName" parameterType="string" resultMap="BaseResultMap">
         SELECT `id`,

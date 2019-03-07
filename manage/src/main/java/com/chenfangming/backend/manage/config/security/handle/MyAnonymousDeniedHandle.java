@@ -22,10 +22,6 @@ import java.io.IOException;
 public class MyAnonymousDeniedHandle implements AuthenticationEntryPoint {
     private ObjectMapper objectMapper;
 
-    /**
-     * 构造器注入
-     * @param objectMapper objectMapper
-     */
     public MyAnonymousDeniedHandle(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
@@ -41,11 +37,11 @@ public class MyAnonymousDeniedHandle implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException e) throws IOException {
-        log.info("匿名用户访问无权限资源:{}", e.getMessage());
+        log.warn("匿名用户访问无权限资源:{}", e.getMessage());
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.getWriter().print(objectMapper.writeValueAsString(
                 new ResponseEntity<>(
-                        DefaultResponseStatus.AUTHORIZATION_EXCEPTION, e.getMessage())
+                        DefaultResponseStatus.AUTHORIZATION_EXCEPTION)
         ));
         response.getWriter().flush();
     }

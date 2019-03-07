@@ -26,19 +26,55 @@ public class ResponseEntity<T> {
         this.data = data;
     }
 
-    public ResponseEntity() {
-        this(DefaultResponseStatus.SUCCESS, null);
-    }
 
+    /**
+     * 没有数据的自定义状态返回
+     * @param responseStatus code、message
+     */
     public ResponseEntity(ResponseStatus responseStatus) {
-        this(responseStatus, null);
+        this(responseStatus.getCode(), responseStatus.getMessage(), null);
     }
 
+    /**
+     * 成功且有数据的返回
+     * @param data 数据
+     */
     public ResponseEntity(T data) {
-        this(DefaultResponseStatus.SUCCESS, data);
+        this(DefaultResponseStatus.SUCCESS.getCode(), DefaultResponseStatus.SUCCESS.getMessage(), data);
     }
 
+    /**
+     * 成功且但无数据的返回
+     */
+    public ResponseEntity() {
+        this(DefaultResponseStatus.SUCCESS.getCode(), DefaultResponseStatus.SUCCESS.getMessage(), null);
+    }
+
+    /**
+     * 自定义状态和数据的返回
+     * @param responseStatus code、message
+     * @param data 数据
+     */
     public ResponseEntity(ResponseStatus responseStatus, T data) {
         this(responseStatus.getCode(), responseStatus.getMessage(), data);
+    }
+
+    /**
+     * 自定义的message代替responseStatus中的message且有自己的返回数据
+     * @param responseStatus responseStatus
+     * @param message message
+     * @param data data
+     */
+    public ResponseEntity(ResponseStatus responseStatus, String message, T data) {
+        this(responseStatus.getCode(), message, data);
+    }
+
+    /**
+     * 自定义的message代替responseStatus中的message无返回数据
+     * @param responseStatus responseStatus
+     * @param message message
+     */
+    public ResponseEntity(ResponseStatus responseStatus, String message) {
+        this(responseStatus.getCode(), message, null);
     }
 }

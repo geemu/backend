@@ -8,7 +8,7 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * MySimpleGrantedAuthority.
+ * MySimpleGrantedAuthority
  * @author 陈方明  cfmmail@sina.com
  * @since 2019-01-01 17:04
  */
@@ -17,7 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-class MySimpleGrantedAuthority implements GrantedAuthority {
-    /** 角色id. **/
+public class MySimpleGrantedAuthority implements GrantedAuthority {
+    /** 角色id **/
     private String authority;
 }
