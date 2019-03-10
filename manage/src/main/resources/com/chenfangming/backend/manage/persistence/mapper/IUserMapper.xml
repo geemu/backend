@@ -29,10 +29,10 @@
 
     <!-- 根据用户名查询用户 -->
     <select id="selectByName" parameterType="string" resultMap="BaseResultMap">
-        SELECT id,
+        SELECT `id`,
                `name`,
                `password`,
-               enabled
+               `enabled`
         FROM backend_user u
         where u.`name` = #{name}
     </select>

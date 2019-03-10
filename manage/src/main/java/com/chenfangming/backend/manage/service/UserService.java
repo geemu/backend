@@ -1,13 +1,18 @@
 package com.chenfangming.backend.manage.service;
 
-import com.chenfangming.backend.manage.domain.response.FindByNameResponse;
 import com.chenfangming.backend.manage.persistence.entity.UserEntity;
 import com.chenfangming.backend.manage.persistence.mapper.IUserMapper;
+import com.chenfangming.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
+import static com.chenfangming.common.model.response.DefaultResponseStatus.DATA_EXIST_EXCEPTION;
+import static com.chenfangming.common.model.response.DefaultResponseStatus.EXCEPTION;
 
 /**
  * UserService.
@@ -26,8 +31,25 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
 
-    public boolean add(UserEntity entity) {
-        return true;
+    /**
+     * 新增用户
+     * @param request 请求参数
+     * @return 新增用户的id
+     */
+    public Long post(UserEntity request) {
+        UserEntity exist = userMapper.selectByName(request.getName());
+        if (null != exist) {
+            throw new BusinessException(DATA_EXIST_EXCEPTION);
+        }
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        Date now = new Date();
+        request.setCreateTime(now);
+        request.setUpdateTime(now);
+        int result = userMapper.insert(request);
+        if (result <= 0) {
+            throw new BusinessException(EXCEPTION);
+        }
+        return request.getId();
     }
 
     /**
@@ -35,13 +57,8 @@ public class UserService {
      * @param name 用户名
      * @return 用户信息
      */
-    public FindByNameResponse selectByName(String name) {
-        UserEntity userEntity = userMapper.selectByName(name);
-        if (null == userEntity) {
-            log.info("查询到当前认证用户:[{}]", name);
-            return null;
-        }
-        return mapper.map(userEntity, FindByNameResponse.class);
+    public UserEntity selectByName(String name) {
+        return userMapper.selectByName(name);
     }
 
 }

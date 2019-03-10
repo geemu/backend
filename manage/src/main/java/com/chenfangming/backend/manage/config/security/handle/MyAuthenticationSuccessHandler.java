@@ -73,4 +73,5 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         response.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(token)));
         response.getWriter().flush();
     }
+
 }

@@ -1,7 +1,7 @@
 package com.chenfangming.backend.manage.config.security;
 
+import com.chenfangming.backend.manage.config.security.filter.MyAuthenticationFilter;
 import com.chenfangming.backend.manage.config.security.filter.MyTokenFilter;
-import com.chenfangming.backend.manage.config.security.filter.MyUsernamePasswordAuthenticationFilter;
 import com.chenfangming.backend.manage.config.security.handle.MyAnonymousDeniedHandle;
 import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationDeniedHandler;
 import com.chenfangming.backend.manage.config.security.handle.MyAuthenticationFailureHandler;
@@ -129,12 +129,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * JSON登录
-     * @return MyUsernamePasswordAuthenticationFilter
+     * @return MyAuthenticationFilter
      * @throws Exception Exception
      */
     @Bean
-    protected MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter() throws Exception {
-        MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter(objectMapper);
+    protected MyAuthenticationFilter myUsernamePasswordAuthenticationFilter() throws Exception {
+        MyAuthenticationFilter filter = new MyAuthenticationFilter(objectMapper);
         filter.setPostOnly(true);
         filter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
         filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);

@@ -14,22 +14,22 @@ import java.io.InputStream;
 import java.util.Map;
 
 /**
- * 自定义用户登录.
+ * 自定义用户登录
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-12-23 13:03
  */
 @Slf4j
-public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    /** 用户名参数. **/
+public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    /** 用户名参数 **/
     private static final String NAME_KEY = "name";
-    /** 密码参数. **/
+    /** 密码参数 **/
     private static final String PASSWORD_KEY = "password";
-    /** 限制只能POST. **/
+    /** 限制只能POST **/
     private boolean postOnly = true;
     /** ObjectMapper. **/
     private ObjectMapper objectMapper;
 
-    public MyUsernamePasswordAuthenticationFilter(ObjectMapper objectMapper) {
+    public MyAuthenticationFilter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

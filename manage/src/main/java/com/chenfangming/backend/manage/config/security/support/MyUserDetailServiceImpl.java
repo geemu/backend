@@ -1,6 +1,6 @@
 package com.chenfangming.backend.manage.config.security.support;
 
-import com.chenfangming.backend.manage.domain.response.FindByNameResponse;
+import com.chenfangming.backend.manage.persistence.entity.UserEntity;
 import com.chenfangming.backend.manage.service.RoleService;
 import com.chenfangming.backend.manage.service.UserService;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,21 +37,21 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
     @Override
     public MyUserDetails loadUserByUsername(String userName) {
         //  查询用户
-        FindByNameResponse findByNameResponse = userService.selectByName(userName);
-        if (null == findByNameResponse) {
+        UserEntity userEntity = userService.selectByName(userName);
+        if (null == userEntity) {
             throw new UsernameNotFoundException("用户名不存在");
         }
         //  查询用户所拥有的角色  有效的
-        Set<Long> roleIdSet = roleService.findByUserId(findByNameResponse.getId());
+        Set<Long> roleIdSet = roleService.findByUserId(userEntity.getId());
         List<MySimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Long id : roleIdSet) {
             authorities.add(new MySimpleGrantedAuthority(id.toString()));
         }
         MyUserDetails response = new MyUserDetails();
-        response.setId(findByNameResponse.getId());
-        response.setUsername(findByNameResponse.getName());
-        response.setPassword(findByNameResponse.getPassword());
-        response.setEnabled(findByNameResponse.getEnabled());
+        response.setId(userEntity.getId());
+        response.setUsername(userEntity.getName());
+        response.setPassword(userEntity.getPassword());
+        response.setEnabled(userEntity.getEnabled());
         response.setAuthorities(authorities);
         return response;
     }
