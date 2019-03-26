@@ -43,10 +43,3 @@ swagger:
 logging:
   level:
     com.chenfangming.backend.manage.persistence.mapper: debug
-
-mybatis-plus:
-  global-config:
-    banner: false
-    db-config:
-      logic-delete-value: 0
-      logic-not-delete-value: 1

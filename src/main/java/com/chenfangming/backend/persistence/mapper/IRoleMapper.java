@@ -1,6 +1,5 @@
 package com.chenfangming.backend.persistence.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chenfangming.backend.persistence.entity.RoleEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,7 +14,7 @@ import java.util.Set;
  */
 @Mapper
 @Repository
-public interface IRoleMapper extends BaseMapper<RoleEntity> {
+public interface IRoleMapper {
 
     /**
      * 根据角色名查询

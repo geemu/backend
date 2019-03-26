@@ -23,9 +23,7 @@
         <spring-boot-dependencies.version>2.1.1.RELEASE</spring-boot-dependencies.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
-        <jasypt.version>1.9.2</jasypt.version>
         <jasypt-spring-boot-starter.version>2.1.0</jasypt-spring-boot-starter.version>
-        <version.mybatis-plus-boot-starter>3.1.0</version.mybatis-plus-boot-starter>
     </properties>
 
     <dependencies>
@@ -38,9 +36,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -77,11 +77,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${version.mybatis-plus-boot-starter}</version>
-            </dependency>
             <!-- Swagger2 -->
             <dependency>
                 <groupId>io.springfox</groupId>
@@ -93,12 +88,6 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger-ui.version}</version>
-            </dependency>
-            <!-- 普通工程密码加解密 -->
-            <dependency>
-                <groupId>org.jasypt</groupId>
-                <artifactId>jasypt</artifactId>
-                <version>${jasypt.version}</version>
             </dependency>
             <!-- SpringBoot密码加解密 -->
             <dependency>
