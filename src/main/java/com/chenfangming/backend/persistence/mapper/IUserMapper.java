@@ -1,5 +1,6 @@
 package com.chenfangming.backend.persistence.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chenfangming.backend.persistence.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface IUserMapper {
+public interface IUserMapper extends BaseMapper<UserEntity> {
 
     /**
      * 根据用户名查询

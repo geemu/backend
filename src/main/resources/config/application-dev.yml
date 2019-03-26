@@ -10,6 +10,7 @@ spring:
   datasource:
     name: 主库
     type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/backend?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true
     username: root
     password: Chen1436863821.
@@ -43,3 +44,10 @@ swagger:
 logging:
   level:
     com.chenfangming.backend.manage.persistence.mapper: debug
+
+mybatis-plus:
+  global-config:
+    banner: false
+    db-config:
+      logic-delete-value: 0
+      logic-not-delete-value: 1

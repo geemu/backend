@@ -1,5 +1,6 @@
 package com.chenfangming.backend.persistence.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chenfangming.backend.persistence.entity.MenuEntity;
 import com.chenfangming.backend.persistence.entity.view.MenuRoleView;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,7 +17,7 @@ import java.util.Set;
  */
 @Mapper
 @Repository
-public interface IMenuMapper{
+public interface IMenuMapper extends BaseMapper<MenuEntity> {
 
     /**
      * 查询所有菜单及其可以访问的角色
