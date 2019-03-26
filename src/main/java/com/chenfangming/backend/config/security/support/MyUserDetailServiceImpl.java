@@ -3,6 +3,7 @@ package com.chenfangming.backend.config.security.support;
 import com.chenfangming.backend.persistence.entity.UserEntity;
 import com.chenfangming.backend.service.RoleService;
 import com.chenfangming.backend.service.UserService;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -43,9 +44,9 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
         }
         //  查询用户所拥有的角色  有效的
         Set<Long> roleIdSet = roleService.findByUserId(userEntity.getId());
-        List<MySimpleGrantedAuthority> authorities = new ArrayList<>();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Long id : roleIdSet) {
-            authorities.add(new MySimpleGrantedAuthority(id.toString()));
+            authorities.add(new SimpleGrantedAuthority(id.toString()));
         }
         MyUserDetails response = new MyUserDetails();
         response.setId(userEntity.getId());

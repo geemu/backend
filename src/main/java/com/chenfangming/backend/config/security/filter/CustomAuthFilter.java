@@ -19,7 +19,7 @@ import java.util.Map;
  * @since 2018-12-23 13:03
  */
 @Slf4j
-public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class CustomAuthFilter extends UsernamePasswordAuthenticationFilter {
     /** 用户名参数 **/
     private static final String NAME_KEY = "name";
     /** 密码参数 **/
@@ -29,7 +29,7 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
     /** ObjectMapper. **/
     private ObjectMapper objectMapper;
 
-    public MyAuthenticationFilter(ObjectMapper objectMapper) {
+    public CustomAuthFilter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

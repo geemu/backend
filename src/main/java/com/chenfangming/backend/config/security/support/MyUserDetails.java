@@ -1,6 +1,7 @@
 package com.chenfangming.backend.config.security.support;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -22,12 +23,12 @@ public class MyUserDetails implements UserDetails {
     @JsonIgnore
     private boolean enabled;
     /** 角色id集合 **/
-    private List<MySimpleGrantedAuthority> authorities;
+    private List<SimpleGrantedAuthority> authorities;
 
     public MyUserDetails() {
     }
 
-    public MyUserDetails(long id, String username, String password, boolean enabled, List<MySimpleGrantedAuthority> authorities) {
+    public MyUserDetails(long id, String username, String password, boolean enabled, List<SimpleGrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -44,7 +45,7 @@ public class MyUserDetails implements UserDetails {
     }
 
     @Override
-    public List<MySimpleGrantedAuthority> getAuthorities() {
+    public List<SimpleGrantedAuthority> getAuthorities() {
         return authorities;
     }
 
@@ -93,7 +94,7 @@ public class MyUserDetails implements UserDetails {
         this.enabled = enabled;
     }
 
-    public void setAuthorities(List<MySimpleGrantedAuthority> authorities) {
+    public void setAuthorities(List<SimpleGrantedAuthority> authorities) {
         this.authorities = authorities;
     }
 }

@@ -23,7 +23,7 @@ import java.io.IOException;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
+public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     private ObjectMapper objectMapper;
 

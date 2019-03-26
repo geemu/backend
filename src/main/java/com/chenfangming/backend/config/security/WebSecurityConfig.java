@@ -1,9 +1,9 @@
 package com.chenfangming.backend.config.security;
 
-import com.chenfangming.backend.config.security.filter.MyAuthenticationFilter;
+import com.chenfangming.backend.config.security.filter.CustomAuthFilter;
 import com.chenfangming.backend.config.security.handle.CustomAuthHandle;
 import com.chenfangming.backend.config.security.handle.CustomDeniedHandle;
-import com.chenfangming.backend.config.security.handle.MyLogoutSuccessHandler;
+import com.chenfangming.backend.config.security.handle.CustomLogoutSuccessHandler;
 import com.chenfangming.backend.config.security.support.MyAccessDecisionManager;
 import com.chenfangming.backend.config.security.support.MyFilterInvocationSecurityMetadataSource;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +33,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService myUserDetailService;
     private CustomDeniedHandle deniedHandler;
-    private MyLogoutSuccessHandler myLogoutSuccessHandler;
+    private CustomLogoutSuccessHandler myLogoutSuccessHandler;
     private MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
     private MyAccessDecisionManager myAccessDecisionManager;
     private CustomAuthHandle customAuthHandle;
@@ -81,12 +81,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * JSON登录
-     * @return MyAuthenticationFilter
+     * @return CustomAuthFilter
      * @throws Exception Exception
      */
     @Bean
-    protected MyAuthenticationFilter myUsernamePasswordAuthenticationFilter() throws Exception {
-        MyAuthenticationFilter filter = new MyAuthenticationFilter(objectMapper);
+    protected CustomAuthFilter myUsernamePasswordAuthenticationFilter() throws Exception {
+        CustomAuthFilter filter = new CustomAuthFilter(objectMapper);
         filter.setPostOnly(true);
         filter.setAuthenticationSuccessHandler(customAuthHandle);
         filter.setAuthenticationFailureHandler(customAuthHandle);
