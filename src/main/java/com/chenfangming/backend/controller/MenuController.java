@@ -1,20 +1,15 @@
 package com.chenfangming.backend.controller;
 
 import com.chenfangming.backend.core.http.ResponseEntity;
-import com.chenfangming.backend.persistence.entity.MenuEntity;
-import com.chenfangming.backend.service.MenuService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 菜单控制器.
@@ -22,24 +17,33 @@ import java.util.Set;
  * @since 2018-12-12 22:18
  */
 @Slf4j
-@Api(description = "菜单控制器")
 @RequestMapping("menu")
 @RestController
+@AllArgsConstructor
+@Api(description = "菜单控制器")
 public class MenuController {
-    private MenuService menuService;
 
-    public MenuController(MenuService menuService) {
-        this.menuService = menuService;
+    @PostMapping
+    public ResponseEntity<Long> post() {
+        log.info("用户新增");
+        return null;
     }
 
-    @ApiOperation(value = "获取用户菜单")
+    @DeleteMapping
+    public ResponseEntity<Void> delete() {
+        log.info("用户删除");
+        return null;
+    }
+
+    @PutMapping
+    public ResponseEntity<Long> put() {
+        log.info("用户修改");
+        return null;
+    }
+
     @GetMapping
-    public ResponseEntity<List<MenuEntity>> permission() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Set<Long> ids = new HashSet<>();
-        authentication.getAuthorities().forEach((v) ->
-                ids.add(Long.valueOf(v.getAuthority()))
-        );
-        return new ResponseEntity<>(menuService.selectUserMenu(ids));
+    public ResponseEntity<Void> get() {
+        log.info("用户查询");
+        return null;
     }
 }

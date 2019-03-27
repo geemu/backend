@@ -18,14 +18,14 @@ public enum DefaultResponseStatus implements ResponseStatus {
     EXCEPTION(1, "失败"),
     INTERVAL_SERVER_EXCEPTION(1, "系统异常"),
     AUTHENTICATION_EXCEPTION(2, "认证失败"),
-    ACCOUNT_FORBIDDEN_EXCEPTION(3, "账号被禁用"),
-    AUTHORIZATION_EXCEPTION(4, "权限不足"),
+    ACCESS_ANNO_EXCEPTION(4, "匿名用户访问无权限资源"),
+    ACCESS_AUTH_EXCEPTION(6, "认证用户访问无权限资源"),
     /** 请求参数不符合规则  比如长度、字母、数字、正则等 **/
-    REQUEST_PARAM_EXCEPTION(5, "请求参数校验不通过"),
+    REQUEST_PARAM_EXCEPTION(6, "请求参数校验不通过"),
     /** 多半用于新增数据时，数据已经存在 **/
-    DATA_EXIST_EXCEPTION(6, "数据已存在"),
+    DATA_EXIST_EXCEPTION(7, "数据已存在"),
     /** 多半用于修改数据时，数据已经不存在了 **/
-    DATA_NOT_EXIST_EXCEPTION(7, "数据不存在");
+    DATA_NOT_EXIST_EXCEPTION(8, "数据不存在");
     /** 状态码 **/
     private int code;
     /** 提示信息 **/

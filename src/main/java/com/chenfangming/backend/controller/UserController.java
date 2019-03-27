@@ -1,13 +1,13 @@
 package com.chenfangming.backend.controller;
 
 import com.chenfangming.backend.core.http.ResponseEntity;
-import com.chenfangming.backend.persistence.entity.UserEntity;
-import com.chenfangming.backend.service.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,17 +19,32 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequestMapping("user")
 @RestController
+@AllArgsConstructor
 @Api(description = "用户控制器")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
-
-    @ApiOperation(value = "新增用户", response = Long.class)
     @PostMapping
-    public ResponseEntity<Long> post(UserEntity request) {
-        Long id = userService.post(request);
-        return new ResponseEntity<>(id);
+    public ResponseEntity<Long> post() {
+        log.info("用户新增");
+        return null;
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete() {
+        log.info("用户删除");
+        return null;
+    }
+
+    @PutMapping
+    public ResponseEntity<Long> put() {
+        log.info("用户修改");
+        return null;
+    }
+
+    @GetMapping
+    public ResponseEntity<Void> get() {
+        log.info("用户查询");
+        return null;
+    }
+
 }

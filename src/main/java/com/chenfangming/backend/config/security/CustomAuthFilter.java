@@ -1,7 +1,8 @@
-package com.chenfangming.backend.config.security.filter;
+package com.chenfangming.backend.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -34,21 +35,26 @@ public class CustomAuthFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,HttpServletResponse response) throws AuthenticationException {
-        String name = null;
-        String password = null;
+    public Authentication attemptAuthentication(HttpServletRequest httpReq, HttpServletResponse httpResp) throws AuthenticationException {
+        String name;
+        String password;
         //  JSON格式认证
-        try (InputStream is = request.getInputStream()) {
+        try (InputStream is = httpReq.getInputStream()) {
             Map map = objectMapper.readValue(is, Map.class);
             name = (String) map.get(NAME_KEY);
             password = (String) map.get(PASSWORD_KEY);
         } catch (IOException e) {
-            log.error("以JSON格式执行认证操作时，读取认证参数异常:{}", e);
+            log.error("读取用户登录参数异常：{}", e);
+            throw new InsufficientAuthenticationException("用户名不能为空");
         }
-        name = null == name ? "" : name.trim();
-        password = null == password ? "" : password.trim();
+        if (null == name) {
+            throw new InsufficientAuthenticationException("用户名不能为空");
+        }
+        if (null == password) {
+            throw new InsufficientAuthenticationException("密码不能为空");
+        }
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(name, password);
-        setDetails(request, authRequest);
+        setDetails(httpReq, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 

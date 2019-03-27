@@ -20,7 +20,7 @@ import java.util.Set;
 public interface IMenuMapper extends BaseMapper<MenuEntity> {
 
     /**
-     * 查询所有菜单及其可以访问的角色
+     * 查询所有按钮及其可以访问的角色
      * @return 菜单集合
      */
     List<MenuRoleView> selectAllWithRole();

@@ -1,8 +1,9 @@
-package com.chenfangming.backend.config.security.support;
+package com.chenfangming.backend.config.security;
 
 import com.chenfangming.backend.persistence.entity.RoleEntity;
 import com.chenfangming.backend.persistence.entity.view.MenuRoleView;
 import com.chenfangming.backend.persistence.mapper.IMenuMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -23,21 +24,18 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+@AllArgsConstructor
+public class CustomMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
 
     private IMenuMapper menuMapper;
 
-    public MyFilterInvocationSecurityMetadataSource(IMenuMapper menuMapper) {
-        this.menuMapper = menuMapper;
-    }
-
     /**
      * 判断用户请求的资源是否在权限配置数据表中
      * 如果不在权限数据表中则直接放行，
      * 如果在权限数据表中，则返回当前url所能访问的角色集合，
-     * 并返回给 decide 方法 {@link MyAccessDecisionManager}
+     * 并返回给 decide 方法 {@link CustomAccessDecisionManager}
      * @param object 被保护的对象
      * @return 权限集合。如果没有，则返回一个空集合
      * @throws IllegalArgumentException 参数异常

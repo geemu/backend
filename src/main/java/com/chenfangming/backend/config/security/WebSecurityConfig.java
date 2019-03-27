@@ -1,11 +1,5 @@
 package com.chenfangming.backend.config.security;
 
-import com.chenfangming.backend.config.security.filter.CustomAuthFilter;
-import com.chenfangming.backend.config.security.handle.CustomAuthHandle;
-import com.chenfangming.backend.config.security.handle.CustomDeniedHandle;
-import com.chenfangming.backend.config.security.handle.CustomLogoutSuccessHandler;
-import com.chenfangming.backend.config.security.support.MyAccessDecisionManager;
-import com.chenfangming.backend.config.security.support.MyFilterInvocationSecurityMetadataSource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -33,9 +28,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService myUserDetailService;
     private CustomDeniedHandle deniedHandler;
-    private CustomLogoutSuccessHandler myLogoutSuccessHandler;
-    private MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
-    private MyAccessDecisionManager myAccessDecisionManager;
+    private CustomMetadataSource myFilterInvocationSecurityMetadataSource;
+    private CustomAccessDecisionManager myAccessDecisionManager;
     private CustomAuthHandle customAuthHandle;
     private ObjectMapper objectMapper;
 
@@ -62,8 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //  设置匿名用户为0
                 .anonymous().authorities("0")
                 .and().cors().disable().csrf().disable().httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().logout().clearAuthentication(true).logoutSuccessHandler(myLogoutSuccessHandler)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and().logout().clearAuthentication(true).logoutSuccessHandler(customAuthHandle)
                 .and()
                 .exceptionHandling().accessDeniedHandler(deniedHandler)
                 .authenticationEntryPoint(deniedHandler)
@@ -96,9 +90,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }

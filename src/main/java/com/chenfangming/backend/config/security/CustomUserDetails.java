@@ -1,4 +1,4 @@
-package com.chenfangming.backend.config.security.support;
+package com.chenfangming.backend.config.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 /**
- * MyUserDetails
+ * CustomUserDetails
  * @author 陈方明  cfmmail@sina.com
  * @since 2019-01-01 14:58
  */
-public class MyUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails {
     /** 用户id **/
     private long id;
     /** 用户名  忽略大小写 **/
@@ -25,10 +25,10 @@ public class MyUserDetails implements UserDetails {
     /** 角色id集合 **/
     private List<SimpleGrantedAuthority> authorities;
 
-    public MyUserDetails() {
+    public CustomUserDetails() {
     }
 
-    public MyUserDetails(long id, String username, String password, boolean enabled, List<SimpleGrantedAuthority> authorities) {
+    public CustomUserDetails(long id, String username, String password, boolean enabled, List<SimpleGrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;

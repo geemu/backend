@@ -1,6 +1,5 @@
-package com.chenfangming.backend.config.security.support;
+package com.chenfangming.backend.config.security;
 
-import com.chenfangming.backend.core.http.DefaultResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,6 +13,9 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Iterator;
 
+import static com.chenfangming.backend.core.http.DefaultResponseStatus.ACCESS_ANNO_EXCEPTION;
+import static com.chenfangming.backend.core.http.DefaultResponseStatus.ACCESS_AUTH_EXCEPTION;
+
 /**
  * 判断用户是否有权限
  * @author 陈方明  cfmmail@sina.com
@@ -21,7 +23,7 @@ import java.util.Iterator;
  */
 @Slf4j
 @Component
-public class MyAccessDecisionManager implements AccessDecisionManager {
+public class CustomAccessDecisionManager implements AccessDecisionManager {
 
     /** 超级管理员用户的用户名 **/
     private static final String ADMIN_USER_NAME = "admin";
@@ -38,7 +40,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
     public void decide(Authentication auth, Object obj, Collection<ConfigAttribute> col) throws AccessDeniedException, InsufficientAuthenticationException {
         if (auth instanceof AnonymousAuthenticationToken) {
             log.info("匿名用户，拒绝访问受保护资源");
-            throw new InsufficientAuthenticationException(DefaultResponseStatus.AUTHORIZATION_EXCEPTION.getMessage());
+            throw new InsufficientAuthenticationException(ACCESS_ANNO_EXCEPTION.getMessage());
         }
         //  当前资源所有访问的角色列表
         Iterator<ConfigAttribute> canAccessRoleSet = col.iterator();
@@ -55,7 +57,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
             }
         }
         log.info("鉴权不通过，当前认证用户无权访问受保护资源");
-        throw new AccessDeniedException(DefaultResponseStatus.AUTHORIZATION_EXCEPTION.getMessage());
+        throw new AccessDeniedException(ACCESS_AUTH_EXCEPTION.getMessage());
     }
 
     @Override

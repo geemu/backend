@@ -2,10 +2,10 @@ package com.chenfangming.backend.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2018-12-28 15:07
  */
 @Slf4j
-@Api(description = "系统控制器")
-@RequestMapping("page")
 @RestController
+@AllArgsConstructor
+@Api(description = "系统控制器")
 public class SystemController {
 
     @ApiOperation("获取页面的配置参数")

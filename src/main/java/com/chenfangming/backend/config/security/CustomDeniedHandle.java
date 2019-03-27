@@ -1,6 +1,5 @@
-package com.chenfangming.backend.config.security.handle;
+package com.chenfangming.backend.config.security;
 
-import com.chenfangming.backend.core.http.DefaultResponseStatus;
 import com.chenfangming.backend.core.http.ResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -16,6 +15,9 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.chenfangming.backend.core.http.DefaultResponseStatus.ACCESS_ANNO_EXCEPTION;
+import static com.chenfangming.backend.core.http.DefaultResponseStatus.ACCESS_AUTH_EXCEPTION;
 
 /**
  * 处理鉴权失败
@@ -40,8 +42,9 @@ public class CustomDeniedHandle implements AuthenticationEntryPoint, AccessDenie
     public void commence(HttpServletRequest httpReq, HttpServletResponse httpResp, AuthenticationException e) throws IOException {
         log.warn("匿名用户访问无权限资源:{}", e.getMessage());
         httpResp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        httpResp.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(DefaultResponseStatus.AUTHORIZATION_EXCEPTION)));
+        httpResp.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(ACCESS_ANNO_EXCEPTION)));
         httpResp.getWriter().flush();
+        httpResp.getWriter().close();
     }
 
     /**
@@ -55,7 +58,8 @@ public class CustomDeniedHandle implements AuthenticationEntryPoint, AccessDenie
     public void handle(HttpServletRequest httpReq, HttpServletResponse httpResp, AccessDeniedException e) throws IOException {
         log.info("认证用户访问无权限资源:{}", e.getMessage());
         httpResp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        httpResp.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(DefaultResponseStatus.AUTHORIZATION_EXCEPTION)));
+        httpResp.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(ACCESS_AUTH_EXCEPTION)));
         httpResp.getWriter().flush();
+        httpResp.getWriter().close();
     }
 }
