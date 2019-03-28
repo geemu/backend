@@ -1,9 +1,11 @@
 package com.chenfangming.backend.config.security;
 
+import com.chenfangming.backend.core.util.StringUtils;
 import com.chenfangming.backend.persistence.entity.UserEntity;
 import com.chenfangming.backend.service.RoleService;
 import com.chenfangming.backend.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +20,7 @@ import java.util.Set;
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-23 14:09
  */
+@Slf4j
 @Component
 @AllArgsConstructor
 public class CustomUserDetailServiceImpl implements UserDetailsService {
@@ -34,6 +37,10 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
      */
     @Override
     public CustomUserDetails loadUserByUsername(String userName) {
+        log.info("用户【{}】执行登录", userName);
+        if (StringUtils.isEmpty(userName)) {
+            throw new UsernameNotFoundException("用户名不能为空");
+        }
         //  查询用户
         UserEntity userEntity = userService.selectByName(userName);
         if (null == userEntity) {

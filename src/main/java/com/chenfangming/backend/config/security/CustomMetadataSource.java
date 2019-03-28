@@ -46,6 +46,7 @@ public class CustomMetadataSource implements FilterInvocationSecurityMetadataSou
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
         String path = method + ":" + requestUrl;
+//        int a = 1/0;
         //  查询所有菜单及其可以访问的角色
         List<MenuRoleView> menuWithRoleList = menuMapper.selectAllWithRole();
         log.info("当前请求为->{}", path);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,9 +36,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(myUserDetailService)
-                .passwordEncoder(new BCryptPasswordEncoder());
+        auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider bean = new DaoAuthenticationProvider();
+        bean.setHideUserNotFoundExceptions(false);
+        bean.setUserDetailsService(myUserDetailService);
+        bean.setPasswordEncoder(bCryptPasswordEncoder());
+        return bean;
     }
 
     @Override
@@ -73,18 +81,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 });
     }
 
-    /**
-     * JSON登录
-     * @return CustomAuthFilter
-     * @throws Exception Exception
-     */
     @Bean
     protected CustomAuthFilter myUsernamePasswordAuthenticationFilter() throws Exception {
         CustomAuthFilter filter = new CustomAuthFilter(objectMapper);
         filter.setPostOnly(true);
         filter.setAuthenticationSuccessHandler(customAuthHandle);
         filter.setAuthenticationFailureHandler(customAuthHandle);
-        //  重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
         filter.setAuthenticationManager(authenticationManager());
         return filter;
     }

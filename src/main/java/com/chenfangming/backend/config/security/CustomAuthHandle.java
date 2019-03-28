@@ -10,6 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.chenfangming.backend.core.http.DefaultResponseStatus.AUTHENTICATION_EXCEPTION;
+import static com.chenfangming.backend.core.http.DefaultResponseStatus.EXCEPTION;
 
 /**
  * 处理认证成功或失败
@@ -59,14 +61,19 @@ public class CustomAuthHandle implements AuthenticationSuccessHandler, Authentic
      */
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpReq, HttpServletResponse httpResp, AuthenticationException e) throws IOException {
-        log.warn("用户认证失败:{}", e.getMessage());
         ResponseEntity<String> responseEntity;
-        if (e instanceof DisabledException) {
-            responseEntity = new ResponseEntity<>(AUTHENTICATION_EXCEPTION, "用户被禁用");
-        } else if (e instanceof BadCredentialsException) {
-            responseEntity = new ResponseEntity<>(AUTHENTICATION_EXCEPTION, "用户名或密码错误");
+        if (null == e.getCause()) {
+            if (e instanceof DisabledException) {
+                responseEntity = new ResponseEntity<>(AUTHENTICATION_EXCEPTION, "用户被禁用");
+            } else if (e instanceof UsernameNotFoundException) {
+                responseEntity = new ResponseEntity<>(AUTHENTICATION_EXCEPTION, "用户名不存在");
+            } else if (e instanceof BadCredentialsException) {
+                responseEntity = new ResponseEntity<>(AUTHENTICATION_EXCEPTION, "用户名或密码错误");
+            } else {
+                responseEntity = new ResponseEntity<>(AUTHENTICATION_EXCEPTION, e.getMessage());
+            }
         } else {
-            responseEntity = new ResponseEntity<>(AUTHENTICATION_EXCEPTION, e.getMessage());
+            responseEntity = new ResponseEntity<>(EXCEPTION);
         }
         httpResp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         httpResp.getWriter().print(objectMapper.writeValueAsString(responseEntity));
