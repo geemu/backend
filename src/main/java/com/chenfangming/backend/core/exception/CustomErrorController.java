@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 异常处理
@@ -25,18 +26,15 @@ public class CustomErrorController implements ErrorController {
     private String error;
 
     @RequestMapping
-    public ResponseEntity<Object> handleError(HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        if (NOT_FOUND_404 == statusCode) {
+    public ResponseEntity<Object> handleError(HttpServletRequest request, HttpServletResponse response) {
+        if (NOT_FOUND_404 == response.getStatus()) {
             return new ResponseEntity<>(DefaultResponseStatus.NOT_FOUND_EXCEPTION);
         }
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-        throwable = throwable.getCause();
-        if (throwable instanceof BusinessException) {
-            BusinessException e = (BusinessException) throwable;
-            return new ResponseEntity<>(e);
+        if (null == throwable || !(throwable.getCause() instanceof BusinessException)) {
+            return new ResponseEntity<>(DefaultResponseStatus.EXCEPTION);
         }
-        return new ResponseEntity<>(DefaultResponseStatus.EXCEPTION);
+        return new ResponseEntity<>((BusinessException) throwable.getCause());
     }
 
     @Override
