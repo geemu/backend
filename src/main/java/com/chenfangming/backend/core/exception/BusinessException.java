@@ -17,19 +17,31 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class BusinessException extends RuntimeException {
 
-    public BusinessException(ResponseStatus responseStatus, String message, Throwable cause) {
-        super(message, cause);
+    private int code;
+    private String message;
+    private Throwable cause;
+
+    private BusinessException(int code, String message, Throwable cause) {
+        this.code = code;
+        this.message = message;
+        this.cause = cause;
     }
 
-    public BusinessException(ResponseStatus responseStatus, Throwable cause) {
-        this(responseStatus, responseStatus.getMessage(), cause);
+    public BusinessException(ResponseStatus responseStatus, String message, Throwable cause) {
+        this(responseStatus.getCode(), message, cause);
     }
 
     public BusinessException(ResponseStatus responseStatus, String message) {
-        this(responseStatus, message, null);
+        this(responseStatus.getCode(), message, null);
+    }
+
+    public BusinessException(ResponseStatus responseStatus, Throwable cause) {
+        this(responseStatus.getCode(), responseStatus.getMessage(), cause);
     }
 
     public BusinessException(ResponseStatus responseStatus) {
-        this(responseStatus, null, null);
+        this(responseStatus.getCode(), responseStatus.getMessage(), null);
     }
+
+
 }

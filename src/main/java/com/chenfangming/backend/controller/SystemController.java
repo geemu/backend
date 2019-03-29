@@ -1,5 +1,7 @@
 package com.chenfangming.backend.controller;
 
+import com.chenfangming.backend.core.exception.BusinessException;
+import com.chenfangming.backend.core.http.DefaultResponseStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -20,9 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class SystemController {
 
     @ApiOperation("获取页面的配置参数")
+    @GetMapping("businessException")
+    public String businessException() {
+        throw new BusinessException(DefaultResponseStatus.AUTHENTICATION_EXCEPTION, "我的自定义异常");
+    }
+
+    @ApiOperation("获取页面的配置参数")
+    @GetMapping("exception")
+    public String exception() {
+        throw new RuntimeException("rasadad");
+    }
+
+    @ApiOperation("获取页面的配置参数")
     @GetMapping("{page:[a-zA-Z]+}")
     public String properties(@PathVariable("page") String page) {
-        int a = 1 / 0;
         return "这是" + page + "页面的配置参数";
     }
 

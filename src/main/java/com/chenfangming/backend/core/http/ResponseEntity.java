@@ -1,5 +1,6 @@
 package com.chenfangming.backend.core.http;
 
+import com.chenfangming.backend.core.exception.BusinessException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -33,6 +34,10 @@ public class ResponseEntity<T> {
      */
     public ResponseEntity(ResponseStatus responseStatus) {
         this(responseStatus.getCode(), responseStatus.getMessage(), null);
+    }
+
+    public ResponseEntity(BusinessException e) {
+        this(e.getCode(), e.getMessage(), null);
     }
 
     /**

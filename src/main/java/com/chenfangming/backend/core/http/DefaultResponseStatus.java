@@ -16,7 +16,7 @@ public enum DefaultResponseStatus implements ResponseStatus {
     /** 成功  通用成功 **/
     SUCCESS(0, "成功"),
     EXCEPTION(1, "后台未知异常"),
-    INTERVAL_SERVER_EXCEPTION(1, "系统异常"),
+    NOT_FOUND_EXCEPTION(2, "请求路径不存在"),
     AUTHENTICATION_EXCEPTION(2, "认证失败"),
     ACCESS_ANNO_EXCEPTION(4, "匿名用户访问无权限资源"),
     ACCESS_AUTH_EXCEPTION(6, "认证用户访问无权限资源"),
