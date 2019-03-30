@@ -2,6 +2,7 @@ package com.chenfangming.backend.core.exception;
 
 import com.chenfangming.backend.core.http.DefaultResponseStatus;
 import com.chenfangming.backend.core.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author 陈方明  cfmmail@sina.com
  * @since 2019-03-29 19:35
  */
+@Slf4j
 @RestController
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class CustomErrorController implements ErrorController {
@@ -32,6 +34,7 @@ public class CustomErrorController implements ErrorController {
         }
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
         if (null == throwable || !(throwable.getCause() instanceof BusinessException)) {
+            log.error("后台未知异常:{}", throwable);
             return new ResponseEntity<>(DefaultResponseStatus.EXCEPTION);
         }
         return new ResponseEntity<>((BusinessException) throwable.getCause());

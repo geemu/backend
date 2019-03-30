@@ -37,7 +37,7 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
      */
     @Override
     public CustomUserDetails loadUserByUsername(String userName) {
-        log.info("用户【{}】执行登录", userName);
+        log.info("当前用户:[{}]执行登录", userName);
         if (StringUtils.isEmpty(userName)) {
             throw new UsernameNotFoundException("用户名不能为空");
         }

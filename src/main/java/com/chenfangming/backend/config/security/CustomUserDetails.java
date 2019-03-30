@@ -12,8 +12,9 @@ import java.util.List;
  * @since 2019-01-01 14:58
  */
 public class CustomUserDetails implements UserDetails {
+
     /** 用户id **/
-    private long id;
+    private Long id;
     /** 用户名  忽略大小写 **/
     private String username;
     /** 密码  区分大小写 **/
@@ -21,14 +22,14 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     /** 是否可用  0不可用  1可用 **/
     @JsonIgnore
-    private boolean enabled;
+    private Boolean enabled;
     /** 角色id集合 **/
     private List<SimpleGrantedAuthority> authorities;
 
     public CustomUserDetails() {
     }
 
-    public CustomUserDetails(long id, String username, String password, boolean enabled, List<SimpleGrantedAuthority> authorities) {
+    public CustomUserDetails(Long id, String username, String password, Boolean enabled, List<SimpleGrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -36,11 +37,11 @@ public class CustomUserDetails implements UserDetails {
         this.authorities = authorities;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -83,6 +84,14 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

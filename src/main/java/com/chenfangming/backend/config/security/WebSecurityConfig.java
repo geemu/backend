@@ -1,9 +1,9 @@
 package com.chenfangming.backend.config.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,12 +11,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * WebSecurityConfig.
@@ -32,10 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomMetadataSource myFilterInvocationSecurityMetadataSource;
     private CustomAccessDecisionManager myAccessDecisionManager;
     private CustomAuthHandle customAuthHandle;
-    private ObjectMapper objectMapper;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
@@ -48,29 +45,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return bean;
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/static/**");
+                .antMatchers(
+                        "/static/**"
+                        , "/login"
+                );
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .requestCache().disable().headers().cacheControl().disable()
-                .and()
-                .addFilterAt(myUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                //  设置匿名用户为0
-                .anonymous().authorities("0")
-                .and().cors().disable().csrf().disable().httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .and().logout().clearAuthentication(true).logoutSuccessHandler(customAuthHandle)
-                .and()
-                .exceptionHandling().accessDeniedHandler(deniedHandler)
-                .authenticationEntryPoint(deniedHandler)
-                //  authenticated()的位置不能到最后，否则会控制不到权限
-                .and().authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <T extends FilterSecurityInterceptor> T postProcess(T t) {
@@ -78,17 +72,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         t.setAccessDecisionManager(myAccessDecisionManager);
                         return t;
                     }
-                });
-    }
-
-    @Bean
-    protected CustomAuthFilter myUsernamePasswordAuthenticationFilter() throws Exception {
-        CustomAuthFilter filter = new CustomAuthFilter(objectMapper);
-        filter.setPostOnly(true);
-        filter.setAuthenticationSuccessHandler(customAuthHandle);
-        filter.setAuthenticationFailureHandler(customAuthHandle);
-        filter.setAuthenticationManager(authenticationManager());
-        return filter;
+                })
+                .and().formLogin().loginProcessingUrl("login")
+                .and().authorizeRequests().anyRequest().authenticated()
+                .and()
+                .cors().disable().csrf().disable().httpBasic().disable()
+                .logout().clearAuthentication(true).logoutSuccessHandler(customAuthHandle)
+                .and()
+                .exceptionHandling().accessDeniedHandler(deniedHandler)
+                .authenticationEntryPoint(deniedHandler);
     }
 
     @Bean

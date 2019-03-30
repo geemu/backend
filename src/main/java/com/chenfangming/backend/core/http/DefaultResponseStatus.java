@@ -18,7 +18,7 @@ public enum DefaultResponseStatus implements ResponseStatus {
     EXCEPTION(1, "后台未知异常"),
     NOT_FOUND_EXCEPTION(2, "请求路径不存在"),
     AUTHENTICATION_EXCEPTION(2, "认证失败"),
-    ACCESS_ANNO_EXCEPTION(4, "匿名用户访问无权限资源"),
+    ACCESS_ANNO_EXCEPTION(4, "未登录用户拒绝访问受保护资源"),
     ACCESS_AUTH_EXCEPTION(6, "认证用户访问无权限资源"),
     /** 请求参数不符合规则  比如长度、字母、数字、正则等 **/
     REQUEST_PARAM_EXCEPTION(6, "请求参数校验不通过"),

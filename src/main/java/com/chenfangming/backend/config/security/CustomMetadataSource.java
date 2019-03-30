@@ -17,8 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
 
+import static com.chenfangming.backend.config.security.CustomAccessDecisionManager.ROLE_LOGIN;
+
 /**
- * 从数据库获取资源.
+ * 从数据库获取资源
  * @author 陈方明  cfmmail@sina.com
  * @since 2018-11-23 17:44
  */
@@ -48,12 +50,12 @@ public class CustomMetadataSource implements FilterInvocationSecurityMetadataSou
         String path = method + ":" + requestUrl;
         //  查询所有菜单及其可以访问的角色
         List<MenuRoleView> menuWithRoleList = menuMapper.selectAllWithRole();
-        log.info("当前请求为->{}", path);
+        log.info("当前path:[{}]", path);
         for (MenuRoleView item : menuWithRoleList) {
             List<RoleEntity> roleEntityList = item.getRoleList();
             String pattern = item.getMethod() + ":" + item.getPath();
             boolean match = ANT_PATH_MATCHER.match(pattern, path) && !CollectionUtils.isEmpty(roleEntityList);
-            log.info("[path->{}],[pattern->{}],[match->{}]", path, pattern, match);
+            log.info("当前pattern:[{}],当前match:[{}]", pattern, match);
             if (match) {
                 int size = roleEntityList.size();
                 String[] values = new String[size];
@@ -63,14 +65,13 @@ public class CustomMetadataSource implements FilterInvocationSecurityMetadataSou
                 return SecurityConfig.createList(values);
             }
         }
-        //  没有匹配上的资源返回null 后续就不需要再执行MyAccessDecisionManager了，而是直接访问
-        //  如果是匿名用户，那么，将角色名从ROLE_ANONYMOUS改为0
-        log.info("当前请求资源[{}]未配置，不需要鉴权(不需要执行MyAccessDecisionManager)，可直接访问", path);
-        return null;
+        //  没有匹配上的资源都是登录访问
+        log.warn("当前path:[{}],未配置,登录可访问", path);
+        return SecurityConfig.createList(ROLE_LOGIN);
     }
 
     /**
-     * 如果可用，则返回实现类定义的所有{@code ConfigAttribute}.
+     * 如果可用,则返回实现类定义的所有{@code ConfigAttribute}.
      */
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {

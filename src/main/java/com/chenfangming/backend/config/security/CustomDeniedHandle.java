@@ -32,7 +32,7 @@ public class CustomDeniedHandle implements AuthenticationEntryPoint, AccessDenie
     private ObjectMapper objectMapper;
 
     /**
-     * 匿名用户访问无权限资源处理流程
+     * 未登录用户拒绝访问受保护资源
      * @param httpReq HttpServletRequest
      * @param httpResp HttpServletResponse
      * @param e AuthenticationException
@@ -40,7 +40,6 @@ public class CustomDeniedHandle implements AuthenticationEntryPoint, AccessDenie
      */
     @Override
     public void commence(HttpServletRequest httpReq, HttpServletResponse httpResp, AuthenticationException e) throws IOException {
-        log.warn("匿名用户访问无权限资源:{}", e.getMessage());
         httpResp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         httpResp.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(ACCESS_ANNO_EXCEPTION)));
         httpResp.getWriter().flush();
@@ -48,7 +47,7 @@ public class CustomDeniedHandle implements AuthenticationEntryPoint, AccessDenie
     }
 
     /**
-     * 认证用户访问无权限资源处理流程
+     * 认证用户拒绝访问无权限资源
      * @param httpReq HttpServletRequest
      * @param httpResp HttpServletResponse
      * @param e AccessDeniedException
@@ -56,7 +55,6 @@ public class CustomDeniedHandle implements AuthenticationEntryPoint, AccessDenie
      */
     @Override
     public void handle(HttpServletRequest httpReq, HttpServletResponse httpResp, AccessDeniedException e) throws IOException {
-        log.info("认证用户访问无权限资源:{}", e.getMessage());
         httpResp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         httpResp.getWriter().print(objectMapper.writeValueAsString(new ResponseEntity<>(ACCESS_AUTH_EXCEPTION)));
         httpResp.getWriter().flush();

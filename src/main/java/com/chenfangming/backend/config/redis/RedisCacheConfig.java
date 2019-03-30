@@ -27,6 +27,7 @@ import java.time.Duration;
 @Configuration
 @AllArgsConstructor
 public class RedisCacheConfig extends CachingConfigurerSupport {
+
     private RedisConnectionFactory redisConnectionFactory;
     private StringRedisSerializer stringSerializer;
     private Jackson2JsonRedisSerializer jackson2JsonSerializer;
